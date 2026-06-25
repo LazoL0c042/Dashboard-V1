@@ -1,0 +1,32 @@
+[
+  {
+    "timestamp": "2026-06-25T14:30:00Z",
+    "check_type": "Pre-Trade Check",
+    "target": "Position USAR",
+    "status": "bestanden"
+  },
+  {
+    "timestamp": "2026-06-25T14:28:00Z",
+    "check_type": "Daten-Qualitäts-Check",
+    "target": "Feed Insider-Daten",
+    "status": "bestanden"
+  },
+  {
+    "timestamp": "2026-06-25T11:10:00Z",
+    "check_type": "Pre-Trade Check",
+    "target": "Position MP",
+    "status": "blockiert"
+  },
+  {
+    "timestamp": "2026-06-24T16:40:00Z",
+    "check_type": "Daten-Qualitäts-Check",
+    "target": "Feed Seltene Erden Preise",
+    "status": "bestanden"
+  },
+  {
+    "timestamp": "2026-06-24T09:15:00Z",
+    "check_type": "Pre-Trade Check",
+    "target": "Position ENPH",
+    "status": "blockiert"
+  }
+]

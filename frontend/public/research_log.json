@@ -1,0 +1,37 @@
+[
+  {
+    "timestamp": "2026-06-25T14:32:00Z",
+    "headline": "USAR — Insider-Kauf erkannt",
+    "tier": "Tier 1",
+    "gegencheck_status": "bestätigt",
+    "konfidenz": "hoch"
+  },
+  {
+    "timestamp": "2026-06-25T11:15:00Z",
+    "headline": "MP — Seltene Erden Supply-Squeeze Signal",
+    "tier": "Tier 2",
+    "gegencheck_status": "bestätigt",
+    "konfidenz": "mittel"
+  },
+  {
+    "timestamp": "2026-06-24T16:45:00Z",
+    "headline": "LTHM — Lithium-Nachfrage Anomalie",
+    "tier": "Tier 2",
+    "gegencheck_status": "offen",
+    "konfidenz": "mittel"
+  },
+  {
+    "timestamp": "2026-06-24T09:20:00Z",
+    "headline": "ENPH — Short-Interest Spike erkannt",
+    "tier": "Tier 3",
+    "gegencheck_status": "abgelehnt",
+    "konfidenz": "niedrig"
+  },
+  {
+    "timestamp": "2026-06-23T13:00:00Z",
+    "headline": "ALB — Institutioneller Aufbau Phase 2",
+    "tier": "Tier 1",
+    "gegencheck_status": "bestätigt",
+    "konfidenz": "hoch"
+  }
+]
