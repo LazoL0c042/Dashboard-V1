@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS entries (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     created_at  TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
-    source      TEXT NOT NULL DEFAULT 'text',      -- shortcut | text
+    source      TEXT NOT NULL DEFAULT 'text',      -- shortcut | text | voice
     raw_text    TEXT NOT NULL,
     status      TEXT NOT NULL DEFAULT 'processed', -- processed | inbox | dismissed
     suggestion  TEXT                                -- JSON: vorgeschlagene Aktionen (Inbox)

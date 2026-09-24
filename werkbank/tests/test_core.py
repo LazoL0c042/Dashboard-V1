@@ -140,3 +140,82 @@ def test_crash_in_classifier_never_loses_entry(monkeypatch):
     assert r.status_code == 200 and r.json()["status"] == "inbox"
     inbox = client.get("/api/today", headers=H).json()["inbox"]
     assert any(e["raw_text"] == "darf nicht verschwinden" for e in inbox)
+
+
+# ---------------------------------------------------------------- Spracheingabe
+AUDIO = {**H, "Content-Type": "audio/webm"}
+
+
+def test_voice_runs_same_pipeline_as_text(monkeypatch):
+    from app import transcriber
+    seen = {}
+
+    def fake(audio, content_type, hint):
+        seen.update(audio=audio, content_type=content_type, hint=hint)
+        return "ToDo: Sägeblatt schärfen lassen"
+    monkeypatch.setattr(transcriber, "transcribe", fake)
+    r = client.post("/api/voice", content=b"RIFF-fake-audio", headers=AUDIO).json()
+    assert r["status"] == "processed"
+    assert r["transcript"] == "ToDo: Sägeblatt schärfen lassen"
+    assert seen["audio"] == b"RIFF-fake-audio" and seen["content_type"] == "audio/webm"
+    assert "Training" in seen["hint"]  # eigene Begriffe als Hörhilfe
+    titles = [t["title"] for t in client.get("/api/todos", headers=H).json()]
+    assert "Sägeblatt schärfen lassen" in titles
+
+
+def test_voice_without_key_lands_in_inbox_as_voice_entry(monkeypatch):
+    from app import transcriber
+    monkeypatch.setattr(transcriber, "transcribe", lambda a, c, h: "morgen Leimholz abholen")
+    r = client.post("/api/voice", content=b"x", headers=AUDIO).json()
+    assert r["status"] == "inbox"
+    inbox = client.get("/api/today", headers=H).json()["inbox"]
+    assert any(e["id"] == r["entry_id"] and e["raw_text"] == "morgen Leimholz abholen" for e in inbox)
+
+
+def test_voice_silence_creates_no_entry(monkeypatch):
+    from app import transcriber
+    monkeypatch.setattr(transcriber, "transcribe", lambda a, c, h: "")
+    before = len(client.get("/api/today", headers=H).json()["inbox"])
+    r = client.post("/api/voice", content=b"x", headers=AUDIO).json()
+    assert r["status"] == "empty"
+    assert len(client.get("/api/today", headers=H).json()["inbox"]) == before
+
+
+def test_voice_errors(monkeypatch):
+    from app import config, transcriber
+    assert client.post("/api/voice", content=b"x", headers={"Content-Type": "audio/webm"}).status_code == 401
+    assert client.post("/api/voice", content=b"", headers=AUDIO).status_code == 400
+
+    def unavailable(a, c, h):
+        raise transcriber.TranscriberUnavailable("kein Modell")
+    monkeypatch.setattr(transcriber, "transcribe", unavailable)
+    assert client.post("/api/voice", content=b"x", headers=AUDIO).status_code == 503
+
+    def corrupt(a, c, h):
+        raise RuntimeError("Invalid data found when processing input")
+    monkeypatch.setattr(transcriber, "transcribe", corrupt)
+    assert client.post("/api/voice", content=b"x", headers=AUDIO).status_code == 422
+
+    monkeypatch.setattr(config, "MAX_AUDIO_BYTES", 4)
+    assert client.post("/api/voice", content=b"zu lang", headers=AUDIO).status_code == 413
+
+
+def test_transcriber_reports_missing_whisper(monkeypatch):
+    import builtins
+    from app import transcriber
+    real_import = builtins.__import__
+
+    def no_whisper(name, *args, **kwargs):
+        if name == "faster_whisper":
+            raise ImportError(name)
+        return real_import(name, *args, **kwargs)
+    monkeypatch.setattr(transcriber, "_model", None)
+    monkeypatch.setattr(builtins, "__import__", no_whisper)
+    with pytest.raises(transcriber.TranscriberUnavailable):
+        transcriber.transcribe(b"x", "audio/webm")
+
+
+def test_score_endpoint():
+    d = client.get("/api/score", headers=H).json()
+    assert 0 <= d["week"]["score"] <= 100
+    assert d["xp"]["level"] >= 1 and d["streak"] >= 0

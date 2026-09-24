@@ -4,11 +4,12 @@ import secrets
 from datetime import date, timedelta
 from pathlib import Path
 
-from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException, Request
+from fastapi.concurrency import run_in_threadpool
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from . import actions, classifier, config, portfolio
+from . import actions, classifier, config, portfolio, score, transcriber
 from .db import get_conn, init_db, rows
 
 app = FastAPI(title="Second Brain", docs_url=None, redoc_url=None)
@@ -39,9 +40,14 @@ def capture(body: Capture):
     text = body.text.strip()
     if not text:
         raise HTTPException(400, "Leere Eingabe")
+    return process_input(text, body.source)
+
+
+def process_input(text: str, source: str) -> dict:
+    """Gemeinsamer Weg für Text- und Spracheingabe: speichern, sortieren, ausführen."""
     with get_conn() as conn:
         entry_id = conn.execute("INSERT INTO entries (source, raw_text) VALUES (?, ?)",
-                                (body.source, text)).lastrowid
+                                (source, text)).lastrowid
         try:
             result = classifier.classify(conn, text)
         except Exception:  # letzte Absicherung: Rohdaten bleiben, Eintrag geht in die Inbox
@@ -65,6 +71,37 @@ def capture(body: Capture):
             return {"status": "inbox", "reply": f"In der Inbox: {exc}", "entry_id": entry_id}
         return {"status": "processed", "reply": result["reply"], "results": results,
                 "entry_id": entry_id}
+
+
+def vocabulary() -> str:
+    """Eigene Begriffe (Gewohnheiten, Ziele, Projekte) als Hörhilfe für Whisper. Bleibt lokal."""
+    with get_conn() as conn:
+        names = [r[0] for r in conn.execute(
+            "SELECT name FROM habits WHERE active = 1 UNION SELECT title FROM goals WHERE active = 1 "
+            "UNION SELECT DISTINCT project FROM todos WHERE project IS NOT NULL")]
+    return ", ".join(names)[:400]
+
+
+@app.post("/api/voice", dependencies=[Depends(auth)])
+async def voice(request: Request):
+    """Rohes Audio im Body (Content-Type audio/*). Transkription lokal, dann wie /api/capture."""
+    audio = await request.body()
+    if not audio:
+        raise HTTPException(400, "Keine Aufnahme empfangen")
+    if len(audio) > config.MAX_AUDIO_BYTES:
+        raise HTTPException(413, "Aufnahme zu lang")
+    hint = await run_in_threadpool(vocabulary)
+    try:
+        text = await run_in_threadpool(transcriber.transcribe, audio,
+                                       request.headers.get("content-type", ""), hint)
+    except transcriber.TranscriberUnavailable as exc:
+        raise HTTPException(503, f"Spracherkennung nicht verfügbar: {exc}")
+    except Exception:
+        raise HTTPException(422, "Aufnahme konnte nicht gelesen werden")
+    if not text:
+        return {"status": "empty", "reply": "Nichts verstanden. Nochmal?", "transcript": ""}
+    result = await run_in_threadpool(process_input, text, "voice")
+    return {**result, "transcript": text}
 
 
 # ---------------------------------------------------------------- Inbox
@@ -361,6 +398,12 @@ def review_week():
             "FROM habits h WHERE h.active = 1", (s,)))
     return {"week_start": s, "todos_created": created, "todos_done": done, "todos_open": open_,
             "todos_overdue": overdue, "thoughts": thoughts, "habits": habits}
+
+
+@app.get("/api/score", dependencies=[Depends(auth)])
+def get_score():
+    with get_conn() as conn:
+        return score.overview(conn)
 
 
 @app.get("/api/usage", dependencies=[Depends(auth)])

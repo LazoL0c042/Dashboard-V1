@@ -17,3 +17,10 @@ TIMEZONE = os.getenv("TIMEZONE", "Europe/Berlin")
 # Preise in USD pro 1 Mio. Tokens (Standard: Haiku 4.5). Bei Modellwechsel anpassen.
 PRICE_INPUT_PER_MTOK = float(os.getenv("PRICE_INPUT_PER_MTOK", "1"))
 PRICE_OUTPUT_PER_MTOK = float(os.getenv("PRICE_OUTPUT_PER_MTOK", "5"))
+# Lokale Spracherkennung (faster-whisper). Modelle: tiny, base, small, medium, large-v3.
+# small = guter Kompromiss auf dem Laptop, medium = besser bei Dialekt, dafür langsamer.
+WHISPER_MODEL = os.getenv("WHISPER_MODEL", "small")
+WHISPER_DEVICE = os.getenv("WHISPER_DEVICE", "cpu")
+WHISPER_COMPUTE_TYPE = os.getenv("WHISPER_COMPUTE_TYPE", "int8")
+WHISPER_LANGUAGE = os.getenv("WHISPER_LANGUAGE", "de")
+MAX_AUDIO_BYTES = int(float(os.getenv("MAX_AUDIO_MB", "25")) * 1024 * 1024)
