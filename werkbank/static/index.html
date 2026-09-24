@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1B2A24">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Werkbank">
+  <link rel="apple-touch-icon" href="/icon-180.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/style.css">
+  <title>Werkbank</title>
+</head>
+<body>
+  <div class="shell">
+    <nav class="tabs" aria-label="Bereiche">
+      <span class="brand">Werkbank</span>
+      <button data-view="today" class="active">Heute</button>
+      <button data-view="todos">Aufgaben</button>
+      <button data-view="week">Woche</button>
+      <button data-view="thoughts">Gedanken</button>
+      <button data-view="money">Vermögen</button>
+      <button data-view="settings" class="gear" aria-label="Einstellungen">Einstellungen</button>
+    </nav>
+
+    <main id="view" tabindex="-1"></main>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <template id="login">
+    <section class="login">
+      <h1>Werkbank</h1>
+      <p>Gib den API-Token aus deiner .env-Datei ein. Er wird nur auf diesem Gerät gespeichert.</p>
+      <form id="login-form">
+        <input id="token" type="password" autocomplete="current-password" placeholder="API-Token" required>
+        <button class="primary">Verbinden</button>
+      </form>
+    </section>
+  </template>
+
+  <script src="/app.js"></script>
+</body>
+</html>
