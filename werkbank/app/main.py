@@ -42,7 +42,11 @@ def capture(body: Capture):
     with get_conn() as conn:
         entry_id = conn.execute("INSERT INTO entries (source, raw_text) VALUES (?, ?)",
                                 (body.source, text)).lastrowid
-        result = classifier.classify(conn, text)
+        try:
+            result = classifier.classify(conn, text)
+        except Exception:  # letzte Absicherung: Rohdaten bleiben, Eintrag geht in die Inbox
+            result = {"actions": [], "reply": "In der Inbox (Sortierung fehlgeschlagen).",
+                      "needs_review": True}
         if result.get("usage"):
             conn.execute("INSERT INTO llm_usage (model, input_tokens, output_tokens) VALUES (?,?,?)",
                          (config.CLAUDE_MODEL, result["usage"]["input_tokens"],

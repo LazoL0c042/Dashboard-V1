@@ -127,18 +127,30 @@ def classify(conn, text: str) -> dict:
         return {"actions": [], "reply": "In der Inbox (kein API-Key gesetzt).",
                 "needs_review": True}
 
+    result = None
     try:
         result = call_claude(text, build_context(conn, text))
-    except Exception as exc:  # Netz, JSON, API: nie Daten verlieren
+        actions, unsure = validate(result)
+    except Exception as exc:  # Netz, JSON, API, kaputtes Format: nie Daten verlieren
         return {"actions": [], "reply": "In der Inbox (Sortierung fehlgeschlagen).",
-                "needs_review": True, "error": str(exc)}
+                "needs_review": True, "error": str(exc),
+                "usage": result.get("usage") if isinstance(result, dict) else None}
 
-    actions = [a for a in result.get("actions", []) if a.get("type") in ACTIONS]
-    unsure = (not actions) or any(
-        float(a.get("confidence", 0)) < config.CONFIDENCE_THRESHOLD for a in actions)
+    reply = result.get("reply")
     return {
         "actions": actions,
-        "reply": result.get("reply", "Gespeichert."),
+        "reply": reply if isinstance(reply, str) and reply else "Gespeichert.",
         "needs_review": unsure,
         "usage": result.get("usage"),
     }
+
+
+def validate(result) -> tuple[list[dict], bool]:
+    """Prüft die Claude-Antwort. Wirft bei kaputtem Format, statt zu raten."""
+    if not isinstance(result, dict) or not isinstance(result.get("actions", []), list):
+        raise ValueError("Antwort hat kein gültiges Format")
+    actions = [a for a in result.get("actions", [])
+               if isinstance(a, dict) and a.get("type") in ACTIONS]
+    confidences = [float(a.get("confidence", 0)) for a in actions]  # "hoch", None: Fehler
+    unsure = (not actions) or any(c < config.CONFIDENCE_THRESHOLD for c in confidences)
+    return actions, unsure

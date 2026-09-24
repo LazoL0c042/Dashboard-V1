@@ -109,3 +109,34 @@ def test_unknown_habit_rolls_back_everything(monkeypatch):
     assert r["status"] == "inbox"
     titles = [t["title"] for t in client.get("/api/todos", headers=H).json()]
     assert "darf nicht bleiben" not in titles
+
+
+@pytest.mark.parametrize("bad", [
+    {"actions": [{"type": "todo.create", "confidence": "hoch", "title": "x"}], "reply": ""},
+    {"actions": [{"type": "todo.create", "confidence": None, "title": "x"}], "reply": ""},
+    {"actions": "todo.create", "reply": ""},
+    {"actions": ["todo.create"], "reply": ""},
+    [],
+    "kein json",
+])
+def test_broken_llm_answer_never_loses_entry(monkeypatch, bad):
+    from app import classifier, config
+    monkeypatch.setattr(config, "ANTHROPIC_API_KEY", "fake")
+    monkeypatch.setattr(classifier, "call_claude", lambda text, ctx: bad)
+    r = client.post("/api/capture", json={"text": "wichtiger Gedanke beim Autofahren"}, headers=H)
+    assert r.status_code == 200
+    assert r.json()["status"] == "inbox"
+    inbox = client.get("/api/today", headers=H).json()["inbox"]
+    assert any(e["id"] == r.json()["entry_id"] for e in inbox)
+
+
+def test_crash_in_classifier_never_loses_entry(monkeypatch):
+    from app import classifier
+
+    def boom(conn, text):
+        raise RuntimeError("unerwartet")
+    monkeypatch.setattr(classifier, "classify", boom)
+    r = client.post("/api/capture", json={"text": "darf nicht verschwinden"}, headers=H)
+    assert r.status_code == 200 and r.json()["status"] == "inbox"
+    inbox = client.get("/api/today", headers=H).json()["inbox"]
+    assert any(e["raw_text"] == "darf nicht verschwinden" for e in inbox)
