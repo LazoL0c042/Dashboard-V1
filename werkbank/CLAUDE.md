@@ -8,7 +8,8 @@ Checklisten, Ziele und Privatvermögen. Sprache in Code-Kommentaren und UI: Deut
 ## Stack (nicht ohne Rückfrage ändern)
 - Python 3.12, FastAPI, SQLite (sqlite3, kein ORM), pytest
 - Frontend: Vanilla JS, eine HTML-Datei, kein Build-Schritt, PWA
-- Eingabe: Apple Kurzbefehl → POST /api/capture
+- Eingabe: Web-App-Mikrofon → POST /api/voice (lokales Whisper via faster-whisper,
+  gekapselt in transcriber.transcribe()), Textfeld oder Apple Kurzbefehl → POST /api/capture
 - Sortierung: Claude API (Standard: Haiku), JSON-Ausgabe
 - Kurse: yfinance, gekapselt in portfolio.fetch_quote()
 - Netz: nur über Tailscale, nie öffentlicher Port
@@ -27,7 +28,9 @@ Eintrag in HANDLERS, Beschreibung im SYSTEM_PROMPT, Undo-Unterstützung, Test.
 4. Unsicher sortierte Eingaben gehen in die Inbox, es wird nie geraten.
 5. Aktionen einer Eingabe laufen alles-oder-nichts (SAVEPOINT in actions.execute).
 6. Geheimnisse nur in .env. Nie loggen, nie committen.
-7. Jede Änderung: `pytest -q` muss grün sein, bevor sie als fertig gilt.
+7. Audio wird nur lokal transkribiert, nie an einen externen Dienst geschickt und nie
+   gespeichert. Gespeichert wird nur der Text (als Eintrag in `entries`).
+8. Jede Änderung: `pytest -q` muss grün sein, bevor sie als fertig gilt.
 
 ## Phasen
 - [x] Phase 1: Eingabe, Klassifikation, Inbox, ToDos, Gedanken, Undo

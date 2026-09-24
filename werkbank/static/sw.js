@@ -1,5 +1,5 @@
 // Minimaler Service Worker: App-Hülle offline verfügbar, Daten immer frisch vom Server.
-const CACHE = "werkbank-v1";
+const CACHE = "werkbank-v2";
 const SHELL = ["/", "/index.html", "/style.css", "/app.js", "/manifest.json"];
 
 self.addEventListener("install", (e) => e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL))));

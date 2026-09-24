@@ -8,11 +8,12 @@ iPhone und iPad über einen Kurzbefehl und eine Web-App auf dem Homescreen.
 
 | Bereich    | Stand |
 |------------|-------|
-| Eingabe    | Kurzbefehl oder Textfeld. "ToDo: …" und "Gedanke: …" werden ohne KI sortiert, alles andere per Claude API. Unsicheres landet in der Inbox. Jede Aktion ist rückgängig machbar. |
+| Eingabe    | Mikrofon-Knopf in der Web-App (lokales Whisper, kein Siri), Textfeld oder Kurzbefehl. "ToDo: …" und "Gedanke: …" werden ohne KI sortiert, alles andere per Claude API. Unsicheres landet in der Inbox. Jede Aktion ist rückgängig machbar. |
 | Aufgaben   | Projekte, Priorität, Fälligkeit, überfällig-Markierung |
 | Woche      | Tagesplan, Checklisten-Raster (Sport, Lernen, Arbeit …), Ziele mit Fortschritt |
 | Gedanken   | Volltextsuche |
 | Vermögen   | Mehrere Portfolios, Einstiegskurs, P&L, Verteilung nach Portfolio, Anlageklasse, Region, Währung, Titel. Kurse beim Öffnen, höchstens alle 15 Min. neu. Fremdwährungen werden in EUR umgerechnet. CSV-Import. |
+| Startseite | Arcade-HUD: Spracheingabe in der Mitte, Quests + Wochenplan, Deadlines, Checkliste, Finanzen (verdeckt), Wochenscore mit Rang, Streak, XP und Level |
 | Kosten     | API-Verbrauch des Monats unter Einstellungen |
 
 ## 1. Lokal starten (Laptop)
@@ -47,7 +48,24 @@ er zu oder geht in den Ruhezustand, gehen Eingaben ins Leere. Zum Bauen und
 Testen ideal, als Dauerlösung nicht. Solange du den Laptop nutzt: Energiesparen
 für Netzbetrieb deaktivieren (macOS: `caffeinate -s` im Terminal laufen lassen).
 
-## 3. Kurzbefehl "Notieren" (iPhone und iPad)
+## 3. Spracheingabe in der Web-App (ohne Siri)
+
+Auf der Startseite den großen Knopf tippen, sprechen, nochmal tippen. Am Laptop geht
+auch die Leertaste (Escape bricht ab). Die Aufnahme geht an deinen Server und wird dort
+mit Whisper transkribiert. Das Audio verlässt ihn nicht und wird nicht gespeichert.
+
+- **Modell vorab laden** (einmaliger Download, danach offline):
+  `python -m app.transcriber`. Ohne diesen Schritt lädt die erste Aufnahme das Modell.
+- **Modellgröße** in der `.env`: `WHISPER_MODEL=small` (Standard, ~0,5 GB, 2–5 s pro
+  Satz auf dem Laptop) oder `medium` (~1,5 GB, besser bei Dialekt, langsamer).
+- **Das Mikrofon braucht HTTPS.** Über `tailscale serve` (Abschnitt 2) oder `localhost`
+  klappt es. Unter einer reinen `http://`-Adresse sperrt der Browser das Mikrofon.
+- Auf dem iPhone fragt die Homescreen-App je nach iOS-Version bei jedem Start einmal
+  nach der Mikrofon-Erlaubnis. Das ist eine Vorgabe von Apple, nicht von der App.
+- Wochenscore: 50 Punkte Checklisten, 30 Quests, 20 Deadlines (−10 pro verpasster).
+  Ab 70 Punkten zählt die Woche für die Streak.
+
+## 4. Kurzbefehl "Notieren" (optional)
 
 In der Kurzbefehle-App einen neuen Kurzbefehl anlegen:
 
@@ -69,7 +87,7 @@ Beispiele zum Einsprechen:
 - "Morgen um drei Berufsschule, und ich war heute 40 Minuten laufen" (zwei Aktionen)
 - "Idee: Kurs über Abbund-Software für Azubis" (ohne KI)
 
-## 4. Vermögen einpflegen
+## 5. Vermögen einpflegen
 
 - **Einzeln:** Vermögen, "Position hinzufügen". Symbol im Yahoo-Format
   (`SAP.DE`, `IWDA.AS`, `AAPL`, `BTC-EUR`). Ohne Symbol einen festen Wert
@@ -82,7 +100,7 @@ Tauschen: nur `fetch_quote()` in `app/portfolio.py` ersetzen.
 
 Vermögensdaten verlassen den Server nie. Sie werden nicht an die Claude API geschickt.
 
-## 5. Umzug auf den eigenen Server
+## 6. Umzug auf den eigenen Server
 
 Empfehlung: kleiner VPS in Deutschland oder ein Mac mini zu Hause.
 
@@ -105,6 +123,8 @@ app/
   classifier.py   Präfix-Regeln + Claude API, Aktionskatalog
   actions.py      Ausführen, protokollieren, rückgängig
   portfolio.py    Positionen, Kurs-Cache, Verteilungen, CSV-Import
+  transcriber.py  Lokale Spracherkennung (Whisper)
+  score.py        Wochenscore, Streak, XP
   schema.sql      Datenbankschema
   db.py, config.py
 static/           Web-App (HTML, CSS, JS, Service Worker, Icons)
