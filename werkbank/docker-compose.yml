@@ -1,0 +1,10 @@
+# Für den späteren Server. Port nur lokal binden, erreichbar über Tailscale.
+services:
+  werkbank:
+    build: .
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+    ports:
+      - "127.0.0.1:8000:8000"
+    restart: unless-stopped
