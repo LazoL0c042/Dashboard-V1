@@ -219,3 +219,20 @@ standardmäßig aus, Zustand wird lokal gemerkt. Weiche Überblendung beim Kapit
 - **Stilmischung 3D + Kupferstich:** wird am Kiefer-Kapitel abgenommen, bevor
   die übrigen Kapitel entstehen.
 - **Streuende Fachwerte:** als Spanne mit Quelle angeben statt Scheingenauigkeit.
+
+## 14. Nachtrag 1: Lebenslauf und Nahansichten (abgenommen 2026-11-06)
+
+### Lebenslauf je Holzart
+- Eigener Szenenmodus „Lebenslauf“, erreichbar aus jedem Reich (Karte) und von jeder Szenenseite (Buch). Umgebung, Licht und Ton des Reichs, ohne Tafel, Requisiten und Werkstücke.
+- **Start:** Kamera am Zweig des Mutterbaums, der Same löst sich botanisch korrekt:
+  Eiche (Eichel fällt, springt, rollt), Buche (Fruchtbecher öffnet sich, Ecker fällt), Kiefer/Fichte/Lärche/Douglasie (geflügelter Same, Schraubenflug), Tanne (Zapfen zerfällt am Ast, nur Schuppen und Flügelsamen fallen), Robinie (Hülse verdreht sich und öffnet, Bohnen fallen). Kamera folgt bis zum Boden, Same sinkt ein, Keimwurzel tritt aus.
+- **Keimung:** Nadelhölzer epigäisch mit artgerechter Keimblattzahl (Fichte 6–9, Tanne meist 5, Kiefer meist 6, Lärche meist 6, Douglasie meist 7). Eiche hypogäisch (Keimblätter bleiben in der Eichel). Buche epigäisch, große nierenförmige Keimblätter. Robinie epigäisch, zwei ovale Keimblätter.
+- **Modelle:** Keimling (handgebaut) → Jungbaum (kegelig, Leittrieb) → Altbaum, überblendet; Höhe und BHD aus Modellkurven je Art.
+- **Zeitstrahl:** logarithmischer Regler in Jahren; Abschnitte nach Wuchsklassen (Keimling, Sämling, Jungwuchs ≤ 1,3 m Höhe, Dickung ≤ 7 cm BHD, Stangenholz ≤ 20 cm, Baumholz, Altbaum, Zerfall, Totholz). Marken für Mannbarkeit, Umtriebszeit, Höchstalter. Anzeige: Alter, Höhe, BHD, Wuchsklasse.
+- Nach der Landung läuft das Leben einmal automatisch ab (ca. 30 s); der Regler ist jederzeit greifbar.
+- **Kreislauf:** Ab Höchstalter fällt das Laub, Äste brechen, der Stamm stürzt und wird Totholz; aus ihm bzw. neben ihm keimt ein neuer Sämling.
+- Daten (Mannbarkeit, Umtriebszeit, Höchstalter, Endhöhe, Keimung, Samenreife, Verbreitung) in `data.js` mit Quellen; nicht online belegte Werte ausdrücklich als Richtwert gekennzeichnet.
+
+### Nahansichten in der Hauptansicht
+- Jedes Werkstück und jede Eigenschafts-Station (Stammscheibe, Brett, Trocknungsstapel, Brinell-Prüfstand, Stamm/Harz) ist antippbar: Kamerafahrt in eine Nahansicht plus kurze sachliche Erklärung.
+- Rundgang mit ‹ › durch alle Stationen, „Übersicht“ führt zurück. Funktioniert in Buch- und Kartenansicht.
