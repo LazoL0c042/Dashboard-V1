@@ -248,6 +248,12 @@ export const GLOSSAR = [
   ['Festigkeitsklasse (DIN EN 338)', 'C = Nadelholz, D = Laubholz, GL = Brettschichtholz. Die Zahl ist die charakteristische Biegefestigkeit in N/mm². Beispiel C24: Biegefestigkeit 24 N/mm², mittlerer E-Modul 11.000 N/mm². Zuordnung über die Sortierung nach DIN 4074 (S10 ≙ C24).'],
   ['Rohdichte', 'Masse je Volumen inklusive Poren, angegeben bei lufttrockenem Holz (ca. 12–15 % Holzfeuchte). Je höher die Rohdichte, desto fester und härter ist das Holz meist.'],
   ['Ring-/zerstreutporig', 'Ringporig (Eiche, Robinie): große Frühholzporen bilden sichtbare Ringe. Zerstreutporig (Buche): kleine, gleichmäßig verteilte Poren.'],
+  ['Mannbarkeit', 'Alter, ab dem ein Baum erstmals keimfähige Samen trägt. Im Freistand (viel Licht) früher als im geschlossenen Bestand.'],
+  ['Umtriebszeit', 'Geplantes Erntealter im Wirtschaftswald. Sie liegt meist weit unter dem natürlichen Höchstalter.'],
+  ['Wuchsklassen', 'Forstliche Entwicklungsstufen: Keimling, Sämling, Jungwuchs (bis 1,3 m Höhe), Dickung (über 1,3 m, BHD unter 7 cm), Stangenholz (BHD 7–20 cm), Baumholz (BHD über 20 cm).'],
+  ['BHD (Brusthöhendurchmesser)', 'Stammdurchmesser in 1,3 m Höhe, das Standardmaß der Forstwirtschaft für die Stärke eines Baumes.'],
+  ['Epigäische / hypogäische Keimung', 'Epigäisch: Die Keimblätter werden über die Erde gehoben und ergrünen (Buche, Nadelbäume). Hypogäisch: Die Keimblätter bleiben als Nährstoffspeicher im Boden (Eiche).'],
+  ['Totholz / Kadaververjüngung', 'Abgestorbenes Holz ist Lebensraum für Pilze, Insekten und Moose und wird zu Humus. Besonders Fichte und Tanne keimen im Bergwald gern auf morschen Stämmen.'],
   ['Konstruktiver Holzschutz', 'Bauliche Maßnahmen, die Holz trocken halten: Dachüberstand, Abstand zum Boden, Gefälle, Hinterlüftung, Hirnholz abdecken. Er hat Vorrang vor chemischem Holzschutz (DIN 68800-2).'],
 ];
 
@@ -279,3 +285,104 @@ export const BILDQUELLEN = [
 ];
 
 export const HOLZ_BY_ID = Object.fromEntries(HOELZER.map(h => [h.id, h]));
+
+// ---------- Lebenslauf ----------
+// geprüft = Wert in einer der genannten Quellen gefunden; sonst Richtwert aus allgemeiner Fachliteratur (nicht einzeln online geprüft).
+Object.assign(QUELLEN, {
+  SSS: { titel: 'Schütt, Schuck, Stimm: Lexikon der Baum- und Straucharten (2002), Mannbarkeitstabelle, zitiert nach Wikipedia „Mannbarkeit“', url: 'https://de.wikipedia.org/wiki/Mannbarkeit' },
+  WP: { titel: 'Wald-Prinz: Umtriebszeit – Wann ist ein Baum hiebsreif? (Umtriebszeit, Endhöhe, Höchstalter)', url: 'https://www.wald-prinz.de/umtriebszeit-wie-lange-benotigt-ein-baum-bis-zur-hiebsreife/3697' },
+  WSL: { titel: 'WSL Schweiz: Biologisches Alter von Bäumen (maximale Altersgrenzen)', url: 'https://totholz.wsl.ch/de/walddynamik/alte-waldbestaende-und-altholzinseln/alter-von-baeumen/' },
+  LFL: { titel: 'LfL Bayern: Bestimmungshilfe Naturverjüngung (Keimblätter, Keimungsart)', url: 'https://lfl.bayern.de/mam/cms04/service/dateien/mb32_naturverjuengung_bestimmungshilfe_bf.pdf' },
+  LIT: { titel: 'Allgemeine forstbotanische Fachliteratur – Richtwert, nicht einzeln online geprüft', url: '' },
+});
+
+// Modell (Richtwerte): Höhe h(t) = max(endH · (1 − e^(−k·t))², h1 · t^0,75) mit k = 1,228 / t50 (halbe Endhöhe im Alter t50);
+// BHD d(t) = dMax · (1 − e^(−2,3·t/maxAge))^1,2
+export const LEBEN = {
+  kiefer: { t50: 35, h1: 0.06, maxAge: 400, maxAgeText: '200–600 Jahre (Quellen uneinheitlich)', endH: 36, endHText: 'ca. 30–40 m', dMax: 90,
+    mann: [15, 50], mannText: 'Freistand 15–30, Bestand 30–50 Jahre', umtrieb: [80, 140], decay: 60,
+    keimung: 'epigäisch – meist 6 (4–7) nadelförmige Keimblätter', samen: 'Zapfen reifen erst im zweiten Herbst und öffnen sich im folgenden Frühjahr. Die geflügelten Samen segeln im Schraubenflug davon.', verbreitung: 'Wind',
+    q: { maxAge: 'WP, WSL', mann: 'SSS', umtrieb: 'WP', endH: 'WP', keimung: 'LFL', samen: 'LIT' } },
+  fichte: { t50: 32, h1: 0.04, maxAge: 400, maxAgeText: '200–600 Jahre (Quellen uneinheitlich)', endH: 40, endHText: 'ca. 40 m, selten über 50 m', dMax: 110,
+    mann: [30, 60], mannText: 'Freistand ca. 30–40, Bestand ca. 50–60 Jahre (Richtwert)', umtrieb: [80, 120], decay: 50,
+    keimung: 'epigäisch – 6–9 nadelförmige Keimblätter', samen: 'Die hängenden Zapfen reifen im ersten Herbst. Die Flügelsamen fliegen im Spätwinter und Frühjahr aus, die leeren Zapfen fallen später ab.', verbreitung: 'Wind',
+    q: { maxAge: 'WP, WSL', mann: 'LIT', umtrieb: 'WP', endH: 'WP', keimung: 'LFL', samen: 'LIT' } },
+  tanne: { t50: 45, h1: 0.03, maxAge: 550, maxAgeText: '400–600 Jahre', endH: 40, endHText: 'ca. 40 m, selten über 50 m', dMax: 130,
+    mann: [50, 80], mannText: 'Freistand 50–60, Bestand 60–80 Jahre', umtrieb: [90, 130], decay: 50,
+    keimung: 'epigäisch – meist 5 (4–8) Keimblätter', samen: 'Die aufrechten Zapfen fallen nie als Ganzes. Sie zerfallen im Herbst am Baum, nur die Spindel bleibt am Zweig stehen. Schuppen und Flügelsamen rieseln herab.', verbreitung: 'Wind',
+    q: { maxAge: 'WP, WSL', mann: 'SSS', umtrieb: 'WP', endH: 'WP', keimung: 'LFL', samen: 'LIT' } },
+  laerche: { t50: 25, h1: 0.08, maxAge: 700, maxAgeText: 'bis ca. 800 Jahre', endH: 35, endHText: 'ca. 30–40 m', dMax: 120,
+    mann: [15, 40], mannText: 'Freistand ca. 15–20, Bestand ca. 30–40 Jahre (Richtwert)', umtrieb: [100, 140], decay: 80,
+    keimung: 'epigäisch – meist 6 (5–7) Keimblätter', samen: 'Die kleinen Zapfen reifen im ersten Herbst. Die Samen fliegen über den Winter aus, die leeren Zapfen bleiben jahrelang am Zweig.', verbreitung: 'Wind',
+    q: { maxAge: 'WSL', mann: 'LIT', umtrieb: 'WP', endH: 'WP', keimung: 'LFL', samen: 'LIT' } },
+  douglasie: { t50: 38, h1: 0.06, maxAge: 600, maxAgeText: '400–700 Jahre (in Nordamerika auch älter)', endH: 55, endHText: 'in Europa ca. 50–60 m', dMax: 160,
+    mann: [15, 40], mannText: 'Freistand ca. 15–20, Bestand ca. 30–40 Jahre (Richtwert)', umtrieb: [60, 100], decay: 80,
+    keimung: 'epigäisch – meist 7 (5–9) Keimblätter', samen: 'Die hängenden Zapfen mit dreizipfligen Deckschuppen reifen im ersten Herbst. Die Flügelsamen fliegen mit dem Wind.', verbreitung: 'Wind',
+    q: { maxAge: 'WP', mann: 'LIT', umtrieb: 'WP', endH: 'WP', keimung: 'LFL', samen: 'LIT' } },
+  eiche: { t50: 40, h1: 0.15, maxAge: 800, maxAgeText: '500–900 Jahre, einzelne über 1000', endH: 30, endHText: 'ca. 25–35 m', dMax: 220,
+    mann: [40, 80], mannText: 'Freistand 40–50, Bestand 50–80 Jahre', umtrieb: [180, 300], decay: 100,
+    keimung: 'hypogäisch – die Keimblätter bleiben als Nährstoffspeicher in der Eichel im Boden', samen: 'Die Eicheln reifen im ersten Herbst und fallen schwer zu Boden. Eichelhäher vergraben sie als Vorrat („Hähersaat“) und pflanzen so neue Eichen.', verbreitung: 'Schwerkraft, Eichelhäher, Nagetiere',
+    q: { maxAge: 'WP, WSL', mann: 'SSS', umtrieb: 'WP', endH: 'WP', keimung: 'LFL', samen: 'LIT' } },
+  robinie: { t50: 14, h1: 0.3, maxAge: 150, maxAgeText: 'ca. 100–200 Jahre (Richtwert)', endH: 25, endHText: 'ca. 20–30 m (Richtwert)', dMax: 80,
+    mann: [6, 10], mannText: 'sehr früh, ab ca. 6 Jahren (Richtwert)', umtrieb: [30, 60], decay: 80,
+    keimung: 'epigäisch – zwei ovale, fleischige Keimblätter', samen: 'Die Hülsen reifen im Herbst und hängen oft bis in den Winter am Baum. Sie verdrehen sich und platzen auf. Die hartschaligen Samen bleiben jahrelang keimfähig im Boden.', verbreitung: 'Schwerkraft, Wind; vor allem Wurzelbrut',
+    q: { maxAge: 'LIT', mann: 'LIT', umtrieb: 'LIT', endH: 'LIT', keimung: 'LIT', samen: 'LIT' } },
+  buche: { t50: 42, h1: 0.12, maxAge: 400, maxAgeText: '200–500 Jahre (Quellen uneinheitlich)', endH: 35, endHText: 'ca. 30–45 m', dMax: 130,
+    mann: [40, 80], mannText: 'Freistand 40–50, Bestand 50–80 Jahre', umtrieb: [120, 160], decay: 40,
+    keimung: 'epigäisch – zwei große, nierenförmige, ledrige Keimblätter', samen: 'Die Bucheckern sitzen zu zweit in einem stacheligen Fruchtbecher, der sich im Herbst vierklappig öffnet. Volle Mastjahre gibt es nur alle paar Jahre.', verbreitung: 'Schwerkraft, Tiere',
+    q: { maxAge: 'WP, WSL', mann: 'SSS', umtrieb: 'WP', endH: 'WP', keimung: 'LFL', samen: 'LIT' } },
+};
+
+export const WUCHSKLASSEN = [
+  ['Keimling', 'erstes Jahr, Keimblätter sichtbar'],
+  ['Sämling', 'junge Pflanze bis ca. 0,5 m'],
+  ['Jungwuchs', 'bis 1,3 m Höhe'],
+  ['Dickung', 'über 1,3 m, BHD unter 7 cm'],
+  ['Stangenholz', 'BHD 7–20 cm'],
+  ['Baumholz', 'BHD über 20 cm'],
+  ['Altbaum', 'Alters- und Reifephase'],
+  ['Zerfall', 'Krone bricht, Stamm stürzt'],
+  ['Totholz', 'Lebensraum und Nährboden der nächsten Generation'],
+];
+
+export function lebensModell(id) {
+  const L = LEBEN[id];
+  const k = 1.228 / L.t50;
+  const h = (t) => { t = Math.max(0, t); return Math.min(L.endH, Math.max(L.endH * Math.pow(1 - Math.exp(-k * t), 2), L.h1 * Math.pow(t, 0.75))); };
+  const d = (t) => L.dMax * Math.pow(1 - Math.exp(-2.3 * Math.max(0, t) / L.maxAge), 1.2);
+  const stage = (t) => {
+    if (t > L.maxAge + L.decay * 0.75) return 'Totholz';
+    if (t > L.maxAge) return 'Zerfall';
+    if (t > L.maxAge * 0.75) return 'Altbaum';
+    if (t < 1) return 'Keimling';
+    const hh = h(t), dd = d(t);
+    if (hh < 0.5) return 'Sämling';
+    if (hh < 1.3) return 'Jungwuchs';
+    if (dd < 7) return 'Dickung';
+    if (dd < 20) return 'Stangenholz';
+    return 'Baumholz';
+  };
+  return { ...L, h, d, stage, end: L.maxAge + L.decay };
+}
+
+// Kurzbeschreibungen der Werkstücke (Nahansicht)
+export const WERK_INFO = {
+  dachstuhl: ['Pfettendachstuhl', 'Fußpfetten, Firstpfette, Stiele mit Kopfbändern und Sparren. Kiefer der Festigkeitsklasse C24 trägt das Dach. Unter der Dachhaut bleibt sie trocken (Gebrauchsklasse 1–2) und braucht keinen chemischen Holzschutz.'],
+  fenster: ['Fensterrahmen', 'Blendrahmen mit zwei Flügeln und Sprossen. Das Holz muss gut zu bearbeiten und formstabil sein. Außen wird es beschichtet, Harz vorher entfernt.'],
+  bshTraeger: ['Brettschichtholz-Träger', 'Getrocknete, keilgezinkte Fichtenlamellen, faserparallel verleimt. Gleichmäßiger und formstabiler als Vollholz, für große Spannweiten (GL24h/GL28h).'],
+  geige: ['Geige', 'Die Decke ist aus Haselfichte: eng und gleichmäßig gewachsen, leicht und steif, das klassische Resonanzholz. Boden und Zargen sind traditionell aus Ahorn, das Griffbrett aus Ebenholz.'],
+  schrank: ['Schrank in Rahmen-Füllungs-Bauweise', 'Die Füllungen liegen lose in Nuten und dürfen arbeiten, ohne zu reißen. Das ist die klassische Antwort auf Schwinden und Quellen. Tanne ist harzfrei und ruhig im Bild.'],
+  wandverkleidung: ['Wandverkleidung aus Profilbrettern', 'Bretter mit Nut, Feder und Fase. Die Fugen nehmen das Arbeiten des Holzes auf. Tanne ist harzfrei und hell, ideal für Innenwände und Saunen.'],
+  terrasse: ['Terrasse', 'Dielen mit 5–8 mm Fuge und Gefälle, die Unterkonstruktion mit Abstand zum Boden. Wasser läuft ab, das Holz trocknet: konstruktiver Holzschutz. Am besten mit Edelstahlschrauben.'],
+  steg: ['Steg', 'Pfähle, Unterzüge und Belag. Kritisch ist die Wasserwechselzone. Holz, das ständig unter Wasser steht oder gut abtrocknen kann, hält lange. Kernholz verwenden.'],
+  bootshaus: ['Fassade in Boden-Deckel-Schalung', 'Senkrechte Bretter, deren Fugen von Deckleisten überdeckt sind. Regen läuft in Faserrichtung ab, die Hinterlüftung trocknet. Unbehandelt vergraut die Lärche silbrig.'],
+  haus: ['Fassade in Stülpschalung, Fenster', 'Waagerechte Bretter überlappen wie Dachziegel, Regen läuft außen ab. Splintfreies Douglasien-Kernholz ist formstabil und fest, gut für Fassade und Fenster.'],
+  fachwerk: ['Fachwerk', 'Schwelle, Ständer, Riegel, Streben und Rähm aus Eiche, die Gefache mit Lehmputz. Eiche ist tragfähig (D30) und als Kernholz dauerhaft (Klasse 2).'],
+  parkett: ['Parkett (französisches Fischgrät)', 'Eichenstäbe im 45°-Winkel. Mit rund 34 N/mm² Brinell-Härte verschleißfest. Ein Wandabstand nimmt das Quellen und Schwinden auf.'],
+  fass: ['Fass', 'Dauben aus Eiche, mit Eisenreifen zusammengespannt. Die Poren sind durch Thyllen verschlossen, deshalb ist das Holz dicht. Gerbstoffe geben dem Wein Aroma.'],
+  spielplatz: ['Spielplatzgerät', 'Robinie hält ohne chemischen Holzschutz sogar im Erdkontakt (Klasse 1–2). Darum ist sie erste Wahl für Spielplätze. Der krumme Wuchs wird zur Gestaltung genutzt.'],
+  zaun: ['Zaun mit Pfosten', 'Pfosten aus Robinie stehen jahrzehntelang im Boden, ganz ohne Imprägnierung.'],
+  bugholzstuhl: ['Bugholzstuhl', 'Gedämpfte Buche lässt sich biegen und behält nach dem Trocknen die Form. So entstehen Stühle aus wenigen Teilen. Die feinen, zähen Fasern machen das möglich.'],
+  werkzeuge: ['Werkzeugstiele', 'Buche ist hart, zäh und lässt sich gut drechseln, gut für Hammerstiele, Hobel und Werkbänke. Für stark schlagbelastete Stiele wird oft Esche verwendet.'],
+  morsch: ['Buche im Außenbereich', 'Dauerhaftigkeitsklasse 5: Ungeschützt zersetzen Pilze wie der Zunderschwamm einen liegenden Buchenstamm in wenigen Jahren.'],
+};

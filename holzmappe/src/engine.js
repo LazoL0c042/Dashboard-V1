@@ -36,6 +36,29 @@ export function windify(mat, { amp = 0.15, sway = true, freq = 1 } = {}) {
   return mat;
 }
 
+// Auflösen (Überblenden/Zerfall): uVis 0..1, uCut = lokale Höhe, ab der weggeschnitten wird
+export function dissolvable(mat, u = { vis: { value: 1 }, cut: { value: 1e6 } }) {
+  const prev = mat.onBeforeCompile;
+  mat.onBeforeCompile = (sh, r) => {
+    if (prev) prev(sh, r);
+    sh.uniforms.uVis = u.vis; sh.uniforms.uCut = u.cut;
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vDWp; varying float vDLy;')
+      .replace('#include <fog_vertex>', '#include <fog_vertex>\n vDWp = (modelMatrix * vec4(transformed, 1.0)).xyz; vDLy = transformed.y;');
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
+      varying vec3 vDWp; varying float vDLy; uniform float uVis; uniform float uCut;
+      float dHash(vec3 p){ p = fract(p * 0.3183099 + 0.1); p *= 17.0; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }
+      float dNoise(vec3 x){ vec3 i = floor(x), f = fract(x); f = f * f * (3.0 - 2.0 * f);
+        return mix(mix(mix(dHash(i), dHash(i + vec3(1,0,0)), f.x), mix(dHash(i + vec3(0,1,0)), dHash(i + vec3(1,1,0)), f.x), f.y),
+                   mix(mix(dHash(i + vec3(0,0,1)), dHash(i + vec3(1,0,1)), f.x), mix(dHash(i + vec3(0,1,1)), dHash(i + vec3(1,1,1)), f.x), f.y), f.z); }`)
+      .replace('#include <clipping_planes_fragment>', `#include <clipping_planes_fragment>
+      if (vDLy > uCut) discard;
+      if (uVis < 0.999) { float n = dNoise(vDWp * 3.1) * 0.65 + dNoise(vDWp * 11.0) * 0.35; if (n > uVis) discard; }`);
+  };
+  const key = mat.customProgramCacheKey ? mat.customProgramCacheKey() : '';
+  mat.customProgramCacheKey = () => key + 'dissolve';
+  return u;
+}
+
 // ---------- Kupferstich-Pass ----------
 const EngraveShader = {
   uniforms: {
@@ -317,6 +340,8 @@ export class Engine {
         pos.x += Math.sin(tt * 0.21) * 0.12 * s; pos.y += Math.sin(tt * 0.33) * 0.06 * s;
       }
     }
+    // Szenen können die Kamera übernehmen (z. B. Verfolgung des fallenden Samens)
+    if (w.camCtl && !c.fly) { const cc = w.camCtl(dt, this); if (cc) { pos = cc.pos.clone(); tgt = cc.target.clone(); if (!this.reducedMotion) { const right = new THREE.Vector3().subVectors(tgt, pos).cross(new THREE.Vector3(0, 1, 0)).normalize(); pos.addScaledVector(right, this.pointerS.x * (cc.sway ?? 0.3)); pos.y += this.pointerS.y * (cc.sway ?? 0.3) * 0.4; } } }
     cam.position.copy(pos); this.curTarget = tgt; cam.lookAt(tgt);
     if (w.update) w.update(dt, U.time.value, this);
     this.engrave.uniforms.time.value = U.time.value;

@@ -1,4 +1,4 @@
-import { HOELZER, QUELLEN, KORREKTUREN, GLOSSAR, BILDQUELLEN } from './data.js';
+import { HOELZER, QUELLEN, KORREKTUREN, GLOSSAR, BILDQUELLEN, LEBEN } from './data.js';
 import { emblemSVG, shrinkSVG, hardnessSVG, logoSVG, EINSATZ_LABEL, STATE_LABEL } from './icons.js';
 import { PHOTOS } from './photos.js';
 
@@ -7,6 +7,20 @@ const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
 const num = n => String(n).replace('.', ',');
 
 export function chapterLabel(i) { return `Kapitel ${ROMAN[i]}`; }
+
+const rw = (L, k) => L.q[k] === 'LIT' ? ' <em class="rw">Richtwert</em>' : '';
+function lebenRows(h) {
+  const L = LEBEN[h.id];
+  return [
+    ['Samen & Reife', L.samen + rw(L, 'samen')],
+    ['Verbreitung', L.verbreitung],
+    ['Keimung', L.keimung + rw(L, 'keimung')],
+    ['Mannbarkeit', L.mannText + rw(L, 'mann')],
+    ['Umtriebszeit', `${L.umtrieb[0]}–${L.umtrieb[1]} Jahre` + rw(L, 'umtrieb')],
+    ['Endhöhe', L.endHText + rw(L, 'endH')],
+    ['Höchstalter', L.maxAgeText + rw(L, 'maxAge')],
+  ];
+}
 
 function werteTable(h) {
   const rows = [
@@ -59,6 +73,7 @@ export function detailHTML(h, i) {
     <section class="d-einsatz"><h3>Einsatzbereiche</h3>${einsatzBlock(h)}
       <h3>Typische Werkstücke</h3><ul class="werk">${h.werkstuecke.map(w => `<li>${esc(w)}</li>`).join('')}</ul>
       <p class="verw">${esc(h.verwendung)}</p>
+      <h3>Lebenslauf</h3><table class="werte">${lebenRows(h).map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</table>
       <p class="q">Quellen: ${h.quellen.map(q => `<span title="${esc(QUELLEN[q].titel)}">${q}</span>`).join(', ')} – siehe Quellenverzeichnis der Mappe.</p>
     </section>
   </div>`;
@@ -102,8 +117,9 @@ export function mappeHTML() {
         <tr><th>Einsatz</th><td>${['innen', 'aussen', 'tragend', 'dekorativ'].map(k => `${EINSATZ_LABEL[k]}: <b>${STATE_LABEL[h.einsatz[k]]}</b> (${esc(h.einsatzText[k])})`).join(' · ')}</td></tr>
         <tr><th>Verwendung</th><td>${esc(h.verwendung)}</td></tr>
         <tr><th>Preis (Richtwert)</th><td>${esc(h.preis)}</td></tr>
+        ${lebenRows(h).map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('')}
       </table>
-      <footer class="sh-foot">Peters Zimmerei · Holzmappe · Seite ${i + 3} · Quellen: ${h.quellen.join(', ')}</footer>
+      <footer class="sh-foot">Peters Zimmerei · Holzmappe · Seite ${i + 3} · Quellen: ${[...new Set([...h.quellen, ...Object.values(LEBEN[h.id].q).flatMap(v => v.split(', '))])].join(', ')}</footer>
     </section>`).join('');
 
   const bars = (key, label, unit, max, fmt = v => num(v)) => `<figure class="chart"><figcaption>${label}</figcaption><svg viewBox="0 0 420 ${HOELZER.length * 24 + 10}" role="img" aria-label="${label}">

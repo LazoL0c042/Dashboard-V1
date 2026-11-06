@@ -85,8 +85,8 @@ export function treeMaterials(id, sp) {
 }
 
 // ---------- Generator ----------
-export function makeTree(id, { seed = 1, detail = 1, scale = 1 } = {}) {
-  const sp = SPECIES[id];
+export function makeTree(id, { seed = 1, detail = 1, scale = 1, spec = null, mats: matsIn = null } = {}) {
+  const sp = spec || SPECIES[id];
   const r = rng(seed * 7919 + id.length);
   const bark = newBuf(true), leaves = newBuf(true); leaves.sway = [];
   const tips = [];       // Fruchtpositionen
@@ -262,7 +262,7 @@ export function makeTree(id, { seed = 1, detail = 1, scale = 1 } = {}) {
   }
 
   // ---- Meshes ----
-  const mats = treeMaterials(id, sp);
+  const mats = matsIn || treeMaterials(id, sp);
   const group = new THREE.Group();
   const barkGeo = bufToGeo(bark), leafGeo = bufToGeo(leaves);
   const barkMesh = new THREE.Mesh(barkGeo, mats.bark), leafMesh = new THREE.Mesh(leafGeo, mats.leaf);
@@ -274,7 +274,7 @@ export function makeTree(id, { seed = 1, detail = 1, scale = 1 } = {}) {
 }
 
 // ---------- Früchte ----------
-function scaleTexture(c1, c2) {
+export function scaleTexture(c1, c2) {
   const S = 256, c = canvas(S, S), ctx = c.getContext('2d');
   ctx.fillStyle = c2; ctx.fillRect(0, 0, S, S);
   for (let y = -1; y < 9; y++) for (let x = -1; x < 9; x++) {
@@ -294,7 +294,7 @@ export function makeFruits(id, tips, { seed = 3, count } = {}) {
   switch (kind) {
     case 'cone_pine': geo = lathe([[0, 0], [0.05, 0.02], [0.07, 0.08], [0.06, 0.14], [0.03, 0.19], [0, 0.21]]); mat = new THREE.MeshStandardMaterial({ map: scaleTexture('#8a6a46', '#4a3420'), roughness: 0.9 }); break;
     case 'cone_spruce': geo = lathe([[0, 0], [0.05, 0.02], [0.08, 0.1], [0.075, 0.3], [0.05, 0.42], [0, 0.46]]); mat = new THREE.MeshStandardMaterial({ map: scaleTexture('#b07a48', '#5a3a22'), roughness: 0.85 }); break;
-    case 'cone_fir': geo = lathe([[0, 0], [0.06, 0.02], [0.085, 0.1], [0.085, 0.3], [0.06, 0.4], [0, 0.42]]); mat = new THREE.MeshStandardMaterial({ map: scaleTexture('#7d6a8a', '#3d3048'), roughness: 0.75, emissive: new THREE.Color('#2a2240'), emissiveIntensity: 0.4 }); break;
+    case 'cone_fir': geo = lathe([[0, 0], [0.06, 0.02], [0.085, 0.1], [0.085, 0.3], [0.06, 0.4], [0, 0.42]]); mat = new THREE.MeshStandardMaterial({ map: scaleTexture('#8a7058', '#4a3a30'), roughness: 0.75 }); break;
     case 'cone_larch': geo = lathe([[0, 0], [0.05, 0.01], [0.06, 0.05], [0.05, 0.1], [0.02, 0.13], [0, 0.135]]); mat = new THREE.MeshStandardMaterial({ map: scaleTexture('#a87a52', '#5a3a24'), roughness: 0.85 }); break;
     case 'cone_douglas': geo = lathe([[0, 0], [0.04, 0.02], [0.065, 0.1], [0.06, 0.22], [0.035, 0.3], [0, 0.32]]); mat = new THREE.MeshStandardMaterial({ map: scaleTexture('#b0885a', '#6a4a2a'), roughness: 0.85 }); break;
     case 'acorn': { const g1 = lathe([[0, 0], [0.04, 0.01], [0.05, 0.05], [0.04, 0.1], [0.012, 0.13], [0, 0.135]]); geo = g1; mat = new THREE.MeshStandardMaterial({ color: '#8a6a2a', roughness: 0.5 }); break; }
@@ -311,7 +311,7 @@ export function makeFruits(id, tips, { seed = 3, count } = {}) {
     else if (kind === 'cone_spruce' || kind === 'cone_douglas' || kind === 'pod') { dir = V(r.range(-0.2, 0.2), -1, r.range(-0.2, 0.2)); p.y -= 0.1; } // hängend
     else dir = V(r.range(-1, 1), r.range(-1, 0.3), r.range(-1, 1));
     q.setFromUnitVectors(UP, dir.normalize());
-    const k = r.range(0.85, 1.25) * (kind === 'pod' ? 1 : 1.6);
+    const k = r.range(0.85, 1.25) * (kind === 'pod' ? 1 : kind === 'cone_fir' || kind === 'cone_spruce' ? 0.65 : 1.2);
     m.compose(p, q, s.set(k, k, k)); mesh.setMatrixAt(i, m);
   }
   mesh.castShadow = true;
@@ -329,7 +329,7 @@ export function makeFruits(id, tips, { seed = 3, count } = {}) {
 export function makeRobiniaExtras(tips, { seed = 5 } = {}) {
   const r = rng(seed), g = new THREE.Group();
   const n = 150;
-  const fl = new THREE.InstancedMesh(new THREE.SphereGeometry(0.085, 6, 5), new THREE.MeshStandardMaterial({ color: '#fbf6e8', roughness: 0.6, emissive: '#fff4d8', emissiveIntensity: 0.25 }), n * 9);
+  const fl = new THREE.InstancedMesh(new THREE.SphereGeometry(0.085, 6, 5), new THREE.MeshStandardMaterial({ color: '#fbf6e8', roughness: 0.6, emissive: '#fff4d8', emissiveIntensity: 0.08 }), n * 9);
   const m = new THREE.Matrix4(); let k = 0;
   for (let i = 0; i < n; i++) {
     const tp = tips[Math.floor(r() * tips.length)];
@@ -354,4 +354,17 @@ export function makeForest(id, positions, { seed = 11, scaleRange = [0.6, 1.0] }
   lm.customDepthMaterial = t.mats.depth;
   bm.castShadow = lm.castShadow = true; bm.receiveShadow = lm.receiveShadow = true;
   const g = new THREE.Group(); g.add(bm, lm); return g;
+}
+
+// Jugendform: schlank, kegelförmig, Leittrieb, Äste bis zum Boden (für alle Arten)
+export function juvenileSpec(id) {
+  const sp = SPECIES[id], conifer = sp.form === 'excurrent' || id === 'kiefer';
+  return {
+    ...sp, form: 'excurrent', H: 8, R0: 0.13, flare: 0.25, crownBase: conifer ? 0.03 : 0.12, whorls: conifer ? 18 : 12, perWhorl: conifer ? [4, 5] : [2, 3],
+    Lmax: conifer ? 2.3 : 2.0, profile: t => Math.pow(1 - t, 0.9) * (0.5 + 0.5 * smooth(0, 0.1, t + 0.05)),
+    droop: conifer ? 0.12 : -0.35, droopLow: conifer ? 0.1 : 0.0, upturn: conifer ? 0.4 : 0.2, sag: 0.05,
+    sub: { n: conifer ? 4 : 3, len: 0.5, hang: conifer ? 0.3 : 0.0, flat: id === 'tanne' },
+    leaf: { ...sp.leaf, kind: id === 'kiefer' ? 'spray' : sp.leaf.kind, spacing: sp.leaf.spacing || 0.5, tilt: sp.leaf.tilt ?? 0.7, w: sp.leaf.w * 0.75, h: sp.leaf.h * 0.75, plate: false, sparse: null },
+    fruit: null, stubs: 0,
+  };
 }

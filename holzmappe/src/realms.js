@@ -4,7 +4,7 @@ import { makeSky, makeTerrain, makeRidges, makeGrass, makeCards, makeRocks, make
 import { makeTree, makeFruits, makeForest, makeRobiniaExtras } from './tree.js';
 import { makeDisc, makeBoard, makeStack, makeHardness, makeResin, makeSign, makePedestal, barkMat } from './props.js';
 import * as W from './werk.js';
-import { HOLZ_BY_ID } from './data.js';
+import { HOLZ_BY_ID, WERK_INFO } from './data.js';
 
 const V = (x = 0, y = 0, z = 0) => new THREE.Vector3(x, y, z);
 
@@ -125,7 +125,8 @@ export const REALMS = {
 
 const FN = { dachstuhl: W.dachstuhl, fenster: (id) => W.fenster(id), bshTraeger: W.bshTraeger, geige: W.geige, schrank: W.schrank, wandverkleidung: W.wandverkleidung, terrasse: W.terrasse, steg: W.steg, bootshaus: W.bootshaus, haus: W.haus, fachwerk: W.fachwerk, parkett: W.parkett, fass: W.fass, spielplatz: W.spielplatz, zaun: W.zaun, bugholzstuhl: W.bugholzstuhl, werkzeuge: W.werkzeuge, morsch: (id) => W.morscherStamm(barkMat(id)) };
 
-export async function buildRealm(id, engine) {
+// Gemeinsame Bühne: Himmel, Gelände, Licht, Mutterbaum, Wald, Wasser
+export function buildBase(id, engine, { life = false } = {}) {
   const cfg = REALMS[id], h = HOLZ_BY_ID[id];
   const q = engine.q, r = rng(id.length * 131 + 17);
   const pal = { ...cfg.sky, ground: cfg.ground, groundTex: cfg.groundTex, groundKind: cfg.groundKind, grass: cfg.grass, grassCount: cfg.grassCount, grassClump: cfg.grassClump, grassH: cfg.grassH, ridgeColor: cfg.ridgeColor, treeline: cfg.treeline, ridges: cfg.ridges, fog: cfg.fog[0], height: cfg.height, rock: cfg.rockColor };
@@ -137,82 +138,150 @@ export async function buildRealm(id, engine) {
   const terrain = makeTerrain(pal, r); scene.add(terrain);
   const hf = terrain.userData.height;
   scene.add(makeRidges(pal, r));
-  makeLights(pal, scene, q);
+  const lights = makeLights(pal, scene, q);
   const updaters = [];
   const addU = (o) => { if (o && o.userData && o.userData.update) updaters.push(o.userData.update); };
   const at = (o, x, z, y = 0, rot = 0) => { o.position.set(x, hf(x, z) + y, z); o.rotation.y = rot; scene.add(o); addU(o); return o; };
-
-  // Held
+  // Held / Mutterbaum
   const hero = makeTree(id, { seed: cfg.hero.seed, scale: cfg.hero.scale });
   at(hero.group, cfg.hero.pos[0], cfg.hero.pos[1], -0.05);
   const fr = makeFruits(id, hero.tips); if (fr) hero.group.add(fr);
   if (id === 'robinie') hero.group.add(makeRobiniaExtras(hero.tips));
   const resin = makeResin(hero, h.harzLevel); hero.group.add(resin); addU(resin);
-  // weitere Bäume
+  // weitere Bäume (im Lebenslauf: Platz um den Landepunkt frei halten)
+  const keep = life ? LANDING[id] : null;
   const extras = [...(cfg.extra || [])];
   if (cfg.rows) { const R = cfg.rows; for (const x of R.xs) for (let i = 0; i < R.n; i++) extras.push([x + r.range(-1, 1), R.z0 - i * R.step + r.range(-1, 1), r.range(R.scale[0], R.scale[1]), 20 + i + x]); }
   const detail = q.density >= 0.6 ? 1 : 0.4;
   extras.forEach(([x, z, s, seed], i) => {
+    if (keep && Math.hypot(x - keep[0], z - keep[1]) < 6) return;
     const near = Math.hypot(x, z + 6) < 13;
     const t = makeTree(id, { seed, scale: s, detail: (i < 4 && !cfg.rows) || near ? detail : 0.4 });
     at(t.group, x, z, -0.05, r() * 6);
     if (id === 'robinie') t.group.add(makeRobiniaExtras(t.tips, { seed: i + 3 }));
   });
-  // Hintergrundwald
   if (cfg.forest) {
     const F = cfg.forest, pos = [], arc = F.arc || [-175, -5];
     for (let i = 0; i < F.n; i++) { const a = (arc[0] + r() * (arc[1] - arc[0])) * Math.PI / 180, d = r.range(F.r[0], F.r[1]); const x = Math.cos(a) * d, z = Math.sin(a) * d - 6; pos.push(V(x, hf(x, z) - 0.1, z)); }
     scene.add(makeForest(F.tree || id, pos, { seed: 31, scaleRange: [0.75, 1.2] }));
   }
-  // Wasser
   if (cfg.water) { const wtr = makeWater(pal, { y: cfg.water.y, z: cfg.water.z, w: cfg.water.w, d: cfg.water.d }); scene.add(wtr); addU(wtr); }
-  // Requisiten (Eigenschaften)
-  const P = { ...PROPS, ...(cfg.props || {}) };
-  const disc = makeDisc(id, h); at(disc, P.disc[0], P.disc[1], 0.1, P.disc[2]); disc.rotation.x = 0.08;
-  at(makeBoard(id, h), P.board[0], P.board[1], 0, P.board[2]);
-  at(makeHardness(id, h), P.hardness[0], P.hardness[1], 0, P.hardness[2]);
-  at(makeStack(id, h), P.stack[0], P.stack[1], 0, P.stack[2]);
-  const sign = await makeSign(id, h); at(sign, P.sign[0], P.sign[1], 0, P.sign[2]);
-  // Werkstücke
-  for (const wk of cfg.werk) {
-    const obj = FN[wk.fn](id);
-    obj.scale.multiplyScalar(wk.scale || 1);
-    if (wk.pedestal) {
-      const ped = makePedestal(); at(ped, wk.pos[0], wk.pos[1], 0, wk.rot);
-      const holder = new THREE.Group(); holder.add(obj); holder.position.set(wk.pos[0], hf(wk.pos[0], wk.pos[1]) + ped.userData.top + (wk.float || 0.3), wk.pos[1]); holder.rotation.y = wk.rot;
-      const baseY = holder.position.y;
-      // Objekt so verschieben, dass es über dem Sockel schwebt
-      const bb = new THREE.Box3().setFromObject(obj); obj.position.y -= bb.min.y;
-      scene.add(holder);
-      updaters.push((dt, t) => { holder.position.y = baseY + Math.sin(t * 1.1) * 0.06; if (wk.spin) holder.rotation.y += dt * wk.spin; });
-      addU(obj);
-    } else at(obj, wk.pos[0], wk.pos[1], wk.y || 0, wk.rot);
-  }
-  (cfg.lamps || []).forEach(([x, y, z, c, i]) => { const l = new THREE.PointLight(c, i, 10, 2); l.position.set(x, hf(x, z) + y, z); scene.add(l); const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.08, 10, 8), new THREE.MeshBasicMaterial({ color: c })); bulb.position.copy(l.position); scene.add(bulb); });
-  // Vegetation
-  const avoid = [[P.disc[0], P.disc[1], 1.2], [P.board[0], P.board[1], 1.2], [P.hardness[0], P.hardness[1], 0.8], [P.sign[0], P.sign[1], 1.6], [P.stack[0], P.stack[1], 1.4], ...cfg.werk.map(w => [w.pos[0], w.pos[1], w.fn === 'steg' ? 0 : 2.6])];
+  return { id, cfg, h, q, r, pal, scene, terrain, hf, lights, updaters, addU, at, hero };
+}
+
+// Vegetation und Atmosphäre
+export function addNature(ctx, engine, avoid) {
+  const { cfg, pal, scene, terrain, q, r, addU } = ctx;
   const grass = makeGrass(pal, terrain, q.density, r, { radius: 24, avoid }); if (grass) scene.add(grass);
   (cfg.cards || []).forEach(c => scene.add(makeCards(c.kind, c.c1, c.c2, terrain, Math.round(c.n * Math.max(0.5, q.density)), r, { size: c.size, avoid, radius: c.radius || 20, upright: !c.flat })));
   if (cfg.rocks) scene.add(makeRocks(pal, terrain, cfg.rocks, r));
-  // Atmosphäre
   if (cfg.mist) { const m = makeMist({ ...pal, mist: 0.3 }, cfg.mist, r); scene.add(m); addU(m); }
   if (cfg.shafts) { const s = makeShafts({ ...pal, shafts: cfg.shafts.strength }, r, cfg.shafts); scene.add(s); addU(s); }
   if (!engine.reducedMotion) {
     (cfg.particles || []).forEach(([k, c, n, b, size]) => scene.add(makeParticles(k, c, Math.round(n * Math.max(0.5, q.density)), b, { size })));
     if (cfg.falling) { const [k, c1, c2, n, b] = cfg.falling; const f = makeFallingLeaves(k, c1, c2, n, b); scene.add(f); addU(f); }
   }
-  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1200);
-  let hover = null, hoverT = 0;
+}
+
+// Landepunkt des Samens im Lebenslauf
+export const LANDING = { kiefer: [3.0, -1.5], fichte: [4.0, -1.0], tanne: [2.5, -1.0], laerche: [-0.5, -1.5], douglasie: [2.5, -1.0], eiche: [3.5, -1.0], robinie: [2.0, -2.0], buche: [1.5, -2.0] };
+
+const num = (x) => String(x).replace('.', ',');
+function propInfo(h) {
+  const ratio = (h.schwund.tangential / h.schwund.radial).toFixed(1).replace('.', ',');
+  const mm = (200 * h.diff.tNum / 100 * 6).toFixed(1).replace('.', ',');
   return {
-    id, scene, camera,
-    rig: { pos: V(0, 3.1, 14.5), target: V(0, 4.3, -6), from: V(-2, 10, 32), fromTarget: V(0, 9, -12), dur: 5 },
-    post: cfg.post, audio: cfg.audio, pick: [sign],
+    disc: ['Stammscheibe: Schwindrisse', `${h.name} schwindet tangential um ${num(h.schwund.tangential)} %, radial nur um ${num(h.schwund.radial)} % (Verhältnis ${ratio} : 1). Die Jahrringe wollen sich stärker verkürzen als die Radien, deshalb reißt die Scheibe beim Trocknen keilförmig von außen nach innen.`],
+    board: ['Brett: Arbeiten und Schüsseln', `Ein Seitenbrett schüsselt beim Trocknen von der Kernseite weg. Differentielles Schwindmaß tangential: ${h.diff.tangential} % je % Holzfeuchte. Ein 20 cm breites Brett, das von 18 auf 12 % trocknet, wird rund ${mm} mm schmaler. ${h.stehvermoegen}`],
+    stack: ['Trocknungsstapel', `Bretter auf Stapellatten, abgedeckt und beschwert: Luft zieht gleichmäßig durch, nichts verzieht sich. ${h.trocknung}`],
+    hardness: ['Brinell-Prüfung', `Eine 10-mm-Stahlkugel wird mit festgelegter Kraft in die Seitenfläche gedrückt. Je kleiner der Eindruck, desto härter das Holz. ${h.name}: ${h.brinell}. Zum Vergleich: Fichte 12, Robinie 46–48 N/mm².`],
+    trunk: ['Stamm, Rinde und Harz', h.harz],
+  };
+}
+
+export async function buildRealm(id, engine) {
+  const ctx = buildBase(id, engine);
+  const { cfg, h, scene, hf, updaters, addU, at, hero } = ctx;
+  const PI = propInfo(h);
+  const stations = [];
+  const station = (obj, key, info, opts = {}) => { obj.userData.pickId = 'st:' + stations.length; stations.push({ obj, key, title: info[0], text: info[1], ...opts }); };
+  // Requisiten (Eigenschaften)
+  const P = { ...PROPS, ...(cfg.props || {}) };
+  const disc = makeDisc(id, h); at(disc, P.disc[0], P.disc[1], 0.1, P.disc[2]); disc.rotation.x = 0.08; station(disc, 'disc', PI.disc);
+  station(at(makeBoard(id, h), P.board[0], P.board[1], 0, P.board[2]), 'board', PI.board);
+  station(at(makeHardness(id, h), P.hardness[0], P.hardness[1], 0, P.hardness[2]), 'hardness', PI.hardness);
+  station(at(makeStack(id, h), P.stack[0], P.stack[1], 0, P.stack[2]), 'stack', PI.stack);
+  station(hero.group, 'trunk', PI.trunk, { focus: hero.group.position.clone().add(V(0, 2.2, 0)), radius: 1.6 });
+  const sign = await makeSign(id, h); at(sign, P.sign[0], P.sign[1], 0, P.sign[2]);
+  // Werkstücke
+  for (const wk of cfg.werk) {
+    const obj = FN[wk.fn](id);
+    obj.scale.multiplyScalar(wk.scale || 1);
+    let target = obj;
+    if (wk.pedestal) {
+      const ped = makePedestal(); at(ped, wk.pos[0], wk.pos[1], 0, wk.rot);
+      const holder = new THREE.Group(); holder.add(obj); holder.position.set(wk.pos[0], hf(wk.pos[0], wk.pos[1]) + ped.userData.top + (wk.float || 0.3), wk.pos[1]); holder.rotation.y = wk.rot;
+      const baseY = holder.position.y;
+      const bb = new THREE.Box3().setFromObject(obj); obj.position.y -= bb.min.y;
+      scene.add(holder);
+      updaters.push((dt, t) => { holder.position.y = baseY + Math.sin(t * 1.1) * 0.06; if (wk.spin) holder.rotation.y += dt * wk.spin; });
+      addU(obj); target = holder;
+    } else at(obj, wk.pos[0], wk.pos[1], wk.y || 0, wk.rot);
+    if (WERK_INFO[wk.fn]) station(target, wk.fn, WERK_INFO[wk.fn]);
+  }
+  (cfg.lamps || []).forEach(([x, y, z, c, i]) => { const l = new THREE.PointLight(c, i, 10, 2); l.position.set(x, hf(x, z) + y, z); scene.add(l); const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.08, 10, 8), new THREE.MeshBasicMaterial({ color: c })); bulb.position.copy(l.position); scene.add(bulb); });
+  const avoid = [[P.disc[0], P.disc[1], 1.2], [P.board[0], P.board[1], 1.2], [P.hardness[0], P.hardness[1], 0.8], [P.sign[0], P.sign[1], 1.6], [P.stack[0], P.stack[1], 1.4], ...cfg.werk.map(w => [w.pos[0], w.pos[1], w.fn === 'steg' ? 0 : 2.6])];
+  addNature(ctx, engine, avoid);
+
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1200);
+  const rig = { pos: V(0, 3.1, 14.5), target: V(0, 4.3, -6), from: V(-2, 10, 32), fromTarget: V(0, 9, -12), dur: 5 };
+  // Nahansicht-Karte (DOM, liegt über der Leinwand)
+  const card = document.createElement('div'); card.className = 'st-card'; card.hidden = true;
+  card.innerHTML = `<div class="st-k"></div><h3></h3><p></p><div class="st-nav"><button class="st-prev" aria-label="Vorherige Station">‹</button><button class="st-over">Übersicht</button><button class="st-next" aria-label="Nächste Station">›</button></div>`;
+  engine.container.appendChild(card);
+  let cur = -1, occluders = null; const ray = new THREE.Raycaster();
+  const focus = (i) => {
+    cur = (i + stations.length) % stations.length; const st = stations[cur];
+    scene.updateMatrixWorld(true);
+    st.obj.updateWorldMatrix(true, true);
+    let c, rad;
+    if (st.focus) { c = st.focus.clone(); rad = st.radius; }
+    else { const bb = new THREE.Box3().setFromObject(st.obj); c = bb.getCenter(V()); rad = bb.getSize(V()).length() / 2; }
+    const base = rig.pos.clone().sub(c); base.y = 0; base.normalize();
+    const dist = Math.min(15, Math.max(1.7, rad * 2.3));
+    // freien Blickwinkel suchen (nichts zwischen Kamera und Station)
+    if (!occluders) { occluders = []; scene.traverse(o => { if (o.isMesh && !o.isInstancedMesh && o.material && !o.material.transparent && o !== ctx.terrain && o.geometry && !(o.geometry.parameters && o.geometry.parameters.radius > 500)) occluders.push(o); }); }
+    const own = new Set(); st.obj.traverse(o => own.add(o));
+    let dir = null;
+    for (const a of [0, 0.5, -0.5, 1.0, -1.0, 1.5, -1.5, 2.2, -2.2]) {
+      const d = base.clone().applyAxisAngle(V(0, 1, 0), a); d.y = 0.42; d.normalize();
+      ray.set(c, d); ray.far = dist + 1.4;
+      const hit = ray.intersectObjects(occluders, false).find(h => !own.has(h.object) && h.distance > rad * 0.6);
+      if (!hit) { dir = d; break; }
+    }
+    if (!dir) { dir = base.clone(); dir.y = 0.42; dir.normalize(); }
+    engine.flyTo(c.clone().addScaledVector(dir, dist), c, 1.6);
+    card.querySelector('.st-k').textContent = `Nahansicht ${cur + 1} / ${stations.length}`;
+    card.querySelector('h3').textContent = st.title; card.querySelector('p').textContent = st.text; card.hidden = false;
+  };
+  const overview = () => { cur = -1; card.hidden = true; engine.flyTo(rig.pos.clone(), rig.target.clone(), 1.6); };
+  card.querySelector('.st-prev').addEventListener('click', () => focus(cur - 1));
+  card.querySelector('.st-next').addEventListener('click', () => focus(cur + 1));
+  card.querySelector('.st-over').addEventListener('click', overview);
+  let hover = null, hoverT = 0;
+  const world = {
+    id, scene, camera, rig,
+    post: cfg.post, audio: cfg.audio, pick: [sign, ...stations.map(s => s.obj)], stations,
+    focus, overview, isFocused: () => cur >= 0,
+    // onPick wird von außen gesetzt (Tafel); Stationen hier
+    handleStation(pid) { if (pid && pid.startsWith('st:')) { focus(+pid.slice(3)); return true; } return false; },
     update(dt, t, eng) {
-      hoverT += dt; if (hoverT > 0.12) { hoverT = 0; hover = eng.hover(); eng.canvas.style.cursor = hover ? 'pointer' : ''; }
+      hoverT += dt; if (hoverT > 0.15) { hoverT = 0; hover = eng.hover(); eng.canvas.style.cursor = hover ? 'pointer' : ''; }
       for (const u of updaters) u(dt, t, hover === 'tafel');
     },
-    dispose() { disposeScene(scene); },
+    dispose() { card.remove(); disposeScene(scene); },
   };
+  return world;
 }
 
 export function disposeScene(scene) {
