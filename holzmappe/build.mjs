@@ -13,3 +13,7 @@ const html = readFileSync('src/index.html', 'utf8').replace('/*@@SCRIPT@@*/', ()
 mkdirSync('dist', { recursive: true });
 writeFileSync('dist/holzmappe.html', html);
 console.log('dist/holzmappe.html', (html.length / 1024 / 1024).toFixed(2), 'MB');
+// Artefakt-Variante: ohne eigenes Dokumentgerüst (wird beim Veröffentlichen umhüllt)
+const art = html.replace(/<!doctype html>\s*<html[^>]*>\s*<head>/i, '').replace(/<meta charset="utf-8">\s*<meta name="viewport"[^>]*>/i, '').replace(/<\/head>\s*<body>/i, '').replace(/<\/body>\s*<\/html>\s*$/i, '');
+writeFileSync('dist/holzmappe-artefakt.html', art);
+console.log('dist/holzmappe-artefakt.html', (art.length / 1024 / 1024).toFixed(2), 'MB');

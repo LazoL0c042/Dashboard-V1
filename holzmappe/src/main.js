@@ -49,7 +49,12 @@ function closeDetail() { const o = $('#detail'); o.classList.remove('on'); o.set
 // ---------- Mappe ----------
 function openMappe() {
   const m = $('#mappe');
-  if (!m.dataset.ready) { m.innerHTML = mappeHTML(); m.dataset.ready = '1'; }
+  if (!m.dataset.ready) {
+    m.innerHTML = mappeHTML(); m.dataset.ready = '1';
+    // Im eingebetteten Artefakt ist Drucken gesperrt → Hinweis statt wirkungslosem Knopf
+    let framed = true; try { framed = window.self !== window.top; } catch (e) { framed = true; }
+    if (framed) { const b = m.querySelector('[data-act=print]'); const n = document.createElement('span'); n.className = 'print-note'; n.textContent = 'Drucken: Datei-Version im Browser öffnen'; b.replaceWith(n); }
+  }
   m.classList.add('on'); document.body.classList.add('mappe-open'); m.scrollTop = 0;
   app.audio.setMix({ drone: 0.25, droneNote: 73, paper: 0.1 });
 }
