@@ -1,0 +1,6 @@
+node_modules/
+src/photos.js
+test/*.bundle.js
+# Fremde Fotos und die daraus gebaute Datei bleiben lokal (Repo ist öffentlich)
+fotos/
+dist/
