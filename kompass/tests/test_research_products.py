@@ -99,3 +99,8 @@ def test_fakt_ohne_quelle_abgelehnt(conn):
 def test_katalog_benchmark_vorhanden():
     assert products.finde("IE00B4L5Y983")["ticker"] == "EUNL.DE"
     assert json.dumps(products.katalog_fuer_modell.__doc__ or "") is not None
+
+
+def test_gold_physisch_eigene_kennung():
+    assert products.finde("GOLD-PHYSISCH")["name"].startswith("Gold physisch")
+    assert products.finde("4GLD.DE")["isin"] == "DE000A0S9GB0"

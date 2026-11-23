@@ -153,7 +153,7 @@ def evaluate(frozen: dict, history_fn, heute: date | None = None) -> dict:
         "markt_geschlagen": (wert > bench) if wert is not None and bench is not None else None,
         "im_plus": (wert > eingezahlt) if wert is not None else None,
         "ziel": ziel,
-        "fehlende_kurse": fehlend,
+        "fehlende_kurse": list(dict.fromkeys(fehlend)),
         "quelle": "Yahoo Finance (yfinance), Schlusskurse",
     }
 

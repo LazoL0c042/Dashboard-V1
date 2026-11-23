@@ -26,9 +26,12 @@ def katalog() -> list[dict]:
 
 
 def finde(isin_oder_ticker: str) -> dict | None:
-    for p in katalog():
-        if isin_oder_ticker and isin_oder_ticker in (p["isin"], p["ticker"]):
-            return p
+    if not isin_oder_ticker:
+        return None
+    for feld in ("id", "isin", "ticker"):
+        for p in katalog():
+            if p.get(feld) == isin_oder_ticker:
+                return p
     return None
 
 

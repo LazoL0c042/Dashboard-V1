@@ -1,9 +1,12 @@
+import os
 import sys
 from pathlib import Path
 
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+os.environ["KOMPASS_DB"] = ":memory:"
+os.environ["COOKIE_SECURE"] = "false"
 
 from app import db  # noqa: E402
 
