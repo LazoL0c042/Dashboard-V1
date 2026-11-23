@@ -1,0 +1,12 @@
+services:
+  kompass:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - KOMPASS_DB=/app/data/kompass.db
+    # Nur lokal erreichbar. Nach außen ausschließlich über "tailscale serve".
+    ports:
+      - "127.0.0.1:8001:8001"
+    volumes:
+      - ./data:/app/data

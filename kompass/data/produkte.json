@@ -1,0 +1,264 @@
+{
+ "_hinweis": "Startkatalog. ISINs geprüft, Ticker (Yahoo Finance, Xetra) können sich ändern. Kennzahlen kommen live oder mit Quelle aus der App, nie aus dieser Datei.",
+ "produkte": [
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "iShares Core MSCI World",
+   "isin": "IE00B4L5Y983",
+   "ticker": "EUNL.DE",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "links": [
+    {
+     "titel": "Anbieter",
+     "url": "https://www.ishares.com/de/privatanleger/de/produkte/251882/"
+    },
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B4L5Y983"
+    }
+   ],
+   "id": "IE00B4L5Y983"
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "Xtrackers MSCI World 1C",
+   "isin": "IE00BJ0KDQ92",
+   "ticker": "XDWD.DE",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "links": [
+    {
+     "titel": "Anbieter",
+     "url": "https://etf.dws.com/de-de/IE00BJ0KDQ92-msci-world-ucits-etf-1c/"
+    },
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BJ0KDQ92"
+    }
+   ],
+   "id": "IE00BJ0KDQ92"
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "Vanguard FTSE All-World (Acc)",
+   "isin": "IE00BK5BQT80",
+   "ticker": "VWCE.DE",
+   "anbieter": "Vanguard",
+   "steuerklasse": "aktien_etf",
+   "links": [
+    {
+     "titel": "Anbieter",
+     "url": "https://www.de.vanguard/professionell/anlageprodukte/etf"
+    },
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BK5BQT80"
+    }
+   ],
+   "id": "IE00BK5BQT80"
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "SPDR MSCI ACWI IMI",
+   "isin": "IE00B3YLTY66",
+   "ticker": "SPYI.DE",
+   "anbieter": "SPDR",
+   "steuerklasse": "aktien_etf",
+   "links": [
+    {
+     "titel": "Anbieter",
+     "url": "https://www.ssga.com/de/de/intermediary/etfs"
+    },
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B3YLTY66"
+    }
+   ],
+   "id": "IE00B3YLTY66"
+  },
+  {
+   "kategorie": "Aktien-ETF Schwellenländer",
+   "name": "iShares Core MSCI EM IMI",
+   "isin": "IE00BKM4GZ66",
+   "ticker": "IS3N.DE",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "links": [
+    {
+     "titel": "Anbieter",
+     "url": "https://www.ishares.com/de/privatanleger/de/produkte/264659/"
+    },
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BKM4GZ66"
+    }
+   ],
+   "id": "IE00BKM4GZ66"
+  },
+  {
+   "kategorie": "Aktien-ETF USA",
+   "name": "iShares Core S&P 500",
+   "isin": "IE00B5BMR087",
+   "ticker": "SXR8.DE",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "links": [
+    {
+     "titel": "Anbieter",
+     "url": "https://www.ishares.com/de/privatanleger/de/produkte/253743/"
+    },
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B5BMR087"
+    }
+   ],
+   "id": "IE00B5BMR087"
+  },
+  {
+   "kategorie": "Edelmetalle",
+   "name": "Xetra-Gold (physisch hinterlegt)",
+   "isin": "DE000A0S9GB0",
+   "ticker": "4GLD.DE",
+   "anbieter": "Deutsche Börse Commodities",
+   "steuerklasse": "gold_physisch",
+   "links": [
+    {
+     "titel": "Anbieter",
+     "url": "https://www.xetra-gold.com/"
+    },
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=DE000A0S9GB0"
+    }
+   ],
+   "id": "DE000A0S9GB0"
+  },
+  {
+   "kategorie": "Edelmetalle",
+   "name": "EUWAX Gold II (physisch hinterlegt)",
+   "isin": "DE000EWG2LD7",
+   "ticker": "EWG2.DE",
+   "anbieter": "Boerse Stuttgart Commodities",
+   "steuerklasse": "gold_physisch",
+   "links": [
+    {
+     "titel": "Anbieter",
+     "url": "https://www.boerse-stuttgart.de/"
+    },
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=DE000EWG2LD7"
+    }
+   ],
+   "id": "DE000EWG2LD7"
+  },
+  {
+   "kategorie": "Edelmetalle",
+   "name": "iShares Gold Producers (Minen)",
+   "isin": "IE00B6R52036",
+   "ticker": "IS0E.DE",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "links": [
+    {
+     "titel": "Anbieter",
+     "url": "https://www.ishares.com/de/privatanleger/de/produkte/251908/"
+    },
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B6R52036"
+    }
+   ],
+   "id": "IE00B6R52036"
+  },
+  {
+   "kategorie": "Anleihen",
+   "name": "iShares Core Euro Government Bond",
+   "isin": "IE00B4WXJJ64",
+   "ticker": "EUNH.DE",
+   "anbieter": "iShares",
+   "steuerklasse": "anleihen_etf",
+   "links": [
+    {
+     "titel": "Anbieter",
+     "url": "https://www.ishares.com/de/privatanleger/de/produkte/251740/"
+    },
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B4WXJJ64"
+    }
+   ],
+   "id": "IE00B4WXJJ64"
+  },
+  {
+   "kategorie": "Tagesgeld & Geldmarkt",
+   "name": "Xtrackers II EUR Overnight Rate Swap",
+   "isin": "LU0290358497",
+   "ticker": "XEON.DE",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "anleihen_etf",
+   "links": [
+    {
+     "titel": "Anbieter",
+     "url": "https://etf.dws.com/de-de/LU0290358497-eur-overnight-rate-swap-ucits-etf-1c/"
+    },
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=LU0290358497"
+    }
+   ],
+   "id": "LU0290358497"
+  },
+  {
+   "kategorie": "Immobilien",
+   "name": "iShares Developed Markets Property Yield (REITs)",
+   "isin": "IE00B1FZS350",
+   "ticker": "IQQ6.DE",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "links": [
+    {
+     "titel": "Anbieter",
+     "url": "https://www.ishares.com/de/privatanleger/de/produkte/239472/"
+    },
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B1FZS350"
+    }
+   ],
+   "id": "IE00B1FZS350"
+  },
+  {
+   "kategorie": "Krypto",
+   "name": "Bitcoin (direkt, Kurs in EUR)",
+   "isin": "",
+   "ticker": "BTC-EUR",
+   "anbieter": "-",
+   "steuerklasse": "krypto_direkt",
+   "links": [
+    {
+     "titel": "BaFin: Kryptowerte",
+     "url": "https://www.bafin.de/DE/Verbraucher/GeldanlageWertpapiere/Kryptowerte/kryptowerte_node.html"
+    }
+   ],
+   "id": "BTC-EUR"
+  },
+  {
+   "kategorie": "Edelmetalle",
+   "name": "Gold physisch (Barren/Münzen)",
+   "isin": "",
+   "ticker": "4GLD.DE",
+   "anbieter": "Händler",
+   "steuerklasse": "gold_physisch",
+   "hinweis": "Kein Wertpapier. Kursreferenz über Xetra-Gold. Händler-Spread (Kauf/Verkauf) und Lagerung kommen dazu.",
+   "links": [
+    {
+     "titel": "gold.de Preisvergleich",
+     "url": "https://www.gold.de/"
+    }
+   ],
+   "id": "GOLD-PHYSISCH"
+  }
+ ]
+}

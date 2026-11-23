@@ -1,0 +1,16 @@
+{
+  "_hinweis": "Nur vertrauenswürdige, kostenlose Quellen. Bereiche: geopolitik, deutschland, wirtschaft, geldpolitik. Admin kann ergänzen.",
+  "feeds": [
+    {"name": "tagesschau – Wirtschaft", "url": "https://www.tagesschau.de/wirtschaft/index~rss2.xml", "bereich": "wirtschaft"},
+    {"name": "tagesschau – Ausland", "url": "https://www.tagesschau.de/ausland/index~rss2.xml", "bereich": "geopolitik"},
+    {"name": "tagesschau – Inland", "url": "https://www.tagesschau.de/inland/index~rss2.xml", "bereich": "deutschland"},
+    {"name": "Deutsche Welle", "url": "https://rss.dw.com/rdf/rss-de-all", "bereich": "geopolitik"},
+    {"name": "EZB – Pressemitteilungen", "url": "https://www.ecb.europa.eu/rss/press.html", "bereich": "geldpolitik"}
+  ],
+  "ezb_reihen": [
+    {"name": "EZB Einlagenzins", "key": "FM/B.U2.EUR.4F.KR.DFR.LEV", "einheit": "%"},
+    {"name": "Inflation Euroraum (HVPI, Vorjahr)", "key": "ICP/M.U2.N.000000.4.ANR", "einheit": "%"},
+    {"name": "Inflation Deutschland (HVPI, Vorjahr)", "key": "ICP/M.DE.N.000000.4.ANR", "einheit": "%"}
+  ],
+  "dip": {"name": "Bundestag DIP – Gesetzgebung", "url": "https://search.dip.bundestag.de/api/v1/vorgang", "bereich": "deutschland"}
+}

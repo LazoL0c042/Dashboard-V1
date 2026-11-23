@@ -1,0 +1,14 @@
+{
+  "_hinweis": "Vereinfachtes Modell. Werte jährlich prüfen. Quelle jeweils angegeben.",
+  "abgeltungsteuer": {"wert": 0.25, "quelle": "§ 32d Abs. 1 EStG"},
+  "soli": {"wert": 0.055, "quelle": "§ 4 SolZG"},
+  "sparerpauschbetrag": {"einzeln": 1000, "zusammen": 2000, "quelle": "§ 20 Abs. 9 EStG, seit 2023"},
+  "teilfreistellung": {"aktien_etf": 0.30, "misch": 0.15, "anleihen_etf": 0.0, "quelle": "§ 20 InvStG"},
+  "vorabpauschale_faktor": {"wert": 0.7, "quelle": "§ 18 Abs. 1 InvStG"},
+  "basiszins": {
+    "2024": {"wert": 0.0229, "quelle": "BMF-Schreiben 05.01.2024"},
+    "2025": {"wert": 0.0253, "quelle": "BMF-Schreiben 10.01.2025"},
+    "2026": {"wert": null, "quelle": "BMF-Schreiben Januar 2026 – Wert bitte nachtragen"}
+  },
+  "haltefrist_steuerfrei_jahre": {"wert": 1, "quelle": "§ 23 Abs. 1 Nr. 2 EStG (Gold physisch, Xetra-Gold lt. BFH VIII R 4/15, Krypto direkt)"}
+}
