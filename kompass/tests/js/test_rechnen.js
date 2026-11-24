@@ -74,4 +74,25 @@ const near = (a, b, eps = 1e-6) => assert.ok(Math.abs(a - b) < eps, `${a} != ${b
 // Alle Szenarien vollständig
 for (const s of sz.szenarien) for (const v of ["schwer", "mittel", "mild"]) assert.strictEqual(Object.keys(s.stoesse[v]).length, Object.keys(sz.klassen).length, s.id);
 
+// Erwartung: reine Geldmarkt-Position ohne Schwankung bleibt nahe am Zins
+{
+  const g = require("../../data/glossar.json");
+  const e = R.erwartung([{ name: "TG", anteil: 100, klassen: { geldmarkt: 1 } }], { einmalbetrag: 1000, sparrate: 0, horizont_jahre: 10 }, g.klassen_erwartung, 500);
+  near(e.mu, 0.02); assert.ok(Math.abs(e.ende.p50 / 1000 - Math.pow(1.02, 10)) < 0.02);
+  // Mehr Risiko: höhere Erwartung, breitere Spanne
+  const welt = R.erwartung([{ name: "W", anteil: 100, klassen: { aktien_welt: 1 } }], { einmalbetrag: 10000, sparrate: 100, horizont_jahre: 20 }, g.klassen_erwartung, 800);
+  const btc = R.erwartung([{ name: "B", anteil: 100, klassen: { krypto: 1 }, erwartung: { rendite: 15, schwankung: 70 } }], { einmalbetrag: 10000, sparrate: 100, horizont_jahre: 20 }, g.klassen_erwartung, 800);
+  assert.ok(btc.mu > welt.mu && btc.sig > welt.sig);
+  assert.ok(btc.ende.p95 - btc.ende.p5 > welt.ende.p95 - welt.ende.p5);
+  assert.ok(welt.ende.p5 <= welt.ende.p50 && welt.ende.p50 <= welt.ende.p95);
+  // Hebel verdoppelt Schwankung
+  const h = R.positionsErwartung({ klassen: { gold: 1 }, hebel: 2 }, g.klassen_erwartung);
+  near(h.sig, 0.30); near(h.mu, 2 * 0.045 - 0.025);
+  // Diversifikation: zwei unkorrelierte Positionen schwanken weniger als der Durchschnitt
+  const mix = R.erwartung([{ name: "W", anteil: 50, klassen: { aktien_welt: 1 } }, { name: "G", anteil: 50, klassen: { gold: 1 } }], { einmalbetrag: 1, sparrate: 0, horizont_jahre: 1 }, g.klassen_erwartung, 50);
+  assert.ok(mix.sig < 0.15);
+  const w = R.warnungen([{ name: "BTC", anteil: 30, klassen: { krypto: 1 }, risiko: 5 }, { name: "W", anteil: 70, klassen: { aktien_welt: 1 }, risiko: 3 }], 3, null);
+  assert.ok(w.some((x) => x.includes("spekulativ")) && w.some((x) => x.includes("Krypto insgesamt")));
+}
+
 console.log("ok");

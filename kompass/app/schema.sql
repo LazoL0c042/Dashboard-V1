@@ -164,3 +164,32 @@ CREATE TABLE IF NOT EXISTS szenario_ki (
     model TEXT,
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+-- Portfolio-Entwurf (Warenkorb): einer pro Nutzer, bis er als Portfolio gespeichert wird.
+CREATE TABLE IF NOT EXISTS entwuerfe (
+    user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    inhalt_json TEXT NOT NULL,
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Portfolio-Council: Gespräch, um gemeinsam ein Portfolio zu bauen.
+CREATE TABLE IF NOT EXISTS berater_chats (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    titel TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'bereit',
+    research_ids TEXT NOT NULL DEFAULT '[]',
+    error TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS berater_nachrichten (
+    id INTEGER PRIMARY KEY,
+    chat_id INTEGER NOT NULL REFERENCES berater_chats(id) ON DELETE CASCADE,
+    rolle TEXT NOT NULL,
+    inhalt TEXT NOT NULL,
+    data_json TEXT,
+    provider TEXT,
+    model TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);

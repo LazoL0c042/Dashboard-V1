@@ -68,15 +68,37 @@ def parse_feed(xml: str, quelle: str, bereich: str) -> list[dict]:
         if not titel:
             continue
         beschreibung = re.sub(r"<[^>]+>", " ", _text(el, "description", "summary", "content"))
+        herkunft, domain = quelle, ""
+        for kind in el:
+            if kind.tag.rsplit("}", 1)[-1] == "source" and kind.get("url"):
+                herkunft = (kind.text or "").strip() or quelle
+                domain = re.sub(r"^www\.", "", re.sub(r"^https?://", "", kind.get("url")).split("/")[0])
         items.append({
             "titel": titel,
             "url": _text(el, "link"),
             "datum": _datum(_text(el, "pubDate", "date", "updated", "published")),
             "text": re.sub(r"\s+", " ", beschreibung).strip()[:500],
-            "quelle": quelle,
+            "quelle": herkunft,
+            "domain": domain,
             "bereich": bereich,
         })
     return items
+
+
+GOOGLE_NEWS = "https://news.google.com/rss/search"
+
+
+def suche(query: str, fetch=fetch_text) -> list[dict]:
+    """Aktuelle Artikel zu einer Suchanfrage – nur von Quellen aus der Medienliste (data/medien.json)."""
+    from .glossar import domains
+
+    erlaubt = domains()
+    xml = fetch(GOOGLE_NEWS, params={"q": query, "hl": "de", "gl": "DE", "ceid": "DE:de"})
+    out = []
+    for i in parse_feed(xml, "Nachrichtensuche", "suche"):
+        if any(i["domain"] == d or i["domain"].endswith("." + d) for d in erlaubt):
+            out.append(i)
+    return out
 
 
 def ezb_reihe(reihe: dict, fetch=fetch_text) -> dict | None:
@@ -132,6 +154,11 @@ def collect(kind: str, query: str, bereich: str = "alles", fetch=fetch_text) -> 
                     items.append(d)
             except Exception as e:
                 fehler.append(f"{r['name']}: {type(e).__name__}")
+    if kind != "briefing" and query.strip():
+        try:
+            items += suche(query, fetch)
+        except Exception as e:
+            fehler.append(f"Nachrichtensuche: {type(e).__name__}")
     if bereich in ("alles", "deutschland"):
         try:
             items += dip_vorgaenge(fetch)
@@ -150,8 +177,8 @@ def auswahl(items: list[dict], kind: str, query: str) -> list[dict]:
         def score(i):
             t = f"{i['titel']} {i['text']}".lower()
             return sum(1 for w in woerter if w[:6] in t)
-        treffer = [i for i in rest if score(i) > 0]
-        treffer.sort(key=score, reverse=True)
+        treffer = [i for i in rest if score(i) > 0 or i["bereich"] == "suche"]
+        treffer.sort(key=lambda i: (i["bereich"] == "suche", score(i)), reverse=True)
         rest = treffer + [i for i in rest if i not in treffer][:5]
     return (fest + rest)[:MAX_QUELLEN]
 

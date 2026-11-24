@@ -1,0 +1,255 @@
+{
+ "_hinweis": "Kuratierte Liste vertrauenswürdiger Finanzquellen. Stand November 2026. Auswahl nach Unabhängigkeit, Primärquellen-Nähe und Fachtiefe. Die Recherche-Suche nutzt diese Domains als Filter.",
+ "quellen": [
+  {
+   "name": "Reuters",
+   "url": "https://www.reuters.com/markets/",
+   "domain": "reuters.com",
+   "kategorie": "Agenturen & Echtzeit",
+   "fokus": "Märkte, Unternehmen, Zentralbanken, Geopolitik – weltweit",
+   "zugang": "teilweise frei",
+   "warum": "Nachrichtenagentur mit strengen Grundsätzen zur Unabhängigkeit; Quelle vieler anderer Medien.",
+   "achtung": "Englisch; schnelle Meldungen ohne Einordnung."
+  },
+  {
+   "name": "Bloomberg",
+   "url": "https://www.bloomberg.com/markets",
+   "domain": "bloomberg.com",
+   "kategorie": "Agenturen & Echtzeit",
+   "fokus": "Märkte, Anleihen, Rohstoffe, Daten",
+   "zugang": "Bezahlschranke",
+   "warum": "Sehr datenstark, große Redaktion für Finanzmärkte.",
+   "achtung": "Teuer; vieles hinter der Schranke."
+  },
+  {
+   "name": "dpa-AFX",
+   "url": "https://www.dpa-afx.de/",
+   "domain": "dpa-afx.de",
+   "kategorie": "Agenturen & Echtzeit",
+   "fokus": "Deutsche Finanzagentur: Ad-hoc-Meldungen, Analystenstimmen, Märkte",
+   "zugang": "frei über Portale",
+   "warum": "Agentur der dpa; ihre Meldungen laufen auf vielen Börsenportalen (z. B. finanzen.net, onvista).",
+   "achtung": "Analystenstimmen sind Meinungen, keine Fakten."
+  },
+  {
+   "name": "Handelsblatt",
+   "url": "https://www.handelsblatt.com/finanzen/",
+   "domain": "handelsblatt.com",
+   "kategorie": "Deutsche Wirtschaftspresse",
+   "fokus": "Wirtschaftspolitik, Unternehmen, Finanzen",
+   "zugang": "Bezahlschranke",
+   "warum": "Größte deutsche Wirtschaftszeitung; stark bei Makro und Politik.",
+   "achtung": "Paywall; Meinungsstücke von Nachrichten trennen."
+  },
+  {
+   "name": "Börsen-Zeitung",
+   "url": "https://www.boersen-zeitung.de/",
+   "domain": "boersen-zeitung.de",
+   "kategorie": "Deutsche Wirtschaftspresse",
+   "fokus": "Banken, Kapitalmärkte, Anleihen, Zentralbanken",
+   "zugang": "Bezahlschranke",
+   "warum": "Fachzeitung für Finanzprofis, sehr nah an Banken und Kapitalmarkt.",
+   "achtung": "Fachsprache; Bezahlschranke."
+  },
+  {
+   "name": "FAZ – Wirtschaft & Finanzen",
+   "url": "https://www.faz.net/aktuell/finanzen/",
+   "domain": "faz.net",
+   "kategorie": "Deutsche Wirtschaftspresse",
+   "fokus": "Märkte, Geldanlage, Wirtschaftspolitik",
+   "zugang": "teilweise frei",
+   "warum": "Überregionale Qualitätszeitung mit eigener Finanzredaktion.",
+   "achtung": "F+ Artikel kostenpflichtig."
+  },
+  {
+   "name": "WirtschaftsWoche",
+   "url": "https://www.wiwo.de/finanzen/",
+   "domain": "wiwo.de",
+   "kategorie": "Deutsche Wirtschaftspresse",
+   "fokus": "Unternehmen, Geldanlage, Start-ups",
+   "zugang": "teilweise frei",
+   "warum": "Wöchentliches Wirtschaftsmagazin mit Hintergründen.",
+   "achtung": "Zugespitzte Überschriften."
+  },
+  {
+   "name": "Capital",
+   "url": "https://www.capital.de/geld-versicherungen/",
+   "domain": "capital.de",
+   "kategorie": "Deutsche Wirtschaftspresse",
+   "fokus": "Geldanlage, Immobilien, Fondsratings",
+   "zugang": "teilweise frei",
+   "warum": "Wirtschaftsmagazin mit Verbraucher-Fokus.",
+   "achtung": "Rankings und Ratings kritisch lesen."
+  },
+  {
+   "name": "tagesschau.de – Wirtschaft",
+   "url": "https://www.tagesschau.de/wirtschaft/",
+   "domain": "tagesschau.de",
+   "kategorie": "Deutsche Wirtschaftspresse",
+   "fokus": "Konjunktur, Verbraucher, Politik",
+   "zugang": "frei",
+   "warum": "Öffentlich-rechtlich; laut Reuters Digital News Report gehören öffentlich-rechtliche Nachrichten zu den vertrauenswürdigsten in Deutschland.",
+   "achtung": "Wenig Tiefe zu einzelnen Anlagen."
+  },
+  {
+   "name": "Financial Times",
+   "url": "https://www.ft.com/markets",
+   "domain": "ft.com",
+   "kategorie": "International",
+   "fokus": "Märkte, Notenbanken, Unternehmen, Europa",
+   "zugang": "Bezahlschranke",
+   "warum": "Führende internationale Wirtschaftszeitung, stark bei Europa und Anleihen.",
+   "achtung": "Englisch, teuer."
+  },
+  {
+   "name": "The Wall Street Journal",
+   "url": "https://www.wsj.com/finance",
+   "domain": "wsj.com",
+   "kategorie": "International",
+   "fokus": "US-Märkte, Unternehmen, Fed",
+   "zugang": "Bezahlschranke",
+   "warum": "Wichtigste US-Wirtschaftszeitung.",
+   "achtung": "US-Fokus; Meinungsseiten getrennt betrachten."
+  },
+  {
+   "name": "The Economist",
+   "url": "https://www.economist.com/finance-and-economics",
+   "domain": "economist.com",
+   "kategorie": "International",
+   "fokus": "Makro, Geopolitik, langfristige Trends",
+   "zugang": "Bezahlschranke",
+   "warum": "Wochenmagazin mit tiefer Einordnung statt Tagesrauschen.",
+   "achtung": "Klare liberale Blattlinie."
+  },
+  {
+   "name": "CNBC",
+   "url": "https://www.cnbc.com/markets/",
+   "domain": "cnbc.com",
+   "kategorie": "International",
+   "fokus": "US-Märkte in Echtzeit, Unternehmenszahlen",
+   "zugang": "frei",
+   "warum": "Schnell und datennah bei US-Unternehmen.",
+   "achtung": "Fernsehsender-Stil: viel Kurzfrist-Lärm."
+  },
+  {
+   "name": "Gründerszene (Business Insider)",
+   "url": "https://www.businessinsider.de/gruenderszene/",
+   "domain": "businessinsider.de",
+   "kategorie": "Start-ups & Tech",
+   "fokus": "Deutsche Start-ups, Finanzierungsrunden, Tech",
+   "zugang": "teilweise frei",
+   "warum": "Größtes deutsches Start-up-Medium.",
+   "achtung": "Nah an der Szene; Erfolgsgeschichten überwiegen."
+  },
+  {
+   "name": "TechCrunch",
+   "url": "https://techcrunch.com/",
+   "domain": "techcrunch.com",
+   "kategorie": "Start-ups & Tech",
+   "fokus": "Start-ups, Venture Capital, KI weltweit",
+   "zugang": "frei",
+   "warum": "Standardquelle für Finanzierungsrunden und Tech-Trends.",
+   "achtung": "Englisch; Hype-Gefahr bei neuen Themen."
+  },
+  {
+   "name": "Sifted",
+   "url": "https://sifted.eu/",
+   "domain": "sifted.eu",
+   "kategorie": "Start-ups & Tech",
+   "fokus": "Europäische Start-ups und Venture Capital",
+   "zugang": "teilweise frei",
+   "warum": "Auf europäische Start-ups spezialisiert, von der Financial Times unterstützt.",
+   "achtung": "Englisch."
+  },
+  {
+   "name": "Europäische Zentralbank (EZB)",
+   "url": "https://www.ecb.europa.eu/press/html/index.de.html",
+   "domain": "ecb.europa.eu",
+   "kategorie": "Zentralbanken & amtliche Daten",
+   "fokus": "Leitzinsen, Geldpolitik, Inflation im Euroraum",
+   "zugang": "frei",
+   "warum": "Primärquelle: Entscheidungen und Daten direkt vom Ursprung.",
+   "achtung": "Amtlich formuliert; Einordnung fehlt."
+  },
+  {
+   "name": "Deutsche Bundesbank",
+   "url": "https://www.bundesbank.de/de/statistiken",
+   "domain": "bundesbank.de",
+   "kategorie": "Zentralbanken & amtliche Daten",
+   "fokus": "Zinsen, Renditen, Monatsberichte, Statistiken",
+   "zugang": "frei",
+   "warum": "Primärquelle für deutsche Zins- und Finanzdaten.",
+   "achtung": "Daten statt Nachrichten."
+  },
+  {
+   "name": "FRED (Federal Reserve St. Louis)",
+   "url": "https://fred.stlouisfed.org/",
+   "domain": "fred.stlouisfed.org",
+   "kategorie": "Zentralbanken & amtliche Daten",
+   "fokus": "US-Zinsen, Inflation, Arbeitsmarkt, lange Datenreihen",
+   "zugang": "frei",
+   "warum": "Größte frei zugängliche Datenbank für Wirtschaftsreihen.",
+   "achtung": "Englisch; Daten, keine Einordnung."
+  },
+  {
+   "name": "Destatis",
+   "url": "https://www.destatis.de/DE/Themen/Wirtschaft/_inhalt.html",
+   "domain": "destatis.de",
+   "kategorie": "Zentralbanken & amtliche Daten",
+   "fokus": "Inflation, BIP, Arbeitsmarkt Deutschland",
+   "zugang": "frei",
+   "warum": "Statistisches Bundesamt: amtliche Zahlen.",
+   "achtung": "Veröffentlicht nach festem Kalender."
+  },
+  {
+   "name": "CNN Fear & Greed Index",
+   "url": "https://www.cnn.com/markets/fear-and-greed",
+   "domain": "cnn.com",
+   "kategorie": "Stimmung & Indikatoren",
+   "fokus": "Marktstimmung von 0 (Angst) bis 100 (Gier)",
+   "zugang": "frei",
+   "warum": "Transparente Methode: sieben gleich gewichtete Indikatoren (u. a. Momentum, Volatilität, Put/Call, Nachfrage nach sicheren Häfen).",
+   "achtung": "Nur US-Aktienmarkt; Stimmung ist kein Timing-Signal."
+  },
+  {
+   "name": "ifo Institut",
+   "url": "https://www.ifo.de/umfragen/ifo-geschaeftsklima-deutschland",
+   "domain": "ifo.de",
+   "kategorie": "Stimmung & Indikatoren",
+   "fokus": "ifo Geschäftsklima, Konjunkturprognosen",
+   "zugang": "frei",
+   "warum": "Wichtigster Frühindikator für die deutsche Wirtschaft.",
+   "achtung": "Monatlich; Prognosen werden oft revidiert."
+  },
+  {
+   "name": "Finanztip",
+   "url": "https://www.finanztip.de/geldanlage/",
+   "domain": "finanztip.de",
+   "kategorie": "Unabhängige Einordnung",
+   "fokus": "ETFs, Tagesgeld, Steuern, Verbraucherschutz",
+   "zugang": "frei",
+   "warum": "Gemeinnützig getragen, erklärt verständlich und rechnet nach.",
+   "achtung": "Empfehlungen sind auf Verbraucher zugeschnitten, nicht auf Spekulation."
+  },
+  {
+   "name": "Stiftung Warentest – Finanztest",
+   "url": "https://www.test.de/thema/geldanlage/",
+   "domain": "test.de",
+   "kategorie": "Unabhängige Einordnung",
+   "fokus": "Fondsbewertungen, Tagesgeld, Versicherungen",
+   "zugang": "teilweise frei",
+   "warum": "Unabhängige Tests ohne Werbung.",
+   "achtung": "Tests sind kostenpflichtig."
+  },
+  {
+   "name": "justETF",
+   "url": "https://www.justetf.com/de/",
+   "domain": "justetf.com",
+   "kategorie": "Produktdaten",
+   "fokus": "ETF-Suche, Kosten, Top-10, Vergleiche",
+   "zugang": "frei",
+   "warum": "Umfangreichste deutschsprachige ETF-Datenbank.",
+   "achtung": "Kommerzielles Portal; Daten mit Anbieter-Factsheet gegenprüfen."
+  }
+ ]
+}

@@ -44,7 +44,7 @@ function toast(text) {
 }
 
 const ZURUECK = { "#/": "Start", "#/council": "Council", "#/plaene": "Pläne", "#/plaene/entscheidungen": "Entscheidungen",
-  "#/recherche": "Recherche", "#/produkte": "Produkte", "#/rechner": "Rechner" };
+  "#/recherche": "Recherche", "#/produkte": "Produkte", "#/rechner": "Rechner", "#/berater/neu": "Portfolio-Council", "#/entwurf": "Entwurf", "#/glossar": "Glossar" };
 
 function kopf(title, back = "#/", aktionen = "") {
   const name = ZURUECK[back] || (back && back.startsWith("#/portfolios") ? "Portfolio" : back && back.startsWith("#/council/") ? "Council-Sitzung" : back && back.startsWith("#/plaene/") ? "Entscheidung" : "Zurück");
@@ -61,9 +61,9 @@ const ICONS = {
   rechner: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg>',
 };
 const BEREICHE = [
-  ["plaene", "Pläne", "#/plaene", ["#/plaene", "#/portfolios", "#/szenario"]],
+  ["plaene", "Pläne", "#/plaene", ["#/plaene", "#/portfolios", "#/szenario", "#/entwurf", "#/berater"]],
   ["council", "Council", "#/council", ["#/council"]],
-  ["recherche", "Recherche", "#/recherche", ["#/recherche", "#/produkte"]],
+  ["recherche", "Recherche", "#/recherche", ["#/recherche", "#/produkte", "#/glossar", "#/quellen"]],
   ["rechner", "Rechner", "#/rechner", ["#/rechner"]],
 ];
 
@@ -78,7 +78,8 @@ function renderNav() {
       const on = pre.some((x) => h === x || h.startsWith(x + "/") || h.startsWith(x + "?"));
       return `<a class="nav-link n-${k}${on ? " on" : ""}" href="${href}"${on ? ' aria-current="page"' : ""}>${ICONS[k]}<span>${name}</span></a>`;
     }).join("")}</div>
-    ${ME.is_admin ? '<a class="nav-me" href="#/admin">Einstellungen</a>' : ""}<a class="nav-me" href="#/profil">${esc(ME.name)}</a></div>`;
+    <a class="nav-me nav-entwurf" id="nav-entwurf" href="#/entwurf" ${ENTWURF_ANZAHL ? "" : "hidden"}>Entwurf <b>${ENTWURF_ANZAHL || 0}</b></a>
+    ${ME.is_admin ? '<a class="nav-me nav-admin" href="#/admin">Einstellungen</a>' : ""}<a class="nav-me" href="#/profil">${esc(ME.name)}</a></div>`;
 }
 
 function render(html) {
@@ -134,6 +135,12 @@ const routes = [
   [/^#\/portfolios\/(\d+)$/, viewPortfolio],
   [/^#\/portfolios\/(\d+)\/bearbeiten$/, viewPortfolioForm],
   [/^#\/szenario(?:\?(.*))?$/, viewSzenario],
+  [/^#\/glossar$/, viewGlossar],
+  [/^#\/glossar\/([\w-]+)$/, viewAsset],
+  [/^#\/quellen$/, viewQuellen],
+  [/^#\/entwurf$/, viewEntwurf],
+  [/^#\/berater\/neu(?:\?(.*))?$/, viewBeraterNeu],
+  [/^#\/berater\/(\d+)$/, viewBerater],
   [/^#\/plaene\/(\d+)$/, viewPlan],
   [/^#\/recherche$/, viewRechercheList],
   [/^#\/recherche\/(\d+)$/, viewRecherche],
@@ -151,6 +158,7 @@ async function route() {
     try { ME = await api("/api/me"); } catch { return; }
   }
   renderNav();
+  if (ME && ENTWURF_ANZAHL === null) aktualisiereEntwurfZaehler();
   if (ME && !ME.hinweis_bestaetigt && h !== "#/login") return viewHinweis();
   for (const [re, fn] of routes) {
     const m = h.match(re);
@@ -342,6 +350,8 @@ async function viewCouncil(sid) {
     ${d.warnung ? `<div class="err">${esc(d.warnung)}</div>` : ""}`;
 
   for (const m of klaer) {
+    if (m.role === "recherche") { html += `<div class="msg sys"><div class="who">Recherche</div>${esc(m.content)}${m.data?.research_id ? ` · <a href="#/recherche/${m.data.research_id}">Antwort und Quellen</a>` : ""}
+      ${(m.data?.quellen || []).length ? `<ul class="small">${m.data.quellen.slice(0, 5).map((q) => `<li><a href="${esc(q.url)}" target="_blank" rel="noopener">${esc(q.titel)}</a> <span class="muted">${esc(q.quelle)}, ${esc(q.datum)}</span></li>`).join("")}</ul>` : ""}</div>`; continue; }
     if (m.role === "nutzer") html += `<div class="msg user"><div class="who">Du</div>${esc(m.content)}</div>`;
     else html += `<div class="msg mod"><div class="who">Moderator · ${esc(m.provider)}/${esc(m.model)}</div>
       <p>${esc(m.data?.verstaendnis)}</p>${(m.data?.fragen || []).length ? `<ul>${m.data.fragen.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>` : ""}</div>`;
@@ -358,6 +368,10 @@ async function viewCouncil(sid) {
     html += `<div class="card"><form id="f"><label>Deine Antwort</label><textarea name="text" required></textarea>
       <div class="actions"><button>Antworten</button></div></form>
       <div class="actions"><button class="primary" id="start">${bereit ? "Diskussion starten" : "Trotzdem Diskussion starten"}</button></div>
+      <form id="such" class="row" style="margin-top:16px;align-items:flex-end"><div style="flex:3 1 240px"><label for="such-q">Aktuelle Quellen suchen</label>
+        <input id="such-q" name="query" value="${esc(s.idea.slice(0, 80))}" placeholder="Suchbegriff"></div>
+        <div style="flex:0 0 auto"><button>Suchen und anhängen</button></div></form>
+      <p class="muted small">Du kannst auch einfach schreiben „Such aktuelle Nachrichten zu …“ – der Moderator sucht dann selbst.</p>
       ${bereit ? "" : '<p class="muted small">Der Moderator hat noch offene Fragen. Je mehr er weiß, desto besser die Diskussion.</p>'}</div>`;
   }
   if (arbeitet) html += `<div class="card progress"><span class="dot"></span>${esc(s.progress)} …</div>`;
@@ -376,6 +390,8 @@ async function viewCouncil(sid) {
   document.querySelectorAll("[data-no]").forEach((b) => (b.onclick = async () => { await api(`/api/profil/${b.dataset.no}/ablehnen`, { body: {} }); route(); }));
   const f = document.getElementById("f");
   if (f) f.onsubmit = async (ev) => { ev.preventDefault(); await api(`/api/council/${sid}/antwort`, { body: formData(ev.target) }); route(); };
+  const such = document.getElementById("such");
+  if (such) such.onsubmit = async (ev) => { ev.preventDefault(); try { await api(`/api/council/${sid}/recherche`, { body: formData(ev.target) }); route(); } catch (e) { toast(e.message); } };
   const st = document.getElementById("start");
   if (st) st.onclick = async () => { st.disabled = true; await api(`/api/council/${sid}/start`, { body: {} }); route(); };
   if (arbeitet || s.status === "laeuft") poll(() => { if (location.hash === `#/council/${sid}`) viewCouncil(sid).catch(() => {}); });
@@ -422,9 +438,10 @@ async function viewPlanNeu(query) {
   }
   const pv = (k) => prof.aktuell[k]?.value || "";
   const optionen = kat.produkte.map((p) => `<option value="${esc(p.ticker)}|${esc(p.isin)}|${esc(p.name)}">${esc(p.name)} (${esc(p.ticker)})</option>`).join("");
-  const zeile = (sel = "", anteil = 100, eigen = null) => `<div class="row prod"><select name="p" style="flex:3 1 240px">${optionen.replace(`value="${sel}`, `selected value="${sel}`)}<option value="eigen" ${eigen ? "selected" : ""}>Eigener Ticker …</option></select>
+  let zn = 0;
+  const zeile = (sel = "", anteil = 100, eigen = null) => `<div class="row prod"><select name="p" aria-label="Produkt" style="flex:3 1 240px">${optionen.replace(`value="${sel}`, `selected value="${sel}`)}<option value="eigen" ${eigen ? "selected" : ""}>Eigener Ticker …</option></select>
     <input class="ptick" placeholder="Ticker, z. B. SAP.DE" value="${esc(eigen || "")}" ${eigen ? "" : "hidden"} style="flex:1 1 140px">
-    <input name="a" class="pant" type="number" step="any" value="${esc(anteil)}" style="flex:0 0 100px" title="Anteil in %"></div>`;
+    <div style="flex:2 1 220px">${slider({ id: `pl-a${zn++}`, label: "Anteil", skala: "prozent", wert: anteil, klein: true })}</div></div>`;
   const start = produkteVorschlag.length
     ? produkteVorschlag.map((p) => { const k = kat.produkte.find((x) => (p.isin && x.isin === p.isin) || x.ticker === p.ticker); return k ? zeile(`${k.ticker}|${k.isin}`, p.anteil ?? 100) : zeile("", p.anteil ?? 100, p.ticker); }).join("")
     : zeile();
@@ -436,15 +453,13 @@ async function viewPlanNeu(query) {
       <label>Wofür (Ziel)</label><input name="wofuer" value="${esc(pv("ziel"))}">
       <label>Warum (These)</label><textarea name="warum">${esc(vorschlag.warum)}</textarea>
       <label>Woran erkenne ich, ob die These stimmt? (Prüfkriterien)</label><textarea name="kriterien" placeholder="z. B. Goldpreis > 3.000 $ bei Rezession; Realzins sinkt …"></textarea>
-      <div class="row">
-        <div><label>Einmalbetrag (€)</label><input name="einmalbetrag" type="number" step="any" min="0" value="${esc(vorschlag.einmalbetrag ?? pv("kapital"))}"></div>
-        <div><label>Sparrate pro Monat (€)</label><input name="sparrate" type="number" step="any" min="0" value="${esc(vorschlag.sparrate ?? pv("sparrate"))}"></div>
+      <div class="slgrid">
+        ${slider({ id: "pl-einmal", name: "einmalbetrag", label: "Einmalbetrag", skala: "geld", wert: vorschlag.einmalbetrag ?? (pv("kapital") || 0) })}
+        ${slider({ id: "pl-spar", name: "sparrate", label: "Sparrate", skala: "rate", wert: vorschlag.sparrate ?? (pv("sparrate") || 0) })}
+        ${slider({ id: "pl-horizont", name: "horizont_jahre", label: "Wie lange", skala: "jahre", wert: pv("horizont_jahre") || 10 })}
+        ${slider({ id: "pl-ziel", name: "zielbetrag", label: "Zielbetrag", skala: "geld", wert: pv("zielbetrag") || 0, hinweis: "0 = kein Ziel" })}
       </div>
-      <div class="row">
-        <div><label>Wie lange (Jahre)</label><input name="horizont_jahre" type="number" step="any" min="0" value="${esc(pv("horizont_jahre"))}" required></div>
-        <div><label>Zielbetrag (€)</label><input name="zielbetrag" type="number" step="any" min="0" value="${esc(pv("zielbetrag"))}"></div>
-        <div><label>Startdatum</label><input name="startdatum" type="date" value="${vorschlag.startdatum || new Date().toISOString().slice(0, 10)}"></div>
-      </div>
+      <label for="pl-start">Startdatum</label><input id="pl-start" name="startdatum" type="date" value="${vorschlag.startdatum || new Date().toISOString().slice(0, 10)}">
       <label>Produkte und Anteil (%)</label><div id="prods">${start}</div>
       <button type="button" class="ghost" id="add">+ Produkt</button>
       <div id="e"></div>
@@ -452,7 +467,8 @@ async function viewPlanNeu(query) {
     </form>`);
   const prods = document.getElementById("prods");
   prods.addEventListener("change", (ev) => { if (ev.target.name === "p") ev.target.parentElement.querySelector(".ptick").hidden = ev.target.value !== "eigen"; });
-  document.getElementById("add").onclick = () => prods.insertAdjacentHTML("beforeend", zeile());
+  document.getElementById("add").onclick = () => { prods.insertAdjacentHTML("beforeend", zeile("", 10)); initSlider(prods); };
+  initSlider();
   document.getElementById("f").onsubmit = async (ev) => {
     ev.preventDefault();
     const d = formData(ev.target);
@@ -465,12 +481,12 @@ async function viewPlanNeu(query) {
         v = `${t}||${t}`;
       }
       const [ticker, isin, name] = v.split("|");
-      produkte.push({ ticker, isin, name, anteil: Number(row.querySelector(".pant").value) || 0 });
+      produkte.push({ ticker, isin, name, anteil: Number(row.querySelector('input[type="hidden"]').value) || 0 });
     }
     const body = {
       ...d, session_id: sessionId ? Number(sessionId) : null, produkte,
       horizont_jahre: Number(d.horizont_jahre) || 0, einmalbetrag: Number(d.einmalbetrag) || 0,
-      sparrate: Number(d.sparrate) || 0, zielbetrag: d.zielbetrag ? Number(d.zielbetrag) : null,
+      sparrate: Number(d.sparrate) || 0, zielbetrag: Number(d.zielbetrag) > 0 ? Number(d.zielbetrag) : null,
     };
     try {
       const r = await api("/api/plaene", { body });
@@ -560,8 +576,7 @@ async function viewPlan(pid) {
 
 async function viewRechercheList() {
   const d = await api("/api/recherche");
-  render(`${kopf("Recherche")}
-    <div class="actions" style="margin-top:0"><a class="btn" href="#/produkte">Produkte & Kennzahlen</a></div>
+  render(`${kopf("Recherche")}${rechercheTabs("recherche")}
     <div class="card"><form id="f">
       <div class="row">
         <div><label>Art</label><select name="kind"><option value="frage">Frage</option><option value="briefing">Briefing</option><option value="analyse">Analyse</option></select></div>
@@ -597,7 +612,7 @@ async function viewRecherche(rid) {
 
 async function viewProdukte() {
   const d = await api("/api/produkte");
-  render(`${kopf("Produkte", "#/recherche")}
+  render(`${kopf("Produkte", "#/recherche")}${rechercheTabs("produkte")}
     <p class="muted">Startkatalog. Kurse und Renditen live, Stammdaten (TER, Top-10) mit Quelle. Immer selbst auf den Anbieterseiten gegenprüfen.</p>
     ${d.kategorien.map((k) => `<h2>${esc(k)}</h2><div class="card list">
       ${d.produkte.filter((p) => p.kategorie === k).map((p) => `<a class="item" href="#/produkte/${esc(p.id)}">
@@ -644,60 +659,63 @@ async function viewProdukt(kennung) {
 // ---------- Rechner ----------
 
 async function viewRechner() {
-  const info = await api("/api/rechner/info");
+  const [info, prof] = await Promise.all([api("/api/rechner/info"), api("/api/profil")]);
+  const pv = (k, d) => (prof.aktuell[k] ? Number(prof.aktuell[k].value) || d : d);
   render(`${kopf("Rechner")}
-    <form id="f" class="card">
-      <div class="row">
-        <div><label>Startkapital (€)</label><input name="start" type="number" step="any" min="0" value="10000"></div>
-        <div><label>Monatlich (€)</label><input name="monthly" type="number" step="any" min="0" value="300"></div>
-        <div><label>Jahre</label><input name="years" type="number" min="1" max="100" value="20"></div>
-      </div>
-      <label>Aufteilung (%)</label>
-      <div class="row">
-        <div><label>Aktien</label><input name="aktien" type="number" min="0" max="100" value="100"></div>
-        <div><label>Anleihen</label><input name="anleihen" type="number" min="0" max="100" value="0"></div>
-        <div><label>Gold</label><input name="gold" type="number" min="0" max="100" value="0"></div>
-        <div><label>Eigene Annahme</label><input name="eigene" type="number" min="0" max="100" value="0"></div>
-      </div>
-      <details><summary>Mehr Einstellungen</summary>
-        <div class="row">
-          <div><label>Eigene Annahme: Rendite p.a. (%)</label><input name="custom_rate" type="number" step="any" placeholder="z. B. 2,5 für Tagesgeld"></div>
-          <div><label>Laufende Kosten TER (%)</label><input name="ter" type="number" step="any" min="0" value="0.2"></div>
-          <div><label>Sparrate steigt jährlich um (%)</label><input name="increase" type="number" step="any" min="0" value="0"></div>
+    <div class="cols">
+      <form id="f" class="card">
+        <h2 style="margin-top:0">Einzahlungen</h2>
+        ${slider({ id: "r-start", label: "Startkapital", skala: "geld", wert: pv("kapital", 10000) })}
+        ${slider({ id: "r-monat", label: "Monatlich", skala: "rate", wert: pv("sparrate", 300) })}
+        ${slider({ id: "r-jahre", label: "Anlagezeitraum", skala: "jahre", wert: pv("horizont_jahre", 20) })}
+        <h2>Aufteilung</h2>
+        ${slider({ id: "r-aktien", label: "Aktien", skala: "prozent", wert: 100 })}
+        ${slider({ id: "r-anleihen", label: "Anleihen", skala: "prozent", wert: 0 })}
+        ${slider({ id: "r-gold", label: "Gold", skala: "prozent", wert: 0 })}
+        ${slider({ id: "r-eigene", label: "Eigene Annahme (Tagesgeld, Krypto …)", skala: "prozent", wert: 0 })}
+        <p class="muted small" id="r-summe"></p>
+        <details><summary>Mehr Einstellungen</summary>
+          ${slider({ id: "r-zins", label: "Eigene Annahme: Rendite", skala: "zins", wert: 2.5 })}
+          ${slider({ id: "r-ter", label: "Laufende Kosten (TER)", skala: "ter", wert: 0.2 })}
+          ${slider({ id: "r-steig", label: "Sparrate steigt jährlich um", skala: "steigerung", wert: 0 })}
+        </details>
+        <label class="check-row"><input type="checkbox" id="r-steuer"> Nach deutschen Steuern</label>
+        <div id="st" hidden class="row">
+          <div><label for="r-klasse">Steuerklasse</label><select id="r-klasse"><option value="">automatisch</option>${Object.entries(info.steuerklassen).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join("")}</select></div>
+          <div><label for="r-kist">Kirchensteuer</label><select id="r-kist"><option value="">keine</option><option value="0.08">8 % (BY, BW)</option><option value="0.09">9 %</option></select></div>
+          <div><label for="r-verh">Verheiratet</label><select id="r-verh"><option value="">nein</option><option value="1">ja (2.000 € Pauschbetrag)</option></select></div>
         </div>
-      </details>
-      <label style="display:flex;gap:8px;align-items:center;color:var(--text);font-size:15px;margin-top:14px"><input type="checkbox" name="steuer"> Nach deutschen Steuern</label>
-      <div id="st" hidden class="row">
-        <div><label>Steuerklasse</label><select name="klasse"><option value="">automatisch</option>${Object.entries(info.steuerklassen).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join("")}</select></div>
-        <div><label>Kirchensteuer</label><select name="kist"><option value="">keine</option><option value="0.08">8 % (BY, BW)</option><option value="0.09">9 %</option></select></div>
-        <div><label>Verheiratet</label><select name="verh"><option value="">nein</option><option value="1">ja (2.000 € Pauschbetrag)</option></select></div>
-      </div>
-      <div class="actions"><button class="primary">Berechnen</button></div>
-    </form>
-    <div id="r"></div>`);
-  const f = document.getElementById("f");
-  f.steuer.onchange = () => (document.getElementById("st").hidden = !f.steuer.checked);
-  f.onsubmit = async (ev) => {
-    ev.preventDefault();
-    const d = formData(f);
+      </form>
+      <div id="r"><div class="card progress"><span class="dot"></span>Rechne …</div></div>
+    </div>`);
+  const steuer = document.getElementById("r-steuer");
+  const rechne = debounce(async () => {
+    const mix = { aktien: slWert("r-aktien"), anleihen: slWert("r-anleihen"), gold: slWert("r-gold"), eigene: slWert("r-eigene") };
+    const summe = Object.values(mix).reduce((a, b) => a + b, 0);
+    document.getElementById("r-summe").textContent = summe === 100 ? "Summe 100 %" : `Summe ${summe} % – wird auf 100 % umgelegt`;
     const body = {
-      start: Number(d.start) || 0, monthly: Number(d.monthly) || 0, years: Number(d.years) || 1,
-      mix: { aktien: +d.aktien || 0, anleihen: +d.anleihen || 0, gold: +d.gold || 0, eigene: +d.eigene || 0 },
-      ter: Number(d.ter) || 0, increase: Number(d.increase) || 0,
-      custom_rate: d.custom_rate === "" ? null : Number(String(d.custom_rate).replace(",", ".")),
-      steuern: { aktiv: f.steuer.checked, klasse: d.klasse || null, kirchensteuer: d.kist ? Number(d.kist) : null, verheiratet: !!d.verh },
+      start: slWert("r-start"), monthly: slWert("r-monat"), years: slWert("r-jahre"), mix,
+      ter: slWert("r-ter"), increase: slWert("r-steig"), custom_rate: mix.eigene > 0 ? slWert("r-zins") : null,
+      steuern: { aktiv: steuer.checked, klasse: document.getElementById("r-klasse").value || null,
+        kirchensteuer: document.getElementById("r-kist").value ? Number(document.getElementById("r-kist").value) : null,
+        verheiratet: !!document.getElementById("r-verh").value },
     };
     const out = document.getElementById("r");
+    if (!summe) { out.innerHTML = errBox("Mindestens eine Anlageklasse über 0 % stellen."); return; }
     try { out.innerHTML = rechnerErgebnis(await api("/api/rechner", { body }), body); }
     catch (e) { out.innerHTML = errBox(e); }
-  };
+  }, 250);
+  initSlider(document, rechne);
+  steuer.onchange = () => { document.getElementById("st").hidden = !steuer.checked; rechne(); };
+  ["r-klasse", "r-kist", "r-verh"].forEach((id) => (document.getElementById(id).onchange = rechne));
+  rechne();
 }
 
 function rechnerErgebnis(r, body) {
   const farben = { worst: "var(--rose)", realistisch: "var(--lav)", best: "var(--mint)" };
   const namen = { worst: "Worst Case", realistisch: "Realistisch", best: "Best Case" };
   const s = r.szenarien;
-  return `<div class="grid3">${["worst", "realistisch", "best"].map((k) => {
+  return `<div class="grid3 r-erg">${["worst", "realistisch", "best"].map((k) => {
     const x = s[k];
     const netto = body.steuern.aktiv ? x.end_real_netto : x.end_real;
     return `<div class="kpi" style="background:${farben[k]}">
@@ -718,6 +736,8 @@ function rechnerErgebnis(r, body) {
 
 // ---------- Profil ----------
 
+const num0 = (f, d) => (f && !isNaN(parseFloat(f.value)) ? parseFloat(f.value) : d);
+
 async function viewProfil() {
   const p = await api("/api/profil");
   const keys = Object.keys(p.labels);
@@ -726,7 +746,19 @@ async function viewProfil() {
     <div class="card flat">${Object.entries(p.aktuell).map(([k, v]) => `<div class="row" style="padding:6px 0"><div><b>${esc(v.label)}</b></div><div>${esc(v.value)} ${est(v.status)}</div></div>`).join("") || '<p class="muted">Noch leer.</p>'}</div>
     ${p.offen.length ? `<h2>Vorschläge</h2><div class="card flat">${p.offen.map((f) => `<div class="row" style="padding:6px 0"><div><b>${esc(f.label)}:</b> ${esc(f.value)} ${est(f.status)}</div>
       <div style="flex:0 0 auto"><button data-ok="${f.id}">Übernehmen</button> <button class="ghost" data-no="${f.id}">Nein</button></div></div>`).join("")}</div>` : ""}
-    <h2>Angabe ändern</h2>
+    <h2>Schnell einstellen</h2>
+    <div class="card"><div class="slgrid">
+      ${slider({ id: "p-alter", label: "Alter", skala: "alter", wert: num0(p.aktuell.alter, 34) })}
+      ${slider({ id: "p-zielalter", label: "Zielalter", skala: "alter", wert: num0(p.aktuell.zielalter, 60) })}
+      ${slider({ id: "p-horizont_jahre", label: "Anlagehorizont", skala: "jahre", wert: num0(p.aktuell.horizont_jahre, 20) })}
+      ${slider({ id: "p-risiko", label: "Risikobereitschaft", skala: "risiko", wert: num0(p.aktuell.risiko, 3) })}
+      ${slider({ id: "p-kapital", label: "Verfügbares Kapital", skala: "geld", wert: num0(p.aktuell.kapital, 10000) })}
+      ${slider({ id: "p-sparrate", label: "Sparrate", skala: "rate", wert: num0(p.aktuell.sparrate, 300) })}
+      ${slider({ id: "p-zielbetrag", label: "Zielbetrag", skala: "geld", wert: num0(p.aktuell.zielbetrag, 300000) })}
+      ${slider({ id: "p-ruecklage", label: "Notgroschen", skala: "geld", wert: num0(p.aktuell.ruecklage, 10000) })}
+      ${slider({ id: "p-einkommen", label: "Nettoeinkommen", skala: "einkommen", wert: num0(p.aktuell.einkommen, 3000) })}
+    </div><div class="actions"><button class="primary" id="p-save" disabled>Änderungen speichern</button><span class="muted small" id="p-info">Regler bewegen, dann speichern.</span></div></div>
+    <h2>Andere Angabe</h2>
     <form id="f" class="card flat"><div class="row">
       <div><label>Was</label><select name="key">${keys.map((k) => `<option value="${k}">${esc(p.labels[k])}</option>`).join("")}</select></div>
       <div><label>Wert</label><input name="value" required></div>
@@ -735,10 +767,16 @@ async function viewProfil() {
     <h2>Konto</h2>
     <form id="pw" class="card flat"><div class="row"><div><label>Altes Passwort</label><input name="alt" type="password" required></div><div><label>Neues Passwort</label><input name="neu" type="password" minlength="8" required></div></div>
       <div id="e"></div><div class="actions"><button>Passwort ändern</button></div></form>
-    <div class="actions"><button class="ghost" id="out">Abmelden</button></div>`);
+    <div class="actions">${ME.is_admin ? '<a class="btn" href="#/admin">Einstellungen</a>' : ""}<button class="ghost" id="out">Abmelden</button></div>`);
   document.querySelectorAll("[data-ok]").forEach((b) => (b.onclick = async () => { await api(`/api/profil/${b.dataset.ok}/bestaetigen`, { body: {} }); viewProfil(); }));
   document.querySelectorAll("[data-no]").forEach((b) => (b.onclick = async () => { await api(`/api/profil/${b.dataset.no}/ablehnen`, { body: {} }); viewProfil(); }));
   document.getElementById("f").onsubmit = async (ev) => { ev.preventDefault(); await api("/api/profil", { body: formData(ev.target) }); viewProfil(); };
+  const geaendert = new Set();
+  initSlider(document, (id) => { geaendert.add(id); document.getElementById("p-save").disabled = false; document.getElementById("p-info").textContent = `${geaendert.size} geändert`; });
+  document.getElementById("p-save").onclick = async () => {
+    for (const id of geaendert) await api("/api/profil", { body: { key: id.slice(2), value: String(slWert(id)), status: "angegeben" } });
+    toast("Profil gespeichert"); viewProfil();
+  };
   document.getElementById("pw").onsubmit = async (ev) => {
     ev.preventDefault();
     try { await api("/api/passwort", { body: formData(ev.target) }); toast("Passwort geändert"); ev.target.reset(); }

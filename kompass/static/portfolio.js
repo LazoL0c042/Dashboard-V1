@@ -43,7 +43,7 @@ async function rechne(p) {
 async function viewPortfolios() {
   const d = await api("/api/portfolios");
   const ps = d.portfolios;
-  render(`${kopf("Pläne", "#/", `<a class="btn primary" href="#/portfolios/neu">Neues Portfolio</a>`)}
+  render(`${kopf("Pläne", "#/", `<a class="btn primary" href="#/berater/neu">Mit dem Council bauen</a><a class="btn" href="#/entwurf">Entwurf</a><a class="btn" href="#/portfolios/neu">Selbst anlegen</a>`)}
     ${planTabs("portfolios")}
     <p class="muted">Hypothetische Depots: Was wäre, wenn du ab einem Datum so investiert hättest? Frei änderbar. Für eine ehrliche Prüfung später: als Entscheidung einfrieren.</p>
     ${ps.length ? `<div class="card"><h2 style="margin-top:0">Rendite im Vergleich</h2><p class="muted small">Zeitgewichtet seit Start des jeweiligen Portfolios. Darunter: MSCI World im selben Zeitraum.</p><div id="cmp"><p class="muted">Rechne …</p></div></div>` : ""}
@@ -96,13 +96,14 @@ async function viewPortfolioForm(id) {
   const optionen = (sel) => kat.produkte.map((x) => `<option value="${esc(x.id)}" ${sel === x.id ? "selected" : ""}>${esc(x.name)} (${esc(x.ticker)})</option>`).join("");
   const klOpt = (sel) => Object.entries(sz.klassen).map(([k, v]) => `<option value="${k}" ${sel === k ? "selected" : ""}>${esc(v)}</option>`).join("");
   const findeKat = (x) => kat.produkte.find((k) => (x.isin && k.isin === x.isin && k.ticker === x.ticker) || k.ticker === x.ticker && k.id !== "GOLD-PHYSISCH");
+  let zn = 0;
   const zeile = (x = {}) => {
     const k = x.ticker ? findeKat(x) : kat.produkte[0];
     const eigen = x.ticker && !k;
     return `<div class="card flat prow" style="margin:8px 0">
       <div class="row">
         <div style="flex:3 1 260px"><label>Produkt</label><select class="psel">${optionen(k ? k.id : "")}<option value="eigen" ${eigen ? "selected" : ""}>Eigener Ticker (Aktie, ETF …)</option></select></div>
-        <div style="flex:1 1 110px"><label>Anteil (%)</label><input class="pant" type="number" step="any" min="0" value="${esc(x.anteil ?? 10)}"></div>
+        <div style="flex:2 1 200px">${slider({ id: `pf-a${zn++}`, label: "Anteil", skala: "prozent", wert: x.anteil ?? 10, klein: true })}</div>
         <div style="flex:0 0 auto;align-self:flex-end"><button type="button" class="ghost pdel" aria-label="Position entfernen">Entfernen</button></div>
       </div>
       <div class="row peigen" ${eigen ? "" : "hidden"}>
@@ -121,9 +122,9 @@ async function viewPortfolioForm(id) {
         <div class="actions"><button type="button" id="add">+ Position</button><span class="muted" id="summe"></span></div>
       </div>
       <div class="card">
-        <label for="pf-s">Start (ab wann investiert?)</label><input id="pf-s" name="startdatum" type="date" value="${esc(p.startdatum)}" required>
-        <label for="pf-e">Einmalbetrag zum Start (€)</label><input id="pf-e" name="einmalbetrag" type="number" step="any" min="0" value="${esc(p.einmalbetrag)}">
-        <label for="pf-r">Sparrate pro Monat (€)</label><input id="pf-r" name="sparrate" type="number" step="any" min="0" value="${esc(p.sparrate)}">
+        ${slider({ id: "pf-z", label: "Start der Rückrechnung", skala: "zurueck", wert: Math.max(0.25, (Date.now() - Date.parse(p.startdatum)) / (365.25 * 864e5)), hinweis: `Startdatum: ${datumKurz(p.startdatum, true)}` })}
+        ${slider({ id: "pf-e", name: "einmalbetrag", label: "Einmalbetrag zum Start", skala: "geld", wert: p.einmalbetrag })}
+        ${slider({ id: "pf-r", name: "sparrate", label: "Sparrate", skala: "rate", wert: p.sparrate })}
         <p class="muted small">Gerechnet wird mit echten Kursen: Kauf zum Zielanteil bei jeder Einzahlung, ohne Kosten und Steuern. Vergleich: MSCI World mit denselben Einzahlungen.</p>
         <div id="e"></div>
         <div class="actions"><button class="primary">${id ? "Speichern" : "Anlegen"}</button></div>
@@ -131,24 +132,29 @@ async function viewPortfolioForm(id) {
     </form>`);
   const rows = document.getElementById("rows");
   const summe = () => {
-    const s = [...rows.querySelectorAll(".pant")].reduce((a, i) => a + (Number(i.value) || 0), 0);
+    const s = [...rows.querySelectorAll('input[type="hidden"]')].reduce((a, i) => a + (Number(i.value) || 0), 0);
     document.getElementById("summe").textContent = `Summe: ${num(s, 1)} %${Math.abs(s - 100) > 0.01 ? " – wird auf 100 % umgerechnet" : ""}`;
   };
   const verdrahte = () => {
     rows.querySelectorAll(".prow").forEach((r) => {
       r.querySelector(".psel").onchange = (ev) => { r.querySelector(".peigen").hidden = ev.target.value !== "eigen"; };
       r.querySelector(".pdel").onclick = () => { r.remove(); summe(); };
-      r.querySelector(".pant").oninput = summe;
+
     });
     summe();
   };
+  const startdatum = () => new Date(Date.now() - slWert("pf-z") * 365.25 * 864e5).toISOString().slice(0, 10);
+  initSlider(document, (id) => {
+    if (id === "pf-z") document.getElementById("pf-z-h").textContent = `Startdatum: ${datumKurz(startdatum(), true)}`;
+    if (id.startsWith("pf-a")) summe();
+  });
   verdrahte();
-  document.getElementById("add").onclick = () => { rows.insertAdjacentHTML("beforeend", zeile({ anteil: 10 })); verdrahte(); };
+  document.getElementById("add").onclick = () => { rows.insertAdjacentHTML("beforeend", zeile({ anteil: 10 })); initSlider(rows, summe); verdrahte(); };
   document.getElementById("f").onsubmit = async (ev) => {
     ev.preventDefault();
     const d = formData(ev.target);
     const positionen = [...rows.querySelectorAll(".prow")].map((r) => {
-      const v = r.querySelector(".psel").value, anteil = Number(r.querySelector(".pant").value) || 0;
+      const v = r.querySelector(".psel").value, anteil = Number(r.querySelector('input[type="hidden"]').value) || 0;
       if (v === "eigen") {
         const t = r.querySelector(".ptick").value.trim();
         return { ticker: t, name: r.querySelector(".pname").value.trim() || t, anteil, klassen: { [r.querySelector(".pkl").value]: 1 } };
@@ -156,7 +162,7 @@ async function viewPortfolioForm(id) {
       const k = kat.produkte.find((x) => x.id === v);
       return { ticker: k.ticker, isin: k.isin, id: k.id, name: k.name, anteil, klassen: k.klassen };
     });
-    const body = { ...d, einmalbetrag: Number(d.einmalbetrag) || 0, sparrate: Number(d.sparrate) || 0, positionen };
+    const body = { ...d, startdatum: slWert("pf-z") === 0 ? HEUTE() : startdatum(), einmalbetrag: Number(d.einmalbetrag) || 0, sparrate: Number(d.sparrate) || 0, positionen };
     try {
       if (id) { await api(`/api/portfolios/${id}`, { method: "PUT", body }); location.hash = `#/portfolios/${id}`; }
       else { const r = await api("/api/portfolios", { body }); location.hash = `#/portfolios/${r.id}`; }
@@ -323,6 +329,11 @@ async function strategieAusQuelle(quelle, id) {
     return { titel: c.session.result?.synthese?.richtung || "Council-Strategie", zurueck: `#/council/${id}`, depotwert: 10000,
       positionen: pos.length ? pos : [{ name: "Aktien Welt", anteil: 100, klassen: { aktien_welt: 1 }, geschaetzt: true }] };
   }
+  if (quelle === "entwurf") {
+    const e = await api("/api/entwurf");
+    return { titel: e.name || "Portfolio-Entwurf", zurueck: "#/entwurf", depotwert: Math.round(e.einmalbetrag || e.sparrate * 12 || 10000),
+      positionen: e.positionen.length ? e.positionen.map((x) => ({ name: x.name, anteil: x.anteil, klassen: x.klassen })) : [{ name: "Aktien Welt", anteil: 100, klassen: { aktien_welt: 1 } }] };
+  }
   return { titel: "Eigene Strategie", zurueck: "#/plaene", depotwert: 10000, positionen: [{ name: "Aktien Welt", anteil: 100, klassen: { aktien_welt: 1 } }] };
 }
 
@@ -345,11 +356,11 @@ async function viewSzenario(query) {
       </div>
       <div class="card">
         <h2 style="margin-top:0">Strategie</h2>
-        <label for="dw">Depotwert heute (€)</label><input id="dw" type="number" min="0" step="any" value="${esc(st.depotwert)}">
+        ${slider({ id: "dw", label: "Depotwert heute", skala: "geld", wert: st.depotwert })}
         <div id="pos">${st.positionen.map((x, i) => `<div class="row" style="margin-top:8px" data-i="${i}">
           <div style="flex:2 1 150px"><label>${esc(x.name)}${x.geschaetzt ? ' <span class="est">Klasse geschätzt</span>' : ""}</label>
             <select class="skl">${klOpt(Object.keys(x.klassen || { aktien_welt: 1 }).sort((a, b) => (x.klassen[b] || 0) - (x.klassen[a] || 0))[0])}</select></div>
-          <div style="flex:1 1 80px"><label>Anteil %</label><input class="sant" type="number" step="any" min="0" value="${esc(num(x.anteil, 1).replace(",", "."))}"></div></div>`).join("")}</div>
+          <div style="flex:2 1 160px">${slider({ id: `sa${i}`, label: "Anteil", skala: "prozent", wert: Math.round(x.anteil), klein: true })}</div></div>`).join("")}</div>
         <p class="muted small">Gemischte Produkte (z. B. All-World) werden mit ihrer genauen Klassen-Mischung gerechnet, solange du die Klasse nicht änderst.</p>
       </div>
     </div>
@@ -358,10 +369,11 @@ async function viewSzenario(query) {
     const x = st.positionen[+row.dataset.i];
     const kl = row.querySelector(".skl").value;
     const orig = Object.keys(x.klassen || {}).sort((a, b) => x.klassen[b] - x.klassen[a])[0];
-    return { name: x.name, anteil: Number(row.querySelector(".sant").value) || 0, klassen: kl === orig ? x.klassen : { [kl]: 1 } };
+    return { name: x.name, anteil: slWert(`sa${row.dataset.i}`), klassen: kl === orig ? x.klassen : { [kl]: 1 } };
   });
   const rechneNeu = () => { if (gewaehlt) zeigeErgebnis(gewaehlt === "eigenes" ? kiDef : sz.szenarien.find((s) => s.id === gewaehlt)); };
-  document.querySelectorAll("#pos input, #pos select, #dw").forEach((i) => (i.oninput = i.onchange = rechneNeu));
+  document.querySelectorAll("#pos select").forEach((i) => (i.onchange = rechneNeu));
+  initSlider(document, rechneNeu);
   document.querySelectorAll(".szbtn").forEach((b) => (b.onclick = () => {
     document.querySelectorAll(".szbtn").forEach((x) => x.classList.toggle("on", x === b));
     gewaehlt = b.dataset.id;

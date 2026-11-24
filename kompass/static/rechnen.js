@@ -164,7 +164,94 @@
     return out;
   }
 
-  const api = { kursAm, termine, rueckrechnung, kennzahlen, fenster, szenario, pfadWert, klassenAnteile };
+
+  // ---------- Erwartete Rendite eines Entwurfs (Annahmen, Monte-Carlo) ----------
+
+  const SICHER = new Set(["geldmarkt", "anleihen"]);
+  function hauptKlasse(x) { return Object.entries(x.klassen || {}).sort((a, b) => b[1] - a[1])[0]?.[0] || "aktien_welt"; }
+
+  // μ und σ (in Dezimal) je Position: eigener Glossar-Wert oder Klassen-Annahmen; Hebel vervielfacht, kostet Finanzierung.
+  function positionsErwartung(x, klassenErw) {
+    let mu, sig;
+    if (x.erwartung) { mu = x.erwartung.rendite / 100; sig = x.erwartung.schwankung / 100; }
+    else {
+      const kl = x.klassen || { aktien_welt: 1 }, g = Object.values(kl).reduce((a, b) => a + b, 0) || 1;
+      mu = 0; sig = 0;
+      for (const [k, w] of Object.entries(kl)) { const e = klassenErw[k] || [6, 15]; mu += (w / g) * e[0] / 100; sig += (w / g) * e[1] / 100; }
+      const h = +x.hebel || 1;
+      if (h !== 1) { mu = h * mu - (h - 1) * 0.025; sig = h * sig; }
+    }
+    return { mu, sig };
+  }
+
+  function korrelation(a, b) {
+    const ka = hauptKlasse(a), kb = hauptKlasse(b);
+    if (ka === kb) return 1;
+    if (ka === "geldmarkt" || kb === "geldmarkt") return 0.05;
+    if (SICHER.has(ka) || SICHER.has(kb) || ka === "gold" || kb === "gold") return 0.15;
+    if (ka === "krypto" || kb === "krypto") return 0.4;
+    return 0.75;
+  }
+
+  function zufall(seed) {
+    let s = seed >>> 0;
+    const u = () => { s = (s * 1664525 + 1013904223) >>> 0; return (s + 0.5) / 4294967296; };
+    return () => Math.sqrt(-2 * Math.log(u())) * Math.cos(2 * Math.PI * u());
+  }
+
+  /**
+   * rahmen: {einmalbetrag, sparrate, horizont_jahre}; klassenErw: {klasse: [rendite%, schwankung%]}
+   * Ergebnis: μ, σ des Portfolios, gewichtetes Risiko (1–5) und Perzentile (5/50/95) je Jahr.
+   */
+  function erwartung(positionen, rahmen, klassenErw, pfade = 2000) {
+    const summe = positionen.reduce((a, x) => a + (+x.anteil || 0), 0);
+    if (!summe) return null;
+    const pos = positionen.filter((x) => +x.anteil > 0).map((x) => ({ ...x, w: +x.anteil / summe, ...positionsErwartung(x, klassenErw) }));
+    const mu = pos.reduce((a, x) => a + x.w * x.mu, 0);
+    let varianz = 0;
+    for (const a of pos) for (const b of pos) varianz += a.w * b.w * korrelation(a, b) * a.sig * b.sig;
+    const sig = Math.sqrt(varianz);
+    const risiko = pos.reduce((a, x) => a + x.w * (x.risiko || 3), 0);
+    const T = Math.max(1, Math.round(+rahmen.horizont_jahre || 20));
+    const s2 = Math.log(1 + (sig * sig) / ((1 + mu) * (1 + mu)));
+    const m = Math.log(1 + mu) - s2 / 2, s = Math.sqrt(s2);
+    const z = zufall(42);
+    const werte = Array.from({ length: T + 1 }, () => new Float64Array(pfade));
+    for (let p = 0; p < pfade; p++) {
+      let w = +rahmen.einmalbetrag || 0;
+      werte[0][p] = w;
+      for (let t = 1; t <= T; t++) {
+        const r = Math.exp(m + s * z()) - 1;
+        w = Math.max(0, w * (1 + r) + 12 * (+rahmen.sparrate || 0) * Math.sqrt(Math.max(0, 1 + r)));
+        werte[t][p] = w;
+      }
+    }
+    const pz = (arr, q) => { const a = Array.from(arr).sort((x, y) => x - y); return a[Math.min(a.length - 1, Math.floor(q * a.length))]; };
+    const jahre = werte.map((arr, t) => ({ jahr: t, p5: pz(arr, 0.05), p50: pz(arr, 0.5), p95: pz(arr, 0.95),
+      eingezahlt: (+rahmen.einmalbetrag || 0) + 12 * (+rahmen.sparrate || 0) * t }));
+    return { mu, sig, risiko, jahre, ende: jahre[T], positionen: pos.map((x) => ({ name: x.name, w: x.w, mu: x.mu, sig: x.sig })) };
+  }
+
+  // Hinweise zu Klumpen und Risiko-Passung eines Entwurfs.
+  function warnungen(positionen, risikoStufe, erg) {
+    const out = [];
+    const summe = positionen.reduce((a, x) => a + (+x.anteil || 0), 0) || 1;
+    for (const x of positionen) {
+      const w = (+x.anteil || 0) / summe;
+      if (w > 0.4 && hauptKlasse(x) !== "aktien_welt" && hauptKlasse(x) !== "geldmarkt") out.push(`${x.name} macht ${Math.round(w * 100)} % aus – Klumpenrisiko.`);
+      if ((x.risiko || 0) >= 5 && w > 0.1 && risikoStufe < 5) out.push(`${x.name} ist spekulativ (Risiko 5/5) und mit ${Math.round(w * 100)} % für deine Stufe ${risikoStufe} hoch gewichtet.`);
+      if ((+x.hebel || 1) > 1 && w > 0.1) out.push(`${x.name} ist gehebelt – mehr als 10 % sind selbst für Spekulanten viel.`);
+    }
+    const kr = positionen.filter((x) => hauptKlasse(x) === "krypto").reduce((a, x) => a + (+x.anteil || 0), 0) / summe;
+    if (kr > 0.1) out.push(`Krypto insgesamt ${Math.round(kr * 100)} %: Einbrüche von 70–80 % gab es mehrfach.`);
+    if (erg) {
+      if (erg.risiko > risikoStufe + 0.75) out.push(`Das Portfolio (Risiko ≈ ${erg.risiko.toFixed(1)}) ist riskanter als deine Stufe ${risikoStufe}.`);
+      if (erg.risiko < risikoStufe - 1.25) out.push(`Das Portfolio (Risiko ≈ ${erg.risiko.toFixed(1)}) ist vorsichtiger als deine Stufe ${risikoStufe} – mehr Rendite wäre möglich.`);
+    }
+    return out;
+  }
+
+  const api = { erwartung, warnungen, positionsErwartung, kursAm, termine, rueckrechnung, kennzahlen, fenster, szenario, pfadWert, klassenAnteile };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.Rechnen = api;
 })(typeof window !== "undefined" ? window : globalThis);

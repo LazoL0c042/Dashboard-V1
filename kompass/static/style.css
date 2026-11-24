@@ -232,6 +232,9 @@ th { color: var(--muted); font-weight: 560; }
   .nav-link svg { width: 26px; height: 26px; }
   .nav-in { min-height: 56px; }
   .nav { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--bg); }
+  .nav-admin { display: none; }
+  .nav-me { padding: 10px 8px; font-size: 15px; }
+  .brand { margin-right: auto; }
   main { padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)); }
 }
 
@@ -331,3 +334,75 @@ tr.click:hover td { background: var(--bg); }
 .kpi.k-real { background: var(--lav); }
 .kpi.k-best { background: var(--mint); }
 .key-sw { display: inline-block; width: 14px; height: 0; border-top: 3px solid; vertical-align: middle; margin-right: 6px; }
+
+/* ---------- Regler ---------- */
+.sl { margin: 14px 0 6px; }
+.sl-kopf { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.sl-kopf label { margin: 0; font-size: 14px; color: var(--muted); }
+.sl-kopf output { font-size: 19px; font-weight: 680; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.sl.klein { margin: 4px 0; }
+.sl.klein .sl-kopf output { font-size: 16px; }
+.sl-hinweis { font-size: 13px; color: var(--muted); margin-top: 2px; }
+input.sl-r {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer;
+}
+input.sl-r::-webkit-slider-runnable-track {
+  height: 10px; border-radius: 5px;
+  background: linear-gradient(to right, var(--lav-d) 0 var(--p, 0%), var(--grid) var(--p, 0%) 100%);
+}
+input.sl-r::-moz-range-track { height: 10px; border-radius: 5px; background: var(--grid); }
+input.sl-r::-moz-range-progress { height: 10px; border-radius: 5px; background: var(--lav-d); }
+input.sl-r::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 30px; height: 30px; margin-top: -10px; border-radius: 50%;
+  background: var(--card); border: 3px solid var(--lav-d); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+input.sl-r::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: var(--card); border: 3px solid var(--lav-d); }
+input.sl-r:focus-visible { outline: none; }
+input.sl-r:focus-visible::-webkit-slider-thumb { outline: 3px solid var(--lav-d); outline-offset: 3px; }
+.slgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 0 28px; }
+.check-row { display: flex; gap: 10px; align-items: center; color: var(--text); font-size: 16px; margin-top: 16px; min-height: 44px; }
+.check-row input { width: 22px; height: 22px; }
+button.klein, .btn.klein { min-height: 40px; padding: 8px 14px; font-size: 14px; }
+
+/* ---------- Glossar ---------- */
+.pips { display: inline-flex; gap: 3px; vertical-align: middle; margin-left: 4px; }
+.pips i { width: 9px; height: 9px; border-radius: 50%; background: var(--grid); }
+.pips i.on { background: var(--lav-d); }
+.pips.rot i.on { background: var(--rose-d); }
+.mono { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 46px; height: 46px; border-radius: 14px; font-weight: 750; font-size: 16px; letter-spacing: 0.02em; }
+.mono.gross { width: 76px; height: 76px; border-radius: 22px; font-size: 26px; }
+.g-kopf { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin-top: 26px; }
+.g-kopf h2 { margin: 0; }
+.g-kopf p { margin: 0; }
+.g-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 14px; margin-top: 12px; }
+.g-karte { display: flex; flex-direction: column; gap: 10px; padding: 18px; border-radius: 20px; background: var(--card); box-shadow: var(--shadow); min-width: 0; }
+.g-link { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.g-name { font-weight: 650; font-size: 17px; }
+.g-kurz { margin: 0; font-size: 14px; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.g-stats { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; font-size: 13px; color: var(--muted); margin-top: auto; }
+.g-aktion { display: flex; gap: 8px; }
+.item-text { font-size: 18px; line-height: 1.55; max-width: 60ch; margin: 18px 0; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 12px 20px; padding: 14px 0; border-top: 1px solid var(--line); }
+.stat-grid .l { display: block; font-size: 13px; color: var(--muted); margin-bottom: 2px; }
+.procon { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 16px; }
+.procon h3 { margin-top: 0; }
+.besonders li { margin: 6px 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 14px; border-radius: 999px; background: var(--line); color: var(--text); font-size: 14px; font-weight: 500; text-decoration: none; border: 0; }
+.chip.ok { background: var(--mint); color: var(--mint-d); }
+.chip.warn { background: var(--rose); color: var(--rose-d); }
+button.chip { cursor: pointer; }
+.q-karte { display: flex; flex-direction: column; gap: 4px; margin: 0; }
+.q-name { font-size: 18px; font-weight: 650; }
+
+/* ---------- Entwurf, Council-Chat ---------- */
+.e-row { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.e-row:last-child { border-bottom: 0; }
+.e-name { display: flex; gap: 12px; align-items: flex-start; min-width: 0; }
+.e-name input { margin-top: 6px; font-size: 14px; }
+@media (max-width: 700px) { .e-row { grid-template-columns: minmax(0, 1fr); } }
+.msg.sys { background: var(--sand); }
+.msg.krit { background: var(--rose); }
+.msg .vorschlag { background: var(--card); margin-top: 12px; }
+.notice.small { padding: 10px 14px; font-size: 14px; }
+.nav-entwurf b { display: inline-flex; min-width: 24px; height: 24px; align-items: center; justify-content: center; border-radius: 12px; background: var(--lav-d); color: #fff; font-size: 13px; margin-left: 4px; padding: 0 6px; }

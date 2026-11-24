@@ -56,7 +56,8 @@
     for (const s of opt.serien) for (const p of s.punkte) { if (p[1] < yMin) yMin = p[1]; if (p[1] > yMax) yMax = p[1]; }
     if (opt.nullLinie) { yMin = Math.min(yMin, 0); yMax = Math.max(yMax, 0); }
     const pad = (yMax - yMin) * 0.06 || 1;
-    const ticks = niceTicks(yMin - pad, yMax + pad, 5);
+    const nurPositiv = yMin >= 0;
+    const ticks = niceTicks(nurPositiv ? Math.max(0, yMin - pad) : yMin - pad, yMax + pad, 5).filter((t) => !nurPositiv || t >= 0);
     const y0 = ticks[0], y1 = ticks[ticks.length - 1];
 
     const draw = () => {
@@ -64,7 +65,8 @@
       const endLabels = W > 560 && opt.serien.length <= 4;
       const kurz = (t) => (t.length > 18 ? t.slice(0, 17) + "…" : t);
       const labelBreite = Math.max(...opt.serien.map((s) => kurz(s.name).length)) * 7.4 + 18;
-      const m = { l: 64, r: endLabels ? Math.min(160, labelBreite) : 14, t: 12, b: 30 };
+      const yBreite = Math.max(...ticks.map((t) => String(opt.yFormat(t)).length)) * 7 + 14;
+      const m = { l: Math.max(44, yBreite), r: endLabels ? Math.min(160, labelBreite) : 14, t: 18, b: 30 };
       const iw = W - m.l - m.r, ih = H - m.t - m.b;
       const sx = (x) => m.l + ((x - xs[0]) / Math.max(1, xs[xs.length - 1] - xs[0])) * iw;
       const sy = (y) => m.t + (1 - (y - y0) / (y1 - y0)) * ih;
@@ -96,6 +98,7 @@
       });
       // Endpunkte und Direktbeschriftung (nur wenn Platz), Kollisionen auseinanderschieben
       enden.sort((a, b) => a.y - b.y);
+      if (enden.length) enden[0].y = Math.max(enden[0].y, m.t + 2);
       for (let i = 1; i < enden.length; i++) if (enden[i].y - enden[i - 1].y < 16) enden[i].y = enden[i - 1].y + 16;
       for (const e of enden) {
         svg.appendChild(el("circle", { cx: e.x, cy: sy(e.s.punkte[e.s.punkte.length - 1][1]), r: 4, fill: e.s.farbe, stroke: "var(--card)", "stroke-width": 2 }));

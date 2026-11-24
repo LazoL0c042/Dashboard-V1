@@ -177,6 +177,22 @@ def klaeren(conn, session_id: int, user_text: str | None = None, chat_fn=llm.cha
     return d
 
 
+def recherche_anhaengen(conn, session_id: int, query: str, chat_fn=llm.chat, fetch=None) -> int:
+    """Sucht aktuelle Quellen zum Kontext und hängt sie der Sitzung an (Material für alle Rollen)."""
+    from . import research
+
+    s = one(conn, "SELECT * FROM council_sessions WHERE id = ?", (session_id,))
+    rid = research.start(conn, s["user_id"], "frage", query)
+    research.run(conn, rid, "alles", chat_fn, fetch or research.fetch_text)
+    ids = json.loads(s["research_ids"] or "[]") + [rid]
+    conn.execute("UPDATE council_sessions SET research_ids = ? WHERE id = ?", (json.dumps(ids), session_id))
+    conn.commit()
+    r = research.get(conn, s["user_id"], rid)
+    log(conn, session_id, "klaeren", "recherche", f"Aktuelle Quellen gesucht: „{query}“ – {len(r['quellen'])} Treffer",
+        {"research_id": rid, "quellen": r["quellen"][:10]})
+    return rid
+
+
 # ---------- Phase 1-3: Diskussion ----------
 
 def _runde_text(beitraege: dict[str, dict]) -> str:

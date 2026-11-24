@@ -8,7 +8,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from . import auth, calculator, config, council, db, llm, plans, portfolios, products, profile, research, scenarios, taxes
+from . import auth, berater, calculator, config, council, db, entwurf, glossar, llm, plans, portfolios, products, profile, research, scenarios, taxes
 
 STATIC = Path(__file__).resolve().parent.parent / "static"
 COOKIE = "kompass_session"
@@ -132,6 +132,24 @@ class SzenarioKI(BaseModel):
 
 class SzenarioNotiz(BaseModel):
     inhalt: dict
+
+
+class Suche(BaseModel):
+    query: str
+
+
+class EntwurfPosition(BaseModel):
+    asset_id: str | None = None
+    id: str | None = None
+    isin: str = ""
+    ticker: str = ""
+    name: str = ""
+    anteil: float = 10
+    klassen: dict[str, float] = {}
+
+
+class BeraterStart(BaseModel):
+    text: str
 
 
 class ProduktFakt(BaseModel):
@@ -317,7 +335,14 @@ def create_app(db_path: str | None = None, runner=None) -> FastAPI:
         c.execute("UPDATE council_sessions SET progress = 'Moderator denkt nach' WHERE id = ?", (sid,))
         c.commit()
         try:
-            council.klaeren(c, sid, text)
+            d = council.klaeren(c, sid, text)
+            if (d.get("recherche") or "").strip():
+                c.execute("UPDATE council_sessions SET progress = 'Suche aktuelle Quellen' WHERE id = ?", (sid,))
+                c.commit()
+                council.recherche_anhaengen(c, sid, d["recherche"].strip())
+                c.execute("UPDATE council_sessions SET progress = 'Moderator wertet die Quellen aus' WHERE id = ?", (sid,))
+                c.commit()
+                council.klaeren(c, sid, None)
             c.execute("UPDATE council_sessions SET progress = NULL, error = NULL WHERE id = ?", (sid,))
         except Exception as e:
             c.execute("UPDATE council_sessions SET progress = NULL, error = ? WHERE id = ?", (str(e), sid))
@@ -584,6 +609,121 @@ def create_app(db_path: str | None = None, runner=None) -> FastAPI:
             return {"id": plans.nachtrag(c, u["id"], pid, "szenario", b.inhalt)}
         except LookupError as e:
             fehler(e, 404)
+
+
+    def _recherche_council_bg(c, sid, query):
+        try:
+            council.recherche_anhaengen(c, sid, query)
+            c.execute("UPDATE council_sessions SET progress = NULL WHERE id = ?", (sid,))
+        except Exception as e:
+            c.execute("UPDATE council_sessions SET progress = NULL, error = ? WHERE id = ?", (str(e), sid))
+        c.commit()
+
+    @app.post("/api/council/{sid}/recherche")
+    def council_recherche(sid: int, b: Suche, u=Depends(hinweis_ok), c=Depends(get_conn)):
+        s = _session_or_404(c, u, sid)
+        if s["progress"] and s["status"] in ("klaeren", "laeuft"):
+            raise HTTPException(409, "Gerade beschäftigt – gleich nochmal versuchen")
+        if not b.query.strip():
+            raise HTTPException(400, "Suchbegriff fehlt")
+        c.execute("UPDATE council_sessions SET progress = 'Suche aktuelle Quellen' WHERE id = ?", (sid,))
+        c.commit()
+        run_bg(_recherche_council_bg, sid, b.query.strip()[:200])
+        return {"ok": True}
+
+    # ----- Glossar, Medien -----
+
+    @app.get("/api/glossar")
+    def glossar_alle(u=Depends(get_user)):
+        return glossar.daten()
+
+    @app.get("/api/medien")
+    def medien(u=Depends(get_user)):
+        return glossar.medien()
+
+    # ----- Entwurf (Warenkorb) -----
+
+    @app.get("/api/entwurf")
+    def entwurf_get(u=Depends(get_user), c=Depends(get_conn)):
+        return entwurf.get(c, u["id"])
+
+    @app.put("/api/entwurf")
+    def entwurf_put(b: dict, u=Depends(get_user), c=Depends(get_conn)):
+        return entwurf.speichern(c, u["id"], b)
+
+    @app.post("/api/entwurf/position")
+    def entwurf_position(b: EntwurfPosition, u=Depends(get_user), c=Depends(get_conn)):
+        try:
+            return entwurf.hinzufuegen(c, u["id"], b.model_dump())
+        except ValueError as e:
+            fehler(e)
+
+    @app.delete("/api/entwurf")
+    def entwurf_leeren(u=Depends(get_user), c=Depends(get_conn)):
+        entwurf.leeren(c, u["id"])
+        return {"ok": True}
+
+    @app.post("/api/entwurf/speichern")
+    def entwurf_als_portfolio(u=Depends(get_user), c=Depends(get_conn)):
+        e = entwurf.get(c, u["id"])
+        try:
+            pid = portfolios.anlegen(c, u["id"], entwurf.als_portfolio(e))
+        except ValueError as ex:
+            fehler(ex)
+        entwurf.leeren(c, u["id"])
+        return {"id": pid}
+
+    # ----- Portfolio-Council -----
+
+    @app.get("/api/berater")
+    def berater_liste(u=Depends(get_user), c=Depends(get_conn)):
+        return berater.liste(c, u["id"])
+
+    @app.post("/api/berater")
+    def berater_neu(b: BeraterStart, u=Depends(hinweis_ok), c=Depends(get_conn)):
+        if not b.text.strip():
+            raise HTTPException(400, "Schreib, was für ein Portfolio du bauen möchtest.")
+        cid = berater.anlegen(c, u["id"], b.text.strip()[:120])
+        c.execute("UPDATE berater_chats SET status = 'denkt' WHERE id = ?", (cid,))
+        c.commit()
+        run_bg(berater.antworten, cid, b.text)
+        return {"id": cid}
+
+    @app.get("/api/berater/{cid}")
+    def berater_get(cid: int, u=Depends(get_user), c=Depends(get_conn)):
+        ch = berater.chat_for(c, u["id"], cid)
+        if not ch:
+            raise HTTPException(404, "Gespräch nicht gefunden")
+        return {"chat": ch, "nachrichten": berater.nachrichten(c, cid), "entwurf": entwurf.get(c, u["id"]),
+                "profil_offen": profile.pending(c, u["id"])}
+
+    @app.post("/api/berater/{cid}")
+    def berater_nachricht(cid: int, b: BeraterStart, u=Depends(hinweis_ok), c=Depends(get_conn)):
+        ch = berater.chat_for(c, u["id"], cid)
+        if not ch:
+            raise HTTPException(404, "Gespräch nicht gefunden")
+        if ch["status"] == "denkt":
+            raise HTTPException(409, "Der Council antwortet noch")
+        if not b.text.strip():
+            raise HTTPException(400, "Nachricht fehlt")
+        c.execute("UPDATE berater_chats SET status = 'denkt', error = NULL WHERE id = ?", (cid,))
+        c.commit()
+        run_bg(berater.antworten, cid, b.text)
+        return {"ok": True}
+
+    @app.post("/api/berater/{cid}/uebernehmen/{mid}")
+    def berater_uebernehmen(cid: int, mid: int, u=Depends(get_user), c=Depends(get_conn)):
+        if not berater.chat_for(c, u["id"], cid):
+            raise HTTPException(404, "Gespräch nicht gefunden")
+        m = next((x for x in berater.nachrichten(c, cid) if x["id"] == mid and x["rolle"] == "berater"), None)
+        if not m or not (m["data"] or {}).get("vorschlag"):
+            raise HTTPException(404, "Kein Vorschlag")
+        v = m["data"]["vorschlag"]
+        e = entwurf.get(c, u["id"])
+        e["positionen"] = v.get("aufgeloest") or []
+        if v.get("name") and not e["name"]:
+            e["name"] = v["name"]
+        return entwurf.speichern(c, u["id"], e)
 
     # ----- Web-App -----
 

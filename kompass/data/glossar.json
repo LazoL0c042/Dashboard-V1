@@ -1,0 +1,1378 @@
+{
+ "_hinweis": "Glossar der Anlageklassen. Erwartete Rendite und Schwankung: langfristige Annahmen als Größenordnung (nominal, p.a.), keine Prognose. Steuerangaben vereinfacht, Stand 2026 – im Einzelfall prüfen.",
+ "hauptklassen": [
+  {
+   "id": "aktien",
+   "name": "Aktien & Aktien-ETFs",
+   "kurz": "Anteile an Unternehmen. Langfristig die renditestärkste klassische Anlage, mit starken Schwankungen.",
+   "farbe": "mint"
+  },
+  {
+   "id": "anleihen",
+   "name": "Anleihen",
+   "kurz": "Kredite an Staaten oder Firmen gegen Zinsen. Stabilisiert ein Depot, verliert aber bei steigenden Zinsen.",
+   "farbe": "sky"
+  },
+  {
+   "id": "liquiditaet",
+   "name": "Tagesgeld & Geldmarkt",
+   "kurz": "Geld, das sofort verfügbar ist. Sicher, aber nach Inflation oft ohne echte Rendite.",
+   "farbe": "sand"
+  },
+  {
+   "id": "edelmetalle",
+   "name": "Edelmetalle",
+   "kurz": "Gold, Silber und Co. Kein Ertrag, aber Krisen- und Inflationsschutz.",
+   "farbe": "peach"
+  },
+  {
+   "id": "rohstoffe",
+   "name": "Rohstoffe",
+   "kurz": "Öl, Industriemetalle, Agrar. Stark konjunkturabhängig, über Terminkontrakte schwer zu halten.",
+   "farbe": "peach"
+  },
+  {
+   "id": "immobilien",
+   "name": "Immobilien",
+   "kurz": "Sachwert mit Mieteinnahmen. Direkt kapitalintensiv und schwer verkäuflich, über REITs börsengehandelt.",
+   "farbe": "lav"
+  },
+  {
+   "id": "krypto",
+   "name": "Krypto",
+   "kurz": "Digitale Werte auf Blockchains. Sehr hohe Chancen und Risiken, junge Anlageklasse.",
+   "farbe": "rose"
+  },
+  {
+   "id": "hebel",
+   "name": "Hebelprodukte",
+   "kurz": "Derivate, die Bewegungen vervielfachen. Für kurzfristige Spekulation, Totalverlust möglich.",
+   "farbe": "rose"
+  },
+  {
+   "id": "beteiligungen",
+   "name": "Beteiligungen & Start-ups",
+   "kurz": "Private Equity, Venture Capital, Crowdinvesting. Hohe Chancen, lange Bindung, oft Totalverlustrisiko.",
+   "farbe": "lav"
+  }
+ ],
+ "assets": [
+  {
+   "id": "msci_world",
+   "name": "MSCI World ETF",
+   "klasse": "aktien",
+   "eltern": "aktien",
+   "kurz": "Rund 1.300 große Firmen aus 23 Industrieländern in einem Produkt. Der Standard für langfristiges Sparen.",
+   "risiko": 3,
+   "liquiditaet": 5,
+   "komplexitaet": 1,
+   "erwartung": {
+    "rendite": 7,
+    "schwankung": 15
+   },
+   "ticker": "EUNL.DE",
+   "ticker_hinweis": "",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "historie": "aktien",
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt). Teilfreistellung 30 % für Aktien-ETFs.",
+   "mindestkapital": "ab 1 € per Sparplan",
+   "besonderheiten": [
+    "Klumpenrisiko: rund 70 % USA und ein hoher Anteil weniger großer Tech-Konzerne (Größenordnung, beim Anbieter prüfen)",
+    "Keine Schwellenländer enthalten",
+    "Vergleichswert (Benchmark) in Kompass"
+   ],
+   "pro": [
+    "Sehr breit gestreut, sehr günstig (TER oft 0,1–0,2 %)",
+    "Historisch über lange Zeiträume positiv",
+    "Keine Auswahl einzelner Aktien nötig"
+   ],
+   "contra": [
+    "Verluste von 40–50 % in Krisen möglich",
+    "Abhängig von den USA und wenigen Riesen",
+    "Währungsrisiko Dollar"
+   ],
+   "produkte": [
+    "IE00B4L5Y983",
+    "IE00BJ0KDQ92"
+   ]
+  },
+  {
+   "id": "all_world",
+   "name": "All-World / ACWI ETF",
+   "klasse": "aktien",
+   "eltern": "aktien",
+   "kurz": "Industrie- und Schwellenländer zusammen – noch breiter als der MSCI World.",
+   "risiko": 3,
+   "liquiditaet": 5,
+   "komplexitaet": 1,
+   "erwartung": {
+    "rendite": 7,
+    "schwankung": 15
+   },
+   "ticker": "VWCE.DE",
+   "ticker_hinweis": "",
+   "klassen": {
+    "aktien_welt": 0.9,
+    "aktien_em": 0.1
+   },
+   "historie": "aktien",
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt). Teilfreistellung 30 %.",
+   "mindestkapital": "ab 1 € per Sparplan",
+   "besonderheiten": [
+    "Rund 10 % Schwellenländer zusätzlich",
+    "Auch hier hoher USA-Anteil"
+   ],
+   "pro": [
+    "Ein Produkt für die ganze Welt",
+    "Günstig"
+   ],
+   "contra": [
+    "Gleiche Krisenverluste wie MSCI World"
+   ],
+   "produkte": [
+    "IE00BK5BQT80",
+    "IE00B3YLTY66"
+   ]
+  },
+  {
+   "id": "em",
+   "name": "Schwellenländer-ETF",
+   "klasse": "aktien",
+   "eltern": "aktien",
+   "kurz": "Aktien aus China, Indien, Taiwan, Brasilien und Co. Mehr Wachstum, mehr politische Risiken.",
+   "risiko": 4,
+   "liquiditaet": 5,
+   "komplexitaet": 1,
+   "erwartung": {
+    "rendite": 7.5,
+    "schwankung": 20
+   },
+   "ticker": "IS3N.DE",
+   "ticker_hinweis": "",
+   "klassen": {
+    "aktien_em": 1
+   },
+   "historie": "aktien",
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt). Teilfreistellung 30 %.",
+   "mindestkapital": "ab 1 €",
+   "besonderheiten": [
+    "Hoher Anteil China und Taiwan",
+    "Lange Phasen ohne Rendite möglich (z. B. 2010er-Jahre)"
+   ],
+   "pro": [
+    "Günstigere Bewertungen",
+    "Beimischung zur Weltstreuung"
+   ],
+   "contra": [
+    "Politische Risiken, Kapitalverkehrskontrollen",
+    "Stärkere Schwankungen"
+   ],
+   "produkte": [
+    "IE00BKM4GZ66"
+   ]
+  },
+  {
+   "id": "sp500",
+   "name": "S&P 500 ETF",
+   "klasse": "aktien",
+   "eltern": "aktien",
+   "kurz": "Die 500 größten US-Firmen. Historisch sehr erfolgreich, aber ein Land.",
+   "risiko": 3,
+   "liquiditaet": 5,
+   "komplexitaet": 1,
+   "erwartung": {
+    "rendite": 7,
+    "schwankung": 16
+   },
+   "ticker": "SXR8.DE",
+   "ticker_hinweis": "",
+   "klassen": {
+    "aktien_usa": 1
+   },
+   "historie": "aktien",
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt). Teilfreistellung 30 %.",
+   "mindestkapital": "ab 1 €",
+   "besonderheiten": [
+    "Nur USA – Länderklumpen",
+    "Hoher Tech-Anteil"
+   ],
+   "pro": [
+    "Sehr liquide, sehr günstig"
+   ],
+   "contra": [
+    "Keine Streuung über Länder",
+    "Dollar-Risiko"
+   ],
+   "produkte": [
+    "IE00B5BMR087"
+   ]
+  },
+  {
+   "id": "nasdaq",
+   "name": "Nasdaq-100 / Tech-ETF",
+   "klasse": "aktien",
+   "eltern": "aktien",
+   "kurz": "Die 100 größten Nicht-Finanzwerte der Nasdaq – vor allem US-Tech.",
+   "risiko": 4,
+   "liquiditaet": 5,
+   "komplexitaet": 1,
+   "erwartung": {
+    "rendite": 8,
+    "schwankung": 22
+   },
+   "ticker": "EXXT.DE",
+   "ticker_hinweis": "Ticker beim ersten Öffnen prüfen",
+   "klassen": {
+    "aktien_tech": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt). Teilfreistellung 30 %.",
+   "mindestkapital": "ab 1 €",
+   "besonderheiten": [
+    "Starker Branchen-Klumpen Tech",
+    "In der Dotcom-Blase rund −80 % vom Hoch (Größenordnung)"
+   ],
+   "pro": [
+    "Hohes Wachstum der letzten Jahrzehnte"
+   ],
+   "contra": [
+    "Hohe Bewertungen",
+    "Langes Erholen nach Crashs"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "branchen_halbleiter",
+   "name": "Branchen-ETF: Halbleiter",
+   "klasse": "aktien",
+   "eltern": "aktien",
+   "kurz": "Chiphersteller und Zulieferer. Profitiert direkt von KI und Digitalisierung – und leidet zuerst, wenn der Zyklus dreht.",
+   "risiko": 5,
+   "liquiditaet": 4,
+   "komplexitaet": 2,
+   "erwartung": {
+    "rendite": 9,
+    "schwankung": 32
+   },
+   "ticker": "SOXX",
+   "ticker_hinweis": "Referenzkurs eines US-ETF (USD)",
+   "klassen": {
+    "aktien_tech": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt). Teilfreistellung 30 % bei Aktien-ETFs.",
+   "mindestkapital": "ab 1 €",
+   "besonderheiten": [
+    "Starker Klumpen: wenige Firmen dominieren",
+    "Sehr zyklisch, Einbrüche von 40–60 % kommen vor (Größenordnung)",
+    "Angezeigter Kurs: US-ETF in Dollar als Referenz"
+   ],
+   "pro": [
+    "Hebel auf Technologie-Trends ohne Kredithebel"
+   ],
+   "contra": [
+    "Sehr hohe Schwankung",
+    "Wette auf eine Branche statt auf die Welt"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "branchen_clean",
+   "name": "Branchen-ETF: Saubere Energie",
+   "klasse": "aktien",
+   "eltern": "aktien",
+   "kurz": "Solar, Wind, Wasserstoff. Politisch gefördert, aber stark zins- und subventionsabhängig.",
+   "risiko": 5,
+   "liquiditaet": 4,
+   "komplexitaet": 2,
+   "erwartung": {
+    "rendite": 7,
+    "schwankung": 35
+   },
+   "ticker": "IQQH.DE",
+   "ticker_hinweis": "Ticker beim ersten Öffnen prüfen",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt). Teilfreistellung 30 %.",
+   "mindestkapital": "ab 1 €",
+   "besonderheiten": [
+    "Nach dem Boom 2020 zeitweise mehr als halbiert (Größenordnung)",
+    "Abhängig von Förderpolitik und Zinsen"
+   ],
+   "pro": [
+    "Langfristiger Trend Energiewende"
+   ],
+   "contra": [
+    "Extreme Schwankungen",
+    "Hohe Bewertungen in Boomphasen"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "small_value",
+   "name": "Small Cap Value ETF",
+   "klasse": "aktien",
+   "eltern": "aktien",
+   "kurz": "Kleine, günstig bewertete Firmen. Historisch eine Renditeprämie, aber mit langen Durststrecken.",
+   "risiko": 4,
+   "liquiditaet": 4,
+   "komplexitaet": 2,
+   "erwartung": {
+    "rendite": 8,
+    "schwankung": 22
+   },
+   "ticker": "ZPRV.DE",
+   "ticker_hinweis": "Ticker beim ersten Öffnen prüfen",
+   "klassen": {
+    "aktien_usa": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt). Teilfreistellung 30 %.",
+   "mindestkapital": "ab 1 €",
+   "besonderheiten": [
+    "Faktor-Prämie war über Jahre nicht vorhanden",
+    "Oft nur USA oder Europa"
+   ],
+   "pro": [
+    "Streut weg von den großen Tech-Werten"
+   ],
+   "contra": [
+    "Längere Phasen schlechter als der Markt"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "einzelaktien",
+   "name": "Einzelaktien",
+   "klasse": "aktien",
+   "eltern": "aktien",
+   "kurz": "Direkt in einzelne Firmen investieren. Volle Chance, volles Firmenrisiko.",
+   "risiko": 5,
+   "liquiditaet": 5,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 7,
+    "schwankung": 30
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "historie": "aktien",
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt). Verluste aus Aktien nur mit Aktiengewinnen verrechenbar.",
+   "mindestkapital": "ab einer Aktie",
+   "besonderheiten": [
+    "Einzelne Firmen können pleitegehen",
+    "Die meisten Einzelaktien schneiden schlechter ab als der Index – wenige Gewinner tragen den Markt (Größenordnung aus Studien)",
+    "Verluste aus Aktien sind steuerlich nur mit Aktiengewinnen verrechenbar"
+   ],
+   "pro": [
+    "Eigene Überzeugung umsetzbar",
+    "Keine laufenden Fondskosten"
+   ],
+   "contra": [
+    "Hoher Recherche-Aufwand",
+    "Klumpenrisiko"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "staatsanleihen",
+   "name": "Staatsanleihen Euro",
+   "klasse": "anleihen",
+   "eltern": "anleihen",
+   "kurz": "Kredite an Euro-Staaten. Gilt als sicherer Hafen, schwankt aber mit den Zinsen.",
+   "risiko": 2,
+   "liquiditaet": 5,
+   "komplexitaet": 2,
+   "erwartung": {
+    "rendite": 2.5,
+    "schwankung": 6
+   },
+   "ticker": "EUNH.DE",
+   "ticker_hinweis": "",
+   "klassen": {
+    "anleihen": 1
+   },
+   "historie": "anleihen",
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt). Keine Teilfreistellung.",
+   "mindestkapital": "ab 1 € per ETF",
+   "besonderheiten": [
+    "2022 verloren Euro-Staatsanleihen zweistellig, weil die Zinsen stiegen",
+    "Lange Laufzeiten schwanken stärker"
+   ],
+   "pro": [
+    "Stabilisiert in Aktienkrisen meist",
+    "Laufende Zinsen"
+   ],
+   "contra": [
+    "Kursverluste bei steigenden Zinsen",
+    "Real oft wenig Rendite"
+   ],
+   "produkte": [
+    "IE00B4WXJJ64"
+   ]
+  },
+  {
+   "id": "unternehmensanleihen",
+   "name": "Unternehmensanleihen",
+   "klasse": "anleihen",
+   "eltern": "anleihen",
+   "kurz": "Kredite an Firmen. Etwas mehr Zins als Staaten, dafür Ausfallrisiko.",
+   "risiko": 2,
+   "liquiditaet": 4,
+   "komplexitaet": 2,
+   "erwartung": {
+    "rendite": 3.5,
+    "schwankung": 7
+   },
+   "ticker": "EUN5.DE",
+   "ticker_hinweis": "Ticker beim ersten Öffnen prüfen",
+   "klassen": {
+    "anleihen": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt).",
+   "mindestkapital": "ab 1 € per ETF",
+   "besonderheiten": [
+    "In Rezessionen steigen Ausfälle"
+   ],
+   "pro": [
+    "Mehr Zins als Staatsanleihen"
+   ],
+   "contra": [
+    "Fallen in Krisen teils mit Aktien"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "hochzins",
+   "name": "Hochzinsanleihen (High Yield)",
+   "klasse": "anleihen",
+   "eltern": "anleihen",
+   "kurz": "Anleihen schwächerer Firmen. Hohe Zinsen – weil Ausfälle wahrscheinlicher sind.",
+   "risiko": 4,
+   "liquiditaet": 4,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 5,
+    "schwankung": 10
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "anleihen": 0.5,
+    "aktien_welt": 0.5
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt).",
+   "mindestkapital": "ab 1 € per ETF",
+   "besonderheiten": [
+    "Verhalten in Krisen eher wie Aktien"
+   ],
+   "pro": [
+    "Hoher laufender Ertrag"
+   ],
+   "contra": [
+    "Ausfallrisiko",
+    "Kein sicherer Hafen"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "tagesgeld",
+   "name": "Tagesgeld & Festgeld",
+   "klasse": "liquiditaet",
+   "eltern": "liquiditaet",
+   "kurz": "Täglich verfügbar, gesetzlich bis 100.000 € pro Bank und Person abgesichert.",
+   "risiko": 1,
+   "liquiditaet": 5,
+   "komplexitaet": 1,
+   "erwartung": {
+    "rendite": 2,
+    "schwankung": 0.5
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "geldmarkt": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Zinsen jährlich steuerpflichtig (Abgeltungsteuer), Sparerpauschbetrag nutzbar.",
+   "mindestkapital": "ab 1 €",
+   "besonderheiten": [
+    "Einlagensicherung 100.000 € je Bank und Kunde (EU-Regel)",
+    "Zinsen folgen dem EZB-Leitzins"
+   ],
+   "pro": [
+    "Kein Kursrisiko",
+    "Ideal als Notgroschen"
+   ],
+   "contra": [
+    "Nach Inflation oft keine echte Rendite"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "geldmarkt_etf",
+   "name": "Geldmarkt-ETF",
+   "klasse": "liquiditaet",
+   "eltern": "liquiditaet",
+   "kurz": "Bildet den kurzfristigen Euro-Zins ab. Tagesgeld-Ersatz an der Börse.",
+   "risiko": 1,
+   "liquiditaet": 5,
+   "komplexitaet": 2,
+   "erwartung": {
+    "rendite": 2,
+    "schwankung": 0.5
+   },
+   "ticker": "XEON.DE",
+   "ticker_hinweis": "",
+   "klassen": {
+    "geldmarkt": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt). Keine Teilfreistellung.",
+   "mindestkapital": "ab 1 €",
+   "besonderheiten": [
+    "Keine Einlagensicherung, aber Sondervermögen",
+    "Bei Swap-ETFs Kontrahentenrisiko"
+   ],
+   "pro": [
+    "Börsentäglich handelbar, kein Bankwechsel nötig"
+   ],
+   "contra": [
+    "Ordergebühren",
+    "Kein Zinsangebot-Bonus wie bei Banken"
+   ],
+   "produkte": [
+    "LU0290358497"
+   ]
+  },
+  {
+   "id": "gold",
+   "name": "Gold",
+   "klasse": "edelmetalle",
+   "eltern": "edelmetalle",
+   "kurz": "Seit Jahrtausenden Wertspeicher. Kein Zins, keine Dividende – Schutz in Krisen und gegen Geldentwertung.",
+   "risiko": 3,
+   "liquiditaet": 4,
+   "komplexitaet": 1,
+   "erwartung": {
+    "rendite": 4.5,
+    "schwankung": 15
+   },
+   "ticker": "4GLD.DE",
+   "ticker_hinweis": "",
+   "klassen": {
+    "gold": 1
+   },
+   "historie": "gold",
+   "hebel": 1,
+   "steuer": "Physisch und als Xetra-Gold/EUWAX Gold II nach mehr als 1 Jahr Haltedauer steuerfrei (§ 23 EStG, BFH VIII R 4/15). Darunter persönlicher Steuersatz; Freigrenze 1.000 € pro Jahr für private Veräußerungsgeschäfte.",
+   "mindestkapital": "ab 1 g bzw. 1 € per ETC",
+   "besonderheiten": [
+    "Steuerfrei nach 1 Jahr Haltedauer (physisch und Gold-ETCs mit Lieferanspruch)",
+    "1981–2001 verlor Gold real rund 75 % seiner Kaufkraft (Weltbank-Daten in Kompass)",
+    "Physisch: Spread zwischen Kauf und Verkauf, Lagerung"
+   ],
+   "pro": [
+    "Krisenschutz, geringe Korrelation zu Aktien",
+    "Keine Pleite eines Emittenten bei physischem Gold"
+   ],
+   "contra": [
+    "Kein laufender Ertrag",
+    "Lange Phasen ohne Wertzuwachs"
+   ],
+   "produkte": [
+    "DE000A0S9GB0",
+    "DE000EWG2LD7",
+    "GOLD-PHYSISCH"
+   ]
+  },
+  {
+   "id": "gold_hebel",
+   "name": "Gold gehebelt (2x)",
+   "klasse": "edelmetalle",
+   "eltern": "edelmetalle",
+   "kurz": "Produkte, die die Goldbewegung verdoppeln. Steigt Gold 10 %, steigt das Produkt rund 20 % – und umgekehrt.",
+   "risiko": 5,
+   "liquiditaet": 4,
+   "komplexitaet": 4,
+   "erwartung": {
+    "rendite": 5,
+    "schwankung": 30
+   },
+   "ticker": "4GLD.DE",
+   "ticker_hinweis": "Basiswert Gold, nicht das Hebelprodukt",
+   "klassen": {
+    "gold": 1
+   },
+   "historie": null,
+   "hebel": 2,
+   "steuer": "Als Derivat: Abgeltungsteuer, keine Steuerfreiheit nach 1 Jahr. Verluste aus Termingeschäften gesondert verrechenbar.",
+   "mindestkapital": "ab ca. 100 €",
+   "besonderheiten": [
+    "Pfadabhängigkeit: Bei Seitwärtsbewegung mit Schwankung verliert ein täglich gehebeltes Produkt Wert (Volatility Decay)",
+    "Laufende Finanzierungskosten",
+    "Knock-out-Produkte können komplett wertlos werden",
+    "Angezeigter Kurs: ungehebeltes Gold als Basiswert"
+   ],
+   "pro": [
+    "Mehr Wirkung mit weniger Kapital",
+    "Für kurze, klare Überzeugungen"
+   ],
+   "contra": [
+    "Doppelte Verluste",
+    "Ungeeignet für langes Halten"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "silber",
+   "name": "Silber",
+   "klasse": "edelmetalle",
+   "eltern": "edelmetalle",
+   "kurz": "Edelmetall und Industriemetall zugleich. Schwankt deutlich stärker als Gold.",
+   "risiko": 4,
+   "liquiditaet": 4,
+   "komplexitaet": 2,
+   "erwartung": {
+    "rendite": 4,
+    "schwankung": 28
+   },
+   "ticker": "SI=F",
+   "ticker_hinweis": "Terminkontrakt in USD",
+   "klassen": {
+    "gold": 0.6,
+    "rohstoffe_oel": 0.4
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Physisches Silber: Mehrwertsteuer beim Kauf (Barren 19 %). Wie Gold nach 1 Jahr steuerfrei bei privatem Verkauf.",
+   "mindestkapital": "ab 1 Unze",
+   "besonderheiten": [
+    "Physische Barren mit 19 % Mehrwertsteuer",
+    "Industrielle Nachfrage (Solar, Elektronik)",
+    "Angezeigter Kurs: Terminkontrakt in Dollar"
+   ],
+   "pro": [
+    "Hebel auf Edelmetall-Aufschwünge"
+   ],
+   "contra": [
+    "Hohe Schwankung",
+    "Mehrwertsteuer frisst Rendite"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "goldminen",
+   "name": "Goldminen-Aktien",
+   "klasse": "edelmetalle",
+   "eltern": "edelmetalle",
+   "kurz": "Firmen, die Gold fördern. Wirken wie ein Hebel auf den Goldpreis – mit Firmenrisiken.",
+   "risiko": 5,
+   "liquiditaet": 4,
+   "komplexitaet": 2,
+   "erwartung": {
+    "rendite": 5,
+    "schwankung": 35
+   },
+   "ticker": "IS0E.DE",
+   "ticker_hinweis": "",
+   "klassen": {
+    "goldminen": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt). Teilfreistellung 30 % als Aktien-ETF. Keine Steuerfreiheit nach 1 Jahr.",
+   "mindestkapital": "ab 1 €",
+   "besonderheiten": [
+    "Fallen in Aktienkrisen oft mit, obwohl Gold steigt",
+    "Kosten (Energie, Löhne) drücken Margen"
+   ],
+   "pro": [
+    "Hebel auf steigenden Goldpreis",
+    "Teils Dividenden"
+   ],
+   "contra": [
+    "Sehr hohe Schwankung",
+    "Politische Risiken in Förderländern"
+   ],
+   "produkte": [
+    "IE00B6R52036"
+   ]
+  },
+  {
+   "id": "oel",
+   "name": "Öl",
+   "klasse": "rohstoffe",
+   "eltern": "rohstoffe",
+   "kurz": "Treibstoff der Weltwirtschaft. Preis hängt an Konjunktur, Kriegen und Förderentscheidungen.",
+   "risiko": 5,
+   "liquiditaet": 4,
+   "komplexitaet": 4,
+   "erwartung": {
+    "rendite": 3,
+    "schwankung": 35
+   },
+   "ticker": "BZ=F",
+   "ticker_hinweis": "Terminkontrakt in USD",
+   "klassen": {
+    "rohstoffe_oel": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Über ETCs: Abgeltungsteuer.",
+   "mindestkapital": "ab 1 € per ETC",
+   "besonderheiten": [
+    "Terminkontrakte: Beim Rollen entstehen Verluste, wenn spätere Kontrakte teurer sind (Contango)",
+    "2020 notierte US-Öl kurzzeitig negativ",
+    "Angezeigter Kurs: Brent-Terminkontrakt in Dollar"
+   ],
+   "pro": [
+    "Schutz bei Energie- und Inflationsschocks"
+   ],
+   "contra": [
+    "Langfristig kaum Rendite über Terminkontrakte",
+    "Extreme Ausschläge"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "rohstoffe_breit",
+   "name": "Rohstoff-ETC (breit)",
+   "klasse": "rohstoffe",
+   "eltern": "rohstoffe",
+   "kurz": "Korb aus Energie, Metallen und Agrar. Streut über viele Rohstoffe.",
+   "risiko": 4,
+   "liquiditaet": 4,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 3,
+    "schwankung": 18
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "rohstoffe_oel": 0.6,
+    "gold": 0.2,
+    "aktien_welt": 0.2
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer.",
+   "mindestkapital": "ab 1 €",
+   "besonderheiten": [
+    "Rollverluste wie bei Öl"
+   ],
+   "pro": [
+    "Inflationsschutz in Stagflation"
+   ],
+   "contra": [
+    "Langfristig schwache Rendite"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "immobilie_direkt",
+   "name": "Eigene Immobilie (vermietet)",
+   "klasse": "immobilien",
+   "eltern": "immobilien",
+   "kurz": "Wohnung oder Haus zum Vermieten. Sachwert mit Mieteinnahmen – und viel Kapital, Arbeit und Klumpenrisiko.",
+   "risiko": 3,
+   "liquiditaet": 1,
+   "komplexitaet": 4,
+   "erwartung": {
+    "rendite": 5,
+    "schwankung": 10
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "immobilien": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Mieten mit persönlichem Steuersatz; Verkauf nach 10 Jahren steuerfrei (§ 23 EStG). Abschreibung möglich.",
+   "mindestkapital": "meist 20–30 % Eigenkapital plus Nebenkosten",
+   "besonderheiten": [
+    "Kaufnebenkosten rund 10–15 % (Grunderwerbsteuer, Notar, Makler; je nach Bundesland)",
+    "Spekulationsfrist 10 Jahre statt 1 Jahr",
+    "Ein Objekt = ein großer Klumpen an einem Ort",
+    "Instandhaltung, Leerstand, Mietrecht"
+   ],
+   "pro": [
+    "Hebel über Kredit",
+    "Inflationsschutz über Mieten",
+    "Steuervorteile durch Abschreibung"
+   ],
+   "contra": [
+    "Sehr illiquide",
+    "Hoher Kapitalbedarf",
+    "Zinsänderungsrisiko bei Anschlussfinanzierung"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "reits",
+   "name": "REITs / Immobilien-ETF",
+   "klasse": "immobilien",
+   "eltern": "immobilien",
+   "kurz": "Börsennotierte Immobilienfirmen weltweit. Immobilien ohne Kredit und mit täglicher Verkaufbarkeit.",
+   "risiko": 4,
+   "liquiditaet": 5,
+   "komplexitaet": 2,
+   "erwartung": {
+    "rendite": 6,
+    "schwankung": 20
+   },
+   "ticker": "IQQ6.DE",
+   "ticker_hinweis": "",
+   "klassen": {
+    "immobilien": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt). Teilfreistellung je nach Fonds.",
+   "mindestkapital": "ab 1 €",
+   "besonderheiten": [
+    "Schwanken wie Aktien, nicht wie Häuser",
+    "Stark zinsabhängig"
+   ],
+   "pro": [
+    "Breit gestreut, sofort handelbar",
+    "Hohe Ausschüttungen"
+   ],
+   "contra": [
+    "Fallen in Aktienkrisen mit"
+   ],
+   "produkte": [
+    "IE00B1FZS350"
+   ]
+  },
+  {
+   "id": "offene_immofonds",
+   "name": "Offene Immobilienfonds",
+   "klasse": "immobilien",
+   "eltern": "immobilien",
+   "kurz": "Fonds, die direkt in Gebäude investieren. Ruhiger Kursverlauf, aber Fristen beim Verkauf.",
+   "risiko": 2,
+   "liquiditaet": 2,
+   "komplexitaet": 2,
+   "erwartung": {
+    "rendite": 2.5,
+    "schwankung": 4
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "immobilien": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Abgeltungsteuer; Teilfreistellung 60 % (80 % bei Auslandsimmobilien) für Immobilienfonds.",
+   "mindestkapital": "ab ca. 50 €",
+   "besonderheiten": [
+    "Mindesthaltedauer 24 Monate und 12 Monate Kündigungsfrist (seit 2013)",
+    "Bewertung durch Gutachter, nicht durch die Börse – Verluste zeigen sich verzögert"
+   ],
+   "pro": [
+    "Wenig Schwankung im Kurs"
+   ],
+   "contra": [
+    "Eingeschränkte Verfügbarkeit",
+    "Ausgabeaufschläge"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "immo_crowd",
+   "name": "Immobilien-Crowdinvesting",
+   "klasse": "immobilien",
+   "eltern": "immobilien",
+   "kurz": "Kleine Beträge in einzelne Bauprojekte über Plattformen. Hohe Zinsen, oft als Nachrangdarlehen.",
+   "risiko": 5,
+   "liquiditaet": 1,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 6,
+    "schwankung": 25
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "immobilien": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Zinsen mit Abgeltungsteuer.",
+   "mindestkapital": "ab ca. 100–500 €",
+   "besonderheiten": [
+    "Nachrangdarlehen: im Pleitefall wird zuletzt bedient – Totalverlust möglich",
+    "Seit dem Zinsanstieg zahlreiche Projektausfälle"
+   ],
+   "pro": [
+    "Hoher Zins",
+    "Kleine Beträge"
+   ],
+   "contra": [
+    "Kaum Verkaufbarkeit",
+    "Totalverlustrisiko"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "bitcoin",
+   "name": "Bitcoin",
+   "klasse": "krypto",
+   "eltern": "krypto",
+   "kurz": "Die erste und größte Kryptowährung. Begrenzte Menge von 21 Millionen – digitales Gold für die einen, Spekulation für die anderen.",
+   "risiko": 5,
+   "liquiditaet": 5,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 15,
+    "schwankung": 70
+   },
+   "ticker": "BTC-EUR",
+   "ticker_hinweis": "",
+   "klassen": {
+    "krypto": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Direkt gehalten: nach mehr als 1 Jahr Haltedauer steuerfrei (§ 23 EStG). Darunter persönlicher Steuersatz; Freigrenze 1.000 € pro Jahr für alle privaten Veräußerungen zusammen (seit 2024). Tausch Krypto gegen Krypto zählt als Verkauf und startet eine neue Frist.",
+   "mindestkapital": "ab wenigen Euro",
+   "besonderheiten": [
+    "Steuerfrei nach 1 Jahr Haltedauer, wenn direkt gehalten",
+    "Mehrere Einbrüche von 70–80 % in der Geschichte (Größenordnung)",
+    "Verwahrung: Börse (Pleiterisiko) oder eigene Wallet (Verlust des Schlüssels = Verlust des Geldes)"
+   ],
+   "pro": [
+    "Begrenztes Angebot",
+    "Unabhängig von Zentralbanken",
+    "Hohe Renditen in der Vergangenheit"
+   ],
+   "contra": [
+    "Extreme Schwankung",
+    "Kein Ertrag, Wert hängt nur an Nachfrage",
+    "Regulierungsrisiko"
+   ],
+   "produkte": [
+    "BTC-EUR"
+   ]
+  },
+  {
+   "id": "ethereum",
+   "name": "Ethereum",
+   "klasse": "krypto",
+   "eltern": "krypto",
+   "kurz": "Plattform für Programme auf der Blockchain (Smart Contracts). Basis vieler Krypto-Anwendungen.",
+   "risiko": 5,
+   "liquiditaet": 5,
+   "komplexitaet": 4,
+   "erwartung": {
+    "rendite": 15,
+    "schwankung": 85
+   },
+   "ticker": "ETH-EUR",
+   "ticker_hinweis": "",
+   "klassen": {
+    "krypto": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Direkt gehalten: nach mehr als 1 Jahr Haltedauer steuerfrei (§ 23 EStG). Darunter persönlicher Steuersatz; Freigrenze 1.000 € pro Jahr für alle privaten Veräußerungen zusammen (seit 2024). Tausch Krypto gegen Krypto zählt als Verkauf und startet eine neue Frist. Staking-Erträge sind sonstige Einkünfte (Freigrenze 256 € pro Jahr).",
+   "mindestkapital": "ab wenigen Euro",
+   "besonderheiten": [
+    "Staking möglich: Erträge separat steuerpflichtig",
+    "Starke Konkurrenz anderer Plattformen"
+   ],
+   "pro": [
+    "Breite Nutzung für Anwendungen"
+   ],
+   "contra": [
+    "Noch stärkere Schwankung als Bitcoin"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "altcoins",
+   "name": "Altcoins",
+   "klasse": "krypto",
+   "eltern": "krypto",
+   "kurz": "Alle anderen Kryptowährungen mit eigenem Projekt. Viele verschwinden wieder.",
+   "risiko": 5,
+   "liquiditaet": 4,
+   "komplexitaet": 4,
+   "erwartung": {
+    "rendite": 10,
+    "schwankung": 100
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "krypto": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Direkt gehalten: nach mehr als 1 Jahr Haltedauer steuerfrei (§ 23 EStG). Darunter persönlicher Steuersatz; Freigrenze 1.000 € pro Jahr für alle privaten Veräußerungen zusammen (seit 2024). Tausch Krypto gegen Krypto zählt als Verkauf und startet eine neue Frist.",
+   "mindestkapital": "ab wenigen Euro",
+   "besonderheiten": [
+    "Viele Projekte verlieren langfristig fast ihren ganzen Wert",
+    "Geringe Liquidität bei kleinen Coins"
+   ],
+   "pro": [
+    "Riesige Chancen bei frühen Gewinnern"
+   ],
+   "contra": [
+    "Hohes Ausfall- und Betrugsrisiko"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "memecoins",
+   "name": "Memecoins",
+   "klasse": "krypto",
+   "eltern": "krypto",
+   "kurz": "Coins ohne Nutzen, getrieben von Internet-Hype (z. B. Dogecoin). Reine Spekulation auf Aufmerksamkeit.",
+   "risiko": 5,
+   "liquiditaet": 4,
+   "komplexitaet": 2,
+   "erwartung": {
+    "rendite": 0,
+    "schwankung": 150
+   },
+   "ticker": "DOGE-EUR",
+   "ticker_hinweis": "",
+   "klassen": {
+    "krypto": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Direkt gehalten: nach mehr als 1 Jahr Haltedauer steuerfrei (§ 23 EStG). Darunter persönlicher Steuersatz; Freigrenze 1.000 € pro Jahr für alle privaten Veräußerungen zusammen (seit 2024). Tausch Krypto gegen Krypto zählt als Verkauf und startet eine neue Frist.",
+   "mindestkapital": "ab wenigen Euro",
+   "besonderheiten": [
+    "Kein Projekt, kein Ertrag – nur Aufmerksamkeit",
+    "Häufig Manipulation (Pump and Dump)",
+    "Erwartete Rendite unklar: Kompass setzt 0 % an"
+   ],
+   "pro": [
+    "Kann kurzfristig vervielfachen"
+   ],
+   "contra": [
+    "Totalverlust wahrscheinlich bei den meisten Memecoins"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "stablecoins",
+   "name": "Stablecoins",
+   "klasse": "krypto",
+   "eltern": "krypto",
+   "kurz": "An eine Währung gekoppelte Coins (meist US-Dollar). Zum Parken und Bezahlen in der Kryptowelt, nicht zum Wachsen.",
+   "risiko": 2,
+   "liquiditaet": 5,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 0,
+    "schwankung": 8
+   },
+   "ticker": "USDT-EUR",
+   "ticker_hinweis": "",
+   "klassen": {
+    "geldmarkt": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Wie Krypto: Gewinne aus Kursänderungen nach 1 Jahr steuerfrei; in der Praxis entstehen meist nur Währungseffekte.",
+   "mindestkapital": "ab 1 €",
+   "besonderheiten": [
+    "Kein Wertzuwachs – Schwankung in Euro nur durch den Dollarkurs",
+    "Emittentenrisiko: Deckung muss vorhanden sein (in der EU reguliert durch MiCA)",
+    "Algorithmische Stablecoins sind bereits kollabiert (Terra/UST 2022)"
+   ],
+   "pro": [
+    "Stabil gegenüber dem Dollar",
+    "Schnelle Überweisungen"
+   ],
+   "contra": [
+    "Keine Einlagensicherung",
+    "Emittent kann scheitern"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "krypto_etp",
+   "name": "Krypto-ETPs (ETN/ETC)",
+   "klasse": "krypto",
+   "eltern": "krypto",
+   "kurz": "Bitcoin & Co. als Wertpapier im normalen Depot. Bequem, aber mit Emittentenrisiko.",
+   "risiko": 5,
+   "liquiditaet": 5,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 14,
+    "schwankung": 70
+   },
+   "ticker": "BTC-EUR",
+   "ticker_hinweis": "Referenzkurs Bitcoin",
+   "klassen": {
+    "krypto": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Steuerliche Behandlung hängt vom Produkt ab (physisch besichert mit Lieferanspruch vs. Schuldverschreibung) – vor dem Kauf prüfen.",
+   "mindestkapital": "ab ca. 25 €",
+   "besonderheiten": [
+    "Steuer umstritten: Steuerfreiheit nach 1 Jahr nur bei bestimmten Produkten",
+    "Laufende Kosten höher als bei ETFs",
+    "Angezeigter Kurs: Bitcoin direkt als Referenz"
+   ],
+   "pro": [
+    "Kein eigenes Wallet nötig"
+   ],
+   "contra": [
+    "Emittentenrisiko",
+    "Kosten"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "knockout",
+   "name": "Knock-out-Zertifikate",
+   "klasse": "hebel",
+   "eltern": "hebel",
+   "kurz": "Wette mit Hebel auf steigende oder fallende Kurse. Berührt der Kurs die Schwelle, ist das Geld weg.",
+   "risiko": 5,
+   "liquiditaet": 4,
+   "komplexitaet": 5,
+   "erwartung": {
+    "rendite": 0,
+    "schwankung": 100
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "historie": null,
+   "hebel": 5,
+   "steuer": "Abgeltungsteuer; Verluste aus Termingeschäften nur begrenzt verrechenbar.",
+   "mindestkapital": "ab ca. 100 €",
+   "besonderheiten": [
+    "Knock-out = sofortiger Totalverlust",
+    "Die meisten Privatanleger verlieren damit Geld (Größenordnung aus Studien)",
+    "Emittent stellt die Kurse"
+   ],
+   "pro": [
+    "Großer Hebel mit kleinem Einsatz"
+   ],
+   "contra": [
+    "Totalverlust",
+    "Für langfristige Anlage ungeeignet"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "hebel_etf",
+   "name": "Gehebelte ETFs",
+   "klasse": "hebel",
+   "eltern": "hebel",
+   "kurz": "ETFs, die einen Index täglich zwei- oder dreifach abbilden.",
+   "risiko": 5,
+   "liquiditaet": 5,
+   "komplexitaet": 4,
+   "erwartung": {
+    "rendite": 9,
+    "schwankung": 35
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "aktien_usa": 1
+   },
+   "historie": null,
+   "hebel": 2,
+   "steuer": "Abgeltungsteuer 25 % + Soli (ggf. Kirchensteuer) auf Gewinne und Ausschüttungen; Sparerpauschbetrag 1.000 € (2.000 € zusammen veranlagt).",
+   "mindestkapital": "ab 1 €",
+   "besonderheiten": [
+    "Tägliche Hebelung: langfristig weicht das Ergebnis stark vom Zweifachen ab",
+    "Volatility Decay in Seitwärtsphasen"
+   ],
+   "pro": [
+    "Kein Knock-out, kein Nachschuss"
+   ],
+   "contra": [
+    "Doppelte Verluste",
+    "Hohe Kosten"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "eltif",
+   "name": "Private Equity / ELTIF",
+   "klasse": "beteiligungen",
+   "eltern": "beteiligungen",
+   "kurz": "Beteiligungen an nicht börsennotierten Firmen über Fonds. Seit ELTIF 2.0 auch für Privatanleger zugänglich.",
+   "risiko": 4,
+   "liquiditaet": 1,
+   "komplexitaet": 4,
+   "erwartung": {
+    "rendite": 8,
+    "schwankung": 25
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Je nach Fondsart; Abgeltungsteuer.",
+   "mindestkapital": "oft ab einigen Tausend Euro",
+   "besonderheiten": [
+    "Lange Bindung, oft 5–10 Jahre",
+    "Hohe Gebühren",
+    "Bewertungen nicht täglich"
+   ],
+   "pro": [
+    "Zugang zu Firmen vor dem Börsengang"
+   ],
+   "contra": [
+    "Illiquide",
+    "Intransparent"
+   ],
+   "produkte": []
+  },
+  {
+   "id": "startups",
+   "name": "Start-ups / Venture Capital",
+   "klasse": "beteiligungen",
+   "eltern": "beteiligungen",
+   "kurz": "Direkt oder über Plattformen in junge Firmen investieren. Die meisten scheitern, wenige vervielfachen.",
+   "risiko": 5,
+   "liquiditaet": 1,
+   "komplexitaet": 4,
+   "erwartung": {
+    "rendite": 10,
+    "schwankung": 60
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "aktien_tech": 1
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Gewinne aus Anteilen: Abgeltungsteuer oder Teileinkünfteverfahren je nach Beteiligungshöhe.",
+   "mindestkapital": "ab ca. 100 € (Crowd) bis 25.000 €+ (Angel)",
+   "besonderheiten": [
+    "Mehrheit der Start-ups scheitert – Streuung über viele Beteiligungen nötig",
+    "Kapital oft 7–10 Jahre gebunden"
+   ],
+   "pro": [
+    "Sehr hohe Chancen bei Gewinnern"
+   ],
+   "contra": [
+    "Totalverlust häufig",
+    "Kein Verkauf möglich"
+   ],
+   "produkte": []
+  }
+ ],
+ "klassen_erwartung": {
+  "_hinweis": "Langfristige Annahmen (nominal p.a., Größenordnung) für Produkte ohne eigenen Glossar-Eintrag.",
+  "aktien_tech": [
+   8,
+   22
+  ],
+  "aktien_usa": [
+   7,
+   16
+  ],
+  "aktien_welt": [
+   7,
+   15
+  ],
+  "aktien_em": [
+   7.5,
+   20
+  ],
+  "anleihen": [
+   2.5,
+   6
+  ],
+  "geldmarkt": [
+   2,
+   0.5
+  ],
+  "gold": [
+   4.5,
+   15
+  ],
+  "goldminen": [
+   5,
+   35
+  ],
+  "rohstoffe_oel": [
+   3,
+   35
+  ],
+  "immobilien": [
+   6,
+   20
+  ],
+  "krypto": [
+   15,
+   70
+  ]
+ },
+ "risikostufen": [
+  {
+   "stufe": 1,
+   "name": "Sicherheit",
+   "text": "Kapitalerhalt zuerst. Schwankungen kaum akzeptiert."
+  },
+  {
+   "stufe": 2,
+   "name": "Konservativ",
+   "text": "Kleine Verluste in Ordnung, Fokus auf Stabilität."
+  },
+  {
+   "stufe": 3,
+   "name": "Ausgewogen",
+   "text": "Zwischenzeitliche Verluste von 20–30 % werden ausgehalten."
+  },
+  {
+   "stufe": 4,
+   "name": "Wachstum",
+   "text": "Verluste von 40–50 % in Krisen werden ausgehalten, um mehr Rendite zu erreichen."
+  },
+  {
+   "stufe": 5,
+   "name": "Spekulativ",
+   "text": "Bereit, Teile komplett zu verlieren, um überdurchschnittliche Chancen zu nutzen."
+  }
+ ]
+}
