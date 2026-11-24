@@ -140,8 +140,18 @@ def _kontext(conn, s: dict, msgs: list[dict]) -> str:
         f"IDEE DES NUTZERS:\n{s['idea']}\n\n"
         f"PROFIL DES NUTZERS:\n{profile.as_text(conn, s['user_id'])}\n\n"
         f"KLÄRUNGSGESPRÄCH:\n{_klaer_verlauf(msgs) or '-'}\n\n"
-        f"RECHERCHE-MATERIAL:\n{_recherche_text(conn, s)}"
+        f"RECHERCHE-MATERIAL:\n{_recherche_text(conn, s)}\n\n"
+        f"{_marktlage(conn)}"
     )
+
+
+def _marktlage(conn) -> str:
+    from . import indikatoren
+
+    try:
+        return indikatoren.text_fuer_modell(conn)
+    except Exception:
+        return "MARKTINDIKATOREN HEUTE: nicht verfügbar."
 
 
 # ---------- Phase 0: Klären ----------

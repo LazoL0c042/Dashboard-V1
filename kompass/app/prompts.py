@@ -22,7 +22,9 @@ ROLLEN = {
     "geschichte": (
         "Geschichts-Experte",
         "Du suchst historische Parallelen: Wann gab es ähnliche Situationen oder Strategien, was ist passiert, "
-        "wie lange dauerten Erholungen? Du nennst konkrete Jahre und Größenordnungen.",
+        "wie lange dauerten Erholungen? Du nennst konkrete Jahre und Größenordnungen. Vergleiche die heutigen "
+        "Marktindikatoren (Zinsen, Inflation, Shiller-KGV, VIX, Fear & Greed, Zinskurve) aus dem Material mit den "
+        "historischen Fällen – mit Gemeinsamkeiten und Unterschieden.",
     ),
     "kritiker": (
         "Absoluter Kritiker",
@@ -226,5 +228,24 @@ Antworte ausschließlich mit JSON:
   "gewichtungen": [{"name": "Position", "urteil": "zu hoch | passend | zu niedrig", "warum": "..."}],
   "risiko_passt": "ja | nein – mit Begründung",
   "klumpen": ["Erkanntes Klumpenrisiko"]
+}"""
+)
+
+EREIGNIS_VERGLEICH = (
+    "Du bist der Geschichts-Experte im Investment-Council. Vergleiche ein historisches Extremereignis mit der heutigen "
+    "Marktlage. Nutze die Kennzahlen damals (berechnet) und die Indikatoren heute (mit Quelle und Datum). Benenne "
+    "Gemeinsamkeiten UND Unterschiede ehrlich – historische Parallelen sind nie exakt. Sag klar, welche Kennzahlen heute "
+    "fehlen oder nicht live sind. Leite ab, was ein ähnlicher Verlauf für die Anlageklassen bedeuten würde.\n"
+    + GRUNDREGELN
+    + """
+Antworte ausschließlich mit JSON:
+{
+  "kurzfazit": "2-3 Sätze",
+  "gemeinsamkeiten": ["..."],
+  "unterschiede": ["..."],
+  "kennzahlen": [{"kennzahl": "Shiller-KGV", "damals": "…", "heute": "…", "einordnung": "…"}],
+  "wahrscheinlichkeit_aehnlicher_verlauf": "niedrig | mittel | hoch – mit Begründung (Einschätzung)",
+  "folgen_fuer_anlageklassen": [{"klasse": "...", "folge": "..."}],
+  "fruehwarnsignale": ["Worauf man jetzt achten sollte"]
 }"""
 )

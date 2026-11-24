@@ -518,3 +518,9 @@ input.sl-r.anschlag::-moz-range-thumb { border-color: var(--rose-d); }
   font-size: 11px; font-weight: 600; color: var(--lav-d); background: var(--lav); padding: 2px 8px; border-radius: 8px; white-space: nowrap;
 }
 .sl-kopf output { min-width: 4ch; text-align: right; }
+
+/* Historische Ereignisse */
+.ev-karte { display: flex; flex-direction: column; margin: 0; }
+.ev-zahlen { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--muted); }
+.ev-zahlen b { font-size: 16px; color: var(--text); font-variant-numeric: tabular-nums; }
+.ev-zahlen b.down { color: var(--rose-d); }

@@ -8,7 +8,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from . import auth, berater, calculator, config, council, db, entwurf, glossar, llm, plans, portfolios, products, profile, research, scenarios, taxes
+from . import auth, berater, indikatoren, calculator, config, council, db, entwurf, glossar, llm, plans, portfolios, products, profile, research, scenarios, taxes
 
 STATIC = Path(__file__).resolve().parent.parent / "static"
 COOKIE = "kompass_session"
@@ -668,6 +668,34 @@ def create_app(db_path: str | None = None, runner=None) -> FastAPI:
     @app.get("/api/medien")
     def medien(u=Depends(get_user)):
         return glossar.medien()
+
+    # ----- Historische Ereignisse, Marktlage -----
+
+    @app.get("/api/ereignisse")
+    def ereignisse(u=Depends(get_user), c=Depends(get_conn)):
+        ind = indikatoren.aktuell(c)
+        d = indikatoren.ereignisse()
+        return {**d, "indikatoren": ind, "aehnlichkeit": indikatoren.aehnlichkeit(ind)}
+
+    @app.get("/api/indikatoren")
+    def indikatoren_alle(u=Depends(get_user), c=Depends(get_conn)):
+        return indikatoren.aktuell(c)
+
+    @app.post("/api/ereignisse/{eid}/vergleich")
+    def ereignis_vergleich(eid: str, u=Depends(hinweis_ok), c=Depends(get_conn)):
+        try:
+            vid = indikatoren.vergleich_start(c, u["id"], eid)
+        except ValueError as e:
+            fehler(e, 404)
+        run_bg(indikatoren.vergleich_run, vid)
+        return {"id": vid}
+
+    @app.get("/api/ereignisse/vergleich/{vid}")
+    def ereignis_vergleich_get(vid: int, u=Depends(get_user), c=Depends(get_conn)):
+        r = indikatoren.vergleich_get(c, u["id"], vid)
+        if not r:
+            raise HTTPException(404, "Nicht gefunden")
+        return r
 
     # ----- Entwurf (Warenkorb) -----
 

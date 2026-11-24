@@ -63,7 +63,7 @@ const ICONS = {
 const BEREICHE = [
   ["plaene", "Pläne", "#/plaene", ["#/plaene", "#/portfolios", "#/szenario", "#/entwurf", "#/berater", "#/bauen"]],
   ["council", "Council", "#/council", ["#/council"]],
-  ["recherche", "Recherche", "#/recherche", ["#/recherche", "#/produkte", "#/glossar", "#/quellen"]],
+  ["recherche", "Recherche", "#/recherche", ["#/recherche", "#/produkte", "#/glossar", "#/quellen", "#/ereignisse"]],
   ["rechner", "Rechner", "#/rechner", ["#/rechner"]],
 ];
 
@@ -138,6 +138,9 @@ const routes = [
   [/^#\/glossar$/, viewGlossar],
   [/^#\/glossar\/([\w-]+)$/, viewAsset],
   [/^#\/quellen$/, viewQuellen],
+  [/^#\/ereignisse$/, viewEreignisse],
+  [/^#\/ereignisse\/([\w-]+)$/, viewEreignis],
+  [/^#\/council\?idee=(.*)$/, (q) => viewCouncilList(decodeURIComponent(q))],
   [/^#\/entwurf$/, viewEntwurf],
   [/^#\/bauen$/, () => viewBauen(null)],
   [/^#\/bauen\/([1-5])$/, viewBauen],
@@ -260,14 +263,14 @@ const STATUS = {
 };
 const statusPill = (s) => `<span class="pill ${STATUS[s][1]}">${STATUS[s][0]}</span>`;
 
-async function viewCouncilList() {
+async function viewCouncilList(vorbelegt = "") {
   const [liste, re] = await Promise.all([api("/api/council"), api("/api/recherche")]);
   const fertigeRe = re.liste.filter((r) => r.status === "fertig").slice(0, 8);
   render(`${kopf("Council")}
     <div class="card">
       <form id="f">
         <label>Deine Idee oder Frage</label>
-        <textarea name="idea" placeholder="z. B. Ich überlege, 20 % meines Depots in Gold umzuschichten, weil …" required></textarea>
+        <textarea name="idea" placeholder="z. B. Ich überlege, 20 % meines Depots in Gold umzuschichten, weil …" required>${esc(vorbelegt)}</textarea>
         ${fertigeRe.length ? `<label>Recherche anhängen (gibt dem Council aktuelles Material)</label>
           ${fertigeRe.map((r) => `<div><label style="display:flex;gap:8px;align-items:center;color:var(--text);font-size:15px">
             <input type="checkbox" name="r" value="${r.id}"> ${esc(r.query)} <span class="muted">${datum(r.created_at)}</span></label></div>`).join("")}` : ""}

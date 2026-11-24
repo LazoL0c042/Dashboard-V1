@@ -7,7 +7,7 @@ Auf Wunsch sucht der Berater aktuelle Quellen (Recherche) und bezieht sie ein.
 import json
 
 from . import entwurf, glossar, llm, profile, prompts, research
-from .council import parse_json
+from .council import _marktlage, parse_json
 from .db import one, rows
 
 
@@ -74,7 +74,7 @@ def _kontext(conn, c: dict) -> str:
         f"AKTUELLE POSITIONEN IM ENTWURF:\n"
         + ("\n".join(f"- {p['name']} ({p.get('asset_id') or p.get('ticker')}): {p['anteil']:.0f} %" for p in e["positionen"]) or "- noch keine")
         + f"\n\nGLOSSAR (asset_id, Risiko, Annahmen):\n{_katalog_text()}\n\n"
-        f"RECHERCHE-MATERIAL:{material or ' keins'}\n\nGESPRÄCH BISHER:\n{verlauf}"
+        f"RECHERCHE-MATERIAL:{material or ' keins'}\n\n{_marktlage(conn)}\n\nGESPRÄCH BISHER:\n{verlauf}"
     )
 
 

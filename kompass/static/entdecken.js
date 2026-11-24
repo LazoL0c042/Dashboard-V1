@@ -36,7 +36,7 @@ async function viewGlossar() {
   const [g, e] = await Promise.all([glossarDaten(), api("/api/entwurf")]);
   const imEntwurf = new Set(e.positionen.map((p) => p.asset_id));
   render(`${kopf("Glossar der Anlageklassen", "#/recherche", `<a class="btn" href="#/entwurf">Entwurf ansehen</a>`)}
-    ${rechercheTabs("glossar")}
+    ${rechercheTabs("glossar")}${glossarTabs("assets")}
     <div class="cols"><p class="muted" style="margin:0">Jede Anlage als Karte: kurze Beschreibung, Risiko, langfristige Annahmen, Gründe dafür und dagegen. Mit „+“ landet sie in deinem Portfolio-Entwurf.</p>
       <div>${slider({ id: "g-risiko", label: "Zeige Anlagen bis Risiko", skala: "risiko", wert: 5, hinweis: "Stufe 5 zeigt auch spekulative Werte wie Memecoins und Hebelprodukte." })}</div></div>
     <div id="g-liste">${g.hauptklassen.map((h) => {
@@ -111,10 +111,15 @@ async function viewAsset(aid) {
         <h3>Besonderheiten</h3><ul class="besonders">${a.besonderheiten.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
       <div class="card"><h3 style="margin-top:0">Steuern (Deutschland)</h3><p>${esc(a.steuer)}</p><p class="muted small">Vereinfachte Darstellung, Stand 2026 – im Einzelfall prüfen.</p>
         ${a.katalog.length ? `<h3>Produkte im Katalog</h3>${a.katalog.map((p) => `<p><a href="#/produkte/${esc(p.id)}">${esc(p.name)}</a><br><span class="muted small">${esc(p.isin)} · ${esc(p.ticker)}</span></p>`).join("")}` : ""}
+        <div id="a-krisen"></div>
         ${geschwister.length ? `<h3>Ähnlich in „${esc(h.name)}“</h3><div class="chips">${geschwister.map((x) => `<a class="chip" href="#/glossar/${x.id}">${esc(x.name)}</a>`).join("")}</div>` : ""}
       </div>
     </div>`);
   initSlider();
+  ereignisseFuerAsset(a).then((l) => {
+    const box = document.getElementById("a-krisen");
+    if (box && l.length) box.innerHTML = `<h3>In historischen Krisen</h3>${l.map((x) => `<p><a href="#/ereignisse/${x.id}">${esc(x.name)}</a> <span class="muted small">${esc(x.zeitraum)}</span><br>${esc(x.text)}</p>`).join("")}`;
+  }).catch(() => {});
   document.getElementById("a-add").onclick = (ev) => {
     const sel = document.getElementById("a-prod");
     inEntwurf({ asset_id: a.id, id: sel ? sel.value : null, anteil: slWert("a-anteil") }, ev.target);

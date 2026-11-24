@@ -193,3 +193,22 @@ CREATE TABLE IF NOT EXISTS berater_nachrichten (
     model TEXT,
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+-- Marktindikatoren (Cache) und KI-Vergleiche historischer Ereignisse mit heute.
+CREATE TABLE IF NOT EXISTS indikatoren (
+    key TEXT PRIMARY KEY,
+    wert REAL NOT NULL,
+    datum TEXT NOT NULL,
+    abgerufen TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ereignis_vergleiche (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    ereignis_id TEXT NOT NULL,
+    ergebnis_json TEXT,
+    status TEXT NOT NULL DEFAULT 'laeuft',
+    provider TEXT,
+    model TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
