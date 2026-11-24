@@ -61,3 +61,30 @@ def test_produkte_katalog(client):
     d = client.get("/api/produkte").json()
     assert d["benchmark"]["isin"] == "IE00B4L5Y983"
     assert "Edelmetalle" in d["kategorien"]
+
+
+def test_portfolios_und_kurse(client, monkeypatch):
+    from app import market
+    monkeypatch.setattr(market, "fetch", lambda t, s: [("2024-01-02", 10.0), ("2024-01-03", 11.0), ("2024-01-10", 12.0)])
+    anmelden(client)
+    body = {"name": "Test", "startdatum": "2024-01-02", "einmalbetrag": 1000, "sparrate": 0,
+            "positionen": [{"ticker": "EUNL.DE", "isin": "IE00B4L5Y983", "anteil": 100}]}
+    pid = client.post("/api/portfolios", json=body).json()["id"]
+    assert client.get("/api/portfolios").json()["portfolios"][0]["positionen"][0]["klassen"] == {"aktien_welt": 1}
+    body["name"] = "Neu"
+    assert client.put(f"/api/portfolios/{pid}", json=body).status_code == 200
+    k = client.get("/api/kurse", params={"tickers": "EUNL.DE,4GLD.DE", "start": "2024-01-02"}).json()["kurse"]
+    assert k["EUNL.DE"] == [["2024-01-03", 11.0], ["2024-01-10", 12.0]]
+    assert client.post("/api/portfolios", json={**body, "positionen": []}).status_code == 400
+    assert client.delete(f"/api/portfolios/{pid}").status_code == 200
+    assert client.get(f"/api/portfolios/{pid}").status_code == 404
+
+
+def test_szenarien_endpunkt(client):
+    anmelden(client)
+    d = client.get("/api/szenarien").json()
+    assert "ki_blase" in [s["id"] for s in d["szenarien"]]
+    client.post("/api/hinweis")
+    r = client.post("/api/szenario/ki", json={"szenario": "ki_blase", "positionen": [{"name": "A", "anteil": 1, "klassen": {"aktien_welt": 1}}]})
+    assert r.status_code == 200
+    assert client.get(f"/api/szenario/ki/{r.json()['id']}").json()["status"] == "laeuft"

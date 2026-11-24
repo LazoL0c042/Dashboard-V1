@@ -43,9 +43,42 @@ function toast(text) {
   setTimeout(() => t.remove(), 2600);
 }
 
-function kopf(title, back = "#/") {
-  return `<div class="top">${back ? `<a class="back" href="${back}">‹ Zurück</a>` : ""}<span class="spacer"></span>
-    ${ME ? `<a class="me" href="#/profil">${esc(ME.name)}</a>` : ""}</div><h1>${esc(title)}</h1>`;
+const ZURUECK = { "#/": "Start", "#/council": "Council", "#/plaene": "Pläne", "#/plaene/entscheidungen": "Entscheidungen",
+  "#/recherche": "Recherche", "#/produkte": "Produkte", "#/rechner": "Rechner" };
+
+function kopf(title, back = "#/", aktionen = "") {
+  const name = ZURUECK[back] || (back && back.startsWith("#/portfolios") ? "Portfolio" : back && back.startsWith("#/council/") ? "Council-Sitzung" : back && back.startsWith("#/plaene/") ? "Entscheidung" : "Zurück");
+  return `${back ? `<a class="crumb" href="${back}">‹ ${esc(name)}</a>` : ""}
+    <div class="pagehead"><h1>${esc(title)}</h1>${aktionen ? `<div class="actions">${aktionen}</div>` : ""}</div>`;
+}
+
+// ---------- Navigation ----------
+
+const ICONS = {
+  plaene: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>',
+  council: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg>',
+  recherche: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+  rechner: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg>',
+};
+const BEREICHE = [
+  ["plaene", "Pläne", "#/plaene", ["#/plaene", "#/portfolios", "#/szenario"]],
+  ["council", "Council", "#/council", ["#/council"]],
+  ["recherche", "Recherche", "#/recherche", ["#/recherche", "#/produkte"]],
+  ["rechner", "Rechner", "#/rechner", ["#/rechner"]],
+];
+
+function renderNav() {
+  const nav = document.getElementById("nav");
+  if (!nav) return;
+  if (!ME) { nav.hidden = true; return; }
+  nav.hidden = false;
+  const h = location.hash || "#/";
+  nav.innerHTML = `<div class="nav-in"><a class="brand" href="#/">Kompass</a>
+    <div class="nav-links">${BEREICHE.map(([k, name, href, pre]) => {
+      const on = pre.some((x) => h === x || h.startsWith(x + "/") || h.startsWith(x + "?"));
+      return `<a class="nav-link n-${k}${on ? " on" : ""}" href="${href}"${on ? ' aria-current="page"' : ""}>${ICONS[k]}<span>${name}</span></a>`;
+    }).join("")}</div>
+    ${ME.is_admin ? '<a class="nav-me" href="#/admin">Einstellungen</a>' : ""}<a class="nav-me" href="#/profil">${esc(ME.name)}</a></div>`;
 }
 
 function render(html) {
@@ -94,8 +127,13 @@ const routes = [
   [/^#\/?$/, viewHome],
   [/^#\/council$/, viewCouncilList],
   [/^#\/council\/(\d+)$/, viewCouncil],
-  [/^#\/plaene$/, viewPlaene],
-  [/^#\/plaene\/neu(?:\?session=(\d+))?$/, viewPlanNeu],
+  [/^#\/plaene$/, viewPortfolios],
+  [/^#\/plaene\/entscheidungen$/, viewPlaene],
+  [/^#\/plaene\/neu(?:\?(.*))?$/, viewPlanNeu],
+  [/^#\/portfolios\/neu$/, () => viewPortfolioForm(null)],
+  [/^#\/portfolios\/(\d+)$/, viewPortfolio],
+  [/^#\/portfolios\/(\d+)\/bearbeiten$/, viewPortfolioForm],
+  [/^#\/szenario(?:\?(.*))?$/, viewSzenario],
   [/^#\/plaene\/(\d+)$/, viewPlan],
   [/^#\/recherche$/, viewRechercheList],
   [/^#\/recherche\/(\d+)$/, viewRecherche],
@@ -112,6 +150,7 @@ async function route() {
   if (!ME && h !== "#/login") {
     try { ME = await api("/api/me"); } catch { return; }
   }
+  renderNav();
   if (ME && !ME.hinweis_bestaetigt && h !== "#/login") return viewHinweis();
   for (const [re, fn] of routes) {
     const m = h.match(re);
@@ -177,17 +216,30 @@ function viewHinweis() {
 // ---------- Start ----------
 
 async function viewHome() {
-  const [pl, co] = await Promise.all([api("/api/plaene"), api("/api/council")]);
+  const [pl, co, pf] = await Promise.all([api("/api/plaene"), api("/api/council"), api("/api/portfolios")]);
   const offen = co.filter((s) => s.status === "klaeren" || s.status === "laeuft").length;
-  render(`<div class="top"><span class="spacer"></span><a class="me" href="#/profil">${esc(ME.name)}</a></div>
-    <h1>Kompass</h1>
+  const letzte = co[0];
+  render(`<div class="pagehead"><h1>Hallo ${esc(ME.name)}</h1></div>
     <div class="tiles">
-      <a class="tile t-mint" href="#/plaene"><span class="name">Pläne</span><span class="num">${pl.plaene.length} gespeichert</span></a>
-      <a class="tile t-lav" href="#/council"><span class="name">Council</span><span class="num">${offen ? offen + " offen" : "Idee besprechen"}</span></a>
-      <a class="tile t-sky" href="#/recherche"><span class="name">Recherche</span><span class="num">Nachrichten · Produkte</span></a>
+      <a class="tile t-mint" href="#/plaene"><span class="name">Pläne</span>
+        <span><span class="big-num">${pf.portfolios.length}</span> <span class="num">Portfolios · ${pl.plaene.length} Entscheidungen</span></span></a>
+      <a class="tile t-lav" href="#/council"><span class="name">Council</span>
+        <span>${offen ? `<span class="big-num">${offen}</span> <span class="num">offene Sitzung${offen > 1 ? "en" : ""}</span>` : '<span class="num">Neue Idee besprechen</span>'}</span></a>
+      <a class="tile t-sky" href="#/recherche"><span class="name">Recherche</span><span class="num">Nachrichten · Gesetze · Produkte</span></a>
       <a class="tile t-peach" href="#/rechner"><span class="name">Rechner</span><span class="num">Worst · Realistisch · Best</span></a>
     </div>
-    ${ME.is_admin ? '<p class="center" style="margin-top:28px"><a class="muted" href="#/admin">Einstellungen</a></p>' : ""}`);
+    ${pf.portfolios.length ? `<div class="pagehead" style="margin-top:32px"><h2 style="margin:0">Deine Portfolios</h2><a class="btn" href="#/plaene">Alle ansehen</a></div>
+      <div class="cards" id="home-pf">${pf.portfolios.slice(0, 6).map((p) => `<a class="pcard" href="#/portfolios/${p.id}" id="hp-${p.id}"><span class="pname">${esc(p.name)}</span><span class="muted">Rechne …</span></a>`).join("")}</div>` : ""}
+    ${letzte ? `<h2>Zuletzt im Council</h2><div class="card list"><a class="item" href="#/council/${letzte.id}"><span class="t">${esc(letzte.idea.slice(0, 140))}</span>${statusPill(letzte.status)}</a></div>` : ""}`);
+  for (const p of pf.portfolios.slice(0, 6)) {
+    rechne(p).then((r) => {
+      const box = document.getElementById(`hp-${p.id}`);
+      const k = r.kennzahlen;
+      if (!box || !k) { if (box) box.innerHTML = `<span class="pname">${esc(p.name)}</span><span class="muted">Keine Kurse</span>`; return; }
+      box.innerHTML = `<span class="pname">${esc(p.name)}</span><div class="row2"><div><div class="big">${eur0(k.wert)}</div>
+        <div class="${tone(k.gewinnProzent)}" style="font-weight:620">${pctS(k.gewinnProzent)}</div></div>${Charts.spark(r.punkte.map((x) => x.wert))}</div>`;
+    }).catch(() => {});
+  }
 }
 
 // ---------- Council ----------
@@ -273,7 +325,7 @@ function ergebnisHtml(res, sid) {
       ${x.verifiziert ? '<span class="pill p-mint">im Katalog</span>' : '<span class="pill p-sand">nicht verifiziert</span>'}
       <div class="muted small">${esc(x.isin)} · ${esc(x.kategorie)}</div><p>${esc(x.warum)}</p><p class="src">${esc(x.kennzahlen)}</p></div>`).join("")}
     ${p.produkt.hinweis ? `<p class="muted small">${esc(p.produkt.hinweis)}</p>` : ""}</div>` : ""}
-  <div class="actions"><a class="btn primary" href="#/plaene/neu?session=${sid}">Als Plan speichern</a></div>`;
+  <div class="actions"><a class="btn primary" href="#/plaene/neu?session=${sid}">Als Entscheidung einfrieren</a><a class="btn" href="#/szenario?quelle=council&id=${sid}">Szenario anwenden</a></div>`;
 }
 
 async function viewCouncil(sid) {
@@ -337,21 +389,29 @@ async function viewPlaene() {
   const d = await api("/api/plaene");
   const q = d.trefferquote;
   const quote = (x) => (x.von ? `${x.ja} / ${x.von}` : "–");
-  render(`${kopf("Pläne")}
+  render(`${kopf("Pläne")}${planTabs("entscheidungen")}
+    <p class="muted">Eingefrorene Entscheidungen mit Council-Protokoll. Auswertung gegen den MSCI World.</p>
     <div class="grid3">
       <div class="kpi" style="background:var(--mint)"><div class="l">Markt geschlagen</div><div class="big">${quote(q.markt_geschlagen)}</div></div>
       <div class="kpi" style="background:var(--lav)"><div class="l">Ziel erreicht / auf Kurs</div><div class="big">${quote(q.ziel)}</div></div>
       <div class="kpi" style="background:var(--peach)"><div class="l">Im Plus</div><div class="big">${quote(q.im_plus)}</div></div>
     </div>
     <p class="muted small">Jeweils letzte Auswertung. Vergleich: iShares Core MSCI World (IE00B4L5Y983) mit denselben Einzahlungen.</p>
-    <div class="actions"><a class="btn" href="#/plaene/neu">Plan ohne Council anlegen</a></div>
+    <div class="actions"><a class="btn" href="#/plaene/neu">Entscheidung ohne Council anlegen</a></div>
     <div class="card list">${d.plaene.map((p) => `<a class="item" href="#/plaene/${p.id}"><span class="t">${esc(p.title)}<br><span class="muted small">${datum(p.created_at)} · ${num(p.horizont_jahre)} Jahre</span></span>
       <span>${p.letzte_auswertung ? (p.letzte_auswertung.markt_geschlagen ? '<span class="pill p-mint">schlägt Markt</span>' : p.letzte_auswertung.markt_geschlagen === false ? '<span class="pill p-rose">unter Markt</span>' : '<span class="pill p-sky">Kurs fehlt</span>') : '<span class="pill p-sky">nicht ausgewertet</span>'}</span></a>`).join("") || '<p class="muted">Noch keine Pläne. Speichere ein Council-Ergebnis als Plan.</p>'}</div>`);
 }
 
-async function viewPlanNeu(sessionId) {
+async function viewPlanNeu(query) {
+  const qp = new URLSearchParams(query || "");
+  const sessionId = qp.get("session"), portfolioId = qp.get("portfolio");
   const [kat, prof] = await Promise.all([api("/api/produkte"), api("/api/profil")]);
   let vorschlag = {}, produkteVorschlag = [];
+  if (portfolioId) {
+    const pf = await api(`/api/portfolios/${portfolioId}`);
+    vorschlag = { titel: pf.name, was: "Portfolio", warum: pf.beschreibung, einmalbetrag: pf.einmalbetrag, sparrate: pf.sparrate, startdatum: pf.startdatum };
+    produkteVorschlag = pf.positionen;
+  }
   if (sessionId) {
     const c = await api(`/api/council/${sessionId}`);
     const r = c.session.result;
@@ -362,12 +422,13 @@ async function viewPlanNeu(sessionId) {
   }
   const pv = (k) => prof.aktuell[k]?.value || "";
   const optionen = kat.produkte.map((p) => `<option value="${esc(p.ticker)}|${esc(p.isin)}|${esc(p.name)}">${esc(p.name)} (${esc(p.ticker)})</option>`).join("");
-  const zeile = (sel = "") => `<div class="row prod"><select name="p">${optionen.replace(`value="${sel}`, `selected value="${sel}`)}<option value="eigen">Eigener Ticker …</option></select>
-    <input name="a" type="number" step="any" value="100" style="flex:0 0 90px" title="Anteil in %"></div>`;
+  const zeile = (sel = "", anteil = 100, eigen = null) => `<div class="row prod"><select name="p" style="flex:3 1 240px">${optionen.replace(`value="${sel}`, `selected value="${sel}`)}<option value="eigen" ${eigen ? "selected" : ""}>Eigener Ticker …</option></select>
+    <input class="ptick" placeholder="Ticker, z. B. SAP.DE" value="${esc(eigen || "")}" ${eigen ? "" : "hidden"} style="flex:1 1 140px">
+    <input name="a" class="pant" type="number" step="any" value="${esc(anteil)}" style="flex:0 0 100px" title="Anteil in %"></div>`;
   const start = produkteVorschlag.length
-    ? produkteVorschlag.map((p) => { const k = kat.produkte.find((x) => x.isin === p.isin); return zeile(k ? `${k.ticker}|${k.isin}` : ""); }).join("")
+    ? produkteVorschlag.map((p) => { const k = kat.produkte.find((x) => (p.isin && x.isin === p.isin) || x.ticker === p.ticker); return k ? zeile(`${k.ticker}|${k.isin}`, p.anteil ?? 100) : zeile("", p.anteil ?? 100, p.ticker); }).join("")
     : zeile();
-  render(`${kopf("Plan speichern", sessionId ? `#/council/${sessionId}` : "#/plaene")}
+  render(`${kopf("Entscheidung einfrieren", sessionId ? `#/council/${sessionId}` : portfolioId ? `#/portfolios/${portfolioId}` : "#/plaene/entscheidungen")}
     <p class="muted">Der Plan wird eingefroren: später nicht mehr änderbar, nur Notizen und Auswertungen kommen dazu. So kannst du ehrlich prüfen, was funktioniert hat.</p>
     <form id="f" class="card">
       <label>Titel</label><input name="titel" value="${esc(vorschlag.titel)}" required>
@@ -376,20 +437,22 @@ async function viewPlanNeu(sessionId) {
       <label>Warum (These)</label><textarea name="warum">${esc(vorschlag.warum)}</textarea>
       <label>Woran erkenne ich, ob die These stimmt? (Prüfkriterien)</label><textarea name="kriterien" placeholder="z. B. Goldpreis > 3.000 $ bei Rezession; Realzins sinkt …"></textarea>
       <div class="row">
-        <div><label>Einmalbetrag (€)</label><input name="einmalbetrag" type="number" step="any" min="0" value="${esc(pv("kapital"))}"></div>
-        <div><label>Sparrate pro Monat (€)</label><input name="sparrate" type="number" step="any" min="0" value="${esc(pv("sparrate"))}"></div>
+        <div><label>Einmalbetrag (€)</label><input name="einmalbetrag" type="number" step="any" min="0" value="${esc(vorschlag.einmalbetrag ?? pv("kapital"))}"></div>
+        <div><label>Sparrate pro Monat (€)</label><input name="sparrate" type="number" step="any" min="0" value="${esc(vorschlag.sparrate ?? pv("sparrate"))}"></div>
       </div>
       <div class="row">
         <div><label>Wie lange (Jahre)</label><input name="horizont_jahre" type="number" step="any" min="0" value="${esc(pv("horizont_jahre"))}" required></div>
         <div><label>Zielbetrag (€)</label><input name="zielbetrag" type="number" step="any" min="0" value="${esc(pv("zielbetrag"))}"></div>
-        <div><label>Startdatum</label><input name="startdatum" type="date" value="${new Date().toISOString().slice(0, 10)}"></div>
+        <div><label>Startdatum</label><input name="startdatum" type="date" value="${vorschlag.startdatum || new Date().toISOString().slice(0, 10)}"></div>
       </div>
       <label>Produkte und Anteil (%)</label><div id="prods">${start}</div>
       <button type="button" class="ghost" id="add">+ Produkt</button>
       <div id="e"></div>
       <div class="actions"><button class="primary">Einfrieren und speichern</button></div>
     </form>`);
-  document.getElementById("add").onclick = () => document.getElementById("prods").insertAdjacentHTML("beforeend", zeile());
+  const prods = document.getElementById("prods");
+  prods.addEventListener("change", (ev) => { if (ev.target.name === "p") ev.target.parentElement.querySelector(".ptick").hidden = ev.target.value !== "eigen"; });
+  document.getElementById("add").onclick = () => prods.insertAdjacentHTML("beforeend", zeile());
   document.getElementById("f").onsubmit = async (ev) => {
     ev.preventDefault();
     const d = formData(ev.target);
@@ -397,12 +460,12 @@ async function viewPlanNeu(sessionId) {
     for (const row of document.querySelectorAll(".prod")) {
       let v = row.querySelector("select").value;
       if (v === "eigen") {
-        const t = prompt("Yahoo-Finance-Ticker (z. B. SAP.DE, BTC-EUR):");
+        const t = row.querySelector(".ptick").value.trim();
         if (!t) continue;
-        v = `${t.trim()}||${t.trim()}`;
+        v = `${t}||${t}`;
       }
       const [ticker, isin, name] = v.split("|");
-      produkte.push({ ticker, isin, name, anteil: Number(row.querySelector("input").value) || 0 });
+      produkte.push({ ticker, isin, name, anteil: Number(row.querySelector(".pant").value) || 0 });
     }
     const body = {
       ...d, session_id: sessionId ? Number(sessionId) : null, produkte,
@@ -439,11 +502,12 @@ async function viewPlan(pid) {
   const auswertungen = p.nachtraege.filter((n) => n.kind === "auswertung");
   const letzte = auswertungen[auswertungen.length - 1];
   const nachb = p.nachtraege.filter((n) => n.kind === "nachbesprechung");
+  const szen = p.nachtraege.filter((n) => n.kind === "szenario");
   const notizen = p.nachtraege.filter((n) => n.kind === "notiz");
   const kurse = f.kurse_am_entscheidungstag || {};
   render(`${kopf(p.title, "#/plaene")}
     <p class="muted">Eingefroren am ${datum(p.created_at)}${f.ergebnis ? ` · Council: ${esc(f.ergebnis.synthese.bewertung)}, ${f.ergebnis.synthese.wahrscheinlichkeit} %` : ""}</p>
-    <div class="actions"><button class="primary" id="ausw">Jetzt auswerten</button><button id="nach">Nachbesprechung mit Council</button></div>
+    <div class="actions"><button class="primary" id="ausw">Jetzt auswerten</button><button id="nach">Nachbesprechung mit Council</button><a class="btn" href="#/szenario?quelle=plan&id=${pid}">Szenario anwenden</a></div>
     <div id="a">${letzte ? auswertungHtml(letzte.content) : '<p class="muted">Noch nicht ausgewertet.</p>'}</div>
     ${nachb.map((n) => `<div class="card flat"><h3>Nachbesprechung ${datum(n.created_at)}</h3>${n.content.fehler ? errBox(n.content.fehler) : `
       <p><b>Richtig:</b></p><ul>${(n.content.richtig || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
@@ -462,6 +526,8 @@ async function viewPlan(pid) {
       <tr><td>MSCI World (Vergleich)<br><span class="muted small">${esc(f.benchmark.isin)}</span></td><td></td>
         <td>${kurse[f.benchmark.ticker] ? `${num(kurse[f.benchmark.ticker].kurs, 4)}<br>${src("Yahoo Finance", kurse[f.benchmark.ticker].datum)}` : "–"}</td></tr></table>
     </div>
+    ${szen.length ? `<h2>Szenarien</h2><div class="card flat"><table><tr><th>Szenario</th><th class="num">Worst</th><th class="num">Realistisch</th><th class="num">Best</th><th>Datum</th></tr>
+      ${szen.map((n) => `<tr><td>${esc(n.content.szenario)}${n.content.ki ? ' <span class="pill p-lav">mit KI-Begründung</span>' : ""}</td><td class="num">${pct(n.content.worst * 100, 1)}</td><td class="num">${pct(n.content.realistisch * 100, 1)}</td><td class="num">${pct(n.content.best * 100, 1)}</td><td>${datum(n.created_at)}</td></tr>`).join("")}</table></div>` : ""}
     <h2>Notizen</h2>
     ${notizen.map((n) => `<div class="card flat"><p class="muted small">${datum(n.created_at)}</p><p>${esc(n.content.text)}</p></div>`).join("")}
     <form id="nf" class="card flat"><textarea name="text" placeholder="Was ist seitdem passiert?" required></textarea><div class="actions"><button>Notiz hinzufügen</button></div></form>
@@ -542,7 +608,9 @@ async function viewProdukte() {
 
 async function viewProdukt(kennung) {
   render(`${kopf("Produkt", "#/produkte")}<div class="card progress"><span class="dot"></span>Lade Kurse …</div>`);
+  const h0 = location.hash;
   const p = await api(`/api/produkte/${encodeURIComponent(kennung)}`);
+  if (location.hash !== h0) return;
   const l = p.live;
   const noteCls = { gut: "p-mint", mittel: "p-sand", schwach: "p-rose" };
   const top10 = p.fakten.top10 ? JSON.parse(p.fakten.top10.wert) : null;

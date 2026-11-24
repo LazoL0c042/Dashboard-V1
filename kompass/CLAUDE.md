@@ -21,6 +21,11 @@ Modelle: nur kostenlose Zugänge über OpenAI-kompatible Schnittstellen (`app/ll
 8. `pytest -q` muss grün sein, bevor etwas als fertig gilt.
 9. `werkbank/` wird von diesem Projekt nie verändert.
 
+## Rechenlogik im Browser
+Portfolio-Rückrechnung und Szenarien laufen in `static/rechnen.js` (eine Implementierung, Tests in
+`tests/js/test_rechnen.js`, werden über pytest ausgeführt). Diagramme: `static/charts.js` (ohne Bibliothek,
+Farben `--series-1..3`, geprüft auf Farbenblindheit). Szenario-Annahmen sind Größenordnungen, keine Prognosen.
+
 ## Council-Regeln (aus der Spezifikation)
 5 Fachrollen, max. 4 Runden. Konsens = Spanne ≤ 15 Punkte UND Kritiker `einwand_widerlegt=true`.
 Ohne Konsens: Dissens zeigen, keine Prüfrunde. Wahrscheinlichkeit = Median (berechnet, nicht vom Modell).
