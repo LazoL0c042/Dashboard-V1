@@ -486,3 +486,35 @@ input.sl-r.anschlag::-moz-range-thumb { border-color: var(--rose-d); }
 /* Ergebnis-Karten: umbrechen statt abschneiden */
 .grid3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
 .kpi .v { overflow-wrap: anywhere; }
+
+/* ---------- Regler v2: Einrasten, Feinziehen, − / + ---------- */
+.sl-zeile { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 10px; align-items: center; }
+.sl-btn {
+  width: 44px; height: 44px; min-height: 44px; padding: 0; border-radius: 50%; font-size: 22px; line-height: 1; font-weight: 600;
+  background: var(--card); color: var(--lav-d); border: 1.5px solid var(--edge); touch-action: manipulation; user-select: none; -webkit-user-select: none;
+}
+.sl-btn:active { background: var(--lav); }
+.sl-track { position: relative; height: 56px; cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; outline: none; }
+.sl.klein .sl-track { height: 46px; }
+.sl-bar { position: absolute; left: 0; right: 0; top: 18px; height: 12px; border-radius: 6px; background: var(--grid); overflow: hidden; }
+.sl.klein .sl-bar { top: 17px; }
+.sl-fill { height: 100%; width: var(--p); background: var(--lav-d); border-radius: 6px; }
+.sl-thumb {
+  position: absolute; top: 7px; left: var(--p); width: 34px; height: 34px; margin-left: -17px; border-radius: 50%;
+  background: var(--card); border: 3px solid var(--lav-d); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); transition: transform 0.12s ease;
+}
+.sl.klein .sl-thumb { top: 6px; width: 32px; height: 32px; margin-left: -16px; }
+.sl-track.zieht .sl-thumb { transform: scale(1.15); }
+.sl-track.rastet .sl-thumb { box-shadow: 0 0 0 6px color-mix(in srgb, var(--lav-d) 30%, transparent); }
+.sl-track.anschlag .sl-thumb { border-color: var(--rose-d); }
+.sl-track:focus-visible .sl-thumb { outline: 3px solid var(--lav-d); outline-offset: 3px; }
+.sl-marke { position: absolute; top: 33px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; pointer-events: none; }
+.sl-marke i { display: block; width: 2px; height: 6px; background: var(--edge); border-radius: 1px; }
+.sl-marke em { font-style: normal; font-size: 11px; color: var(--muted); margin-top: 1px; white-space: nowrap; }
+.sl-marke:first-of-type { transform: translateX(-4px); align-items: flex-start; }
+.sl-marke:last-of-type { transform: translateX(calc(-100% + 4px)); align-items: flex-end; }
+.sl-track[data-fein]:not([data-fein=""])::after {
+  content: attr(data-fein); position: absolute; left: var(--p); top: -22px; transform: translateX(-50%);
+  font-size: 11px; font-weight: 600; color: var(--lav-d); background: var(--lav); padding: 2px 8px; border-radius: 8px; white-space: nowrap;
+}
+.sl-kopf output { min-width: 4ch; text-align: right; }
