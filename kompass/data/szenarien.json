@@ -1,0 +1,1454 @@
+{
+ "_hinweis": "Szenario-Annahmen als Größenordnung (in %, nominal, aus Sicht eines Euro-Anlegers). Jeweils [Tiefpunkt, Ende] je Anlageklasse für einen schweren, mittleren und milden Verlauf. Angelehnt an die genannten historischen Vorbilder, keine Prognose.",
+ "klassen": {
+  "aktien_tech": "Tech-Aktien",
+  "aktien_usa": "Aktien USA",
+  "aktien_welt": "Aktien Welt",
+  "aktien_em": "Aktien Schwellenländer",
+  "anleihen": "Anleihen (Euro)",
+  "geldmarkt": "Geldmarkt/Tagesgeld",
+  "gold": "Gold",
+  "goldminen": "Goldminen",
+  "rohstoffe_oel": "Öl & Rohstoffe",
+  "immobilien": "Immobilien (REITs)",
+  "krypto": "Krypto"
+ },
+ "szenarien": [
+  {
+   "id": "ki_blase",
+   "name": "KI-Blase platzt",
+   "kurz": "Die Erwartungen an KI-Gewinne brechen ein, Tech-Aktien werden neu bewertet.",
+   "horizont_monate": 36,
+   "tief_monat": 18,
+   "ausloeser": "Gewinne der KI-Investitionen bleiben hinter den Erwartungen zurück. Große Tech-Konzerne kürzen Investitionsbudgets, Bewertungen fallen von Rekordniveaus.",
+   "phasen": [
+    {
+     "zeitraum": "Monat 0–6",
+     "was": "Erste Gewinnwarnungen, Rotation aus Tech in defensive Sektoren. Indizes mit hohem Tech-Anteil fallen zuerst."
+    },
+    {
+     "zeitraum": "Monat 6–18",
+     "was": "Abwärtsspirale: Investitionsstopps treffen Zulieferer, Chiphersteller und Rechenzentren. Breiter Markt folgt, Notenbanken senken Zinsen."
+    },
+    {
+     "zeitraum": "Monat 18–36",
+     "was": "Bodenbildung. Breite Märkte erholen sich teilweise, Tech bleibt lange unter dem alten Hoch."
+    }
+   ],
+   "treiber": [
+    "Hohe Konzentration: wenige KI-Konzerne machen einen großen Teil von MSCI World und S&P 500 aus",
+    "Bewertungen (KGV) fallen schneller als Gewinne",
+    "Sinkende Zinsen stützen Anleihen und Gold"
+   ],
+   "vorbild": "Dotcom-Blase 2000–2002: Nasdaq-100 vom Hoch zum Tief rund −80 %, S&P 500 rund −49 % (Größenordnung). Der Nasdaq-100 brauchte rund 15 Jahre bis zum alten Hoch.",
+   "begruendung": {
+    "aktien_tech": "Direkt betroffen: Bewertungen und Gewinnerwartungen fallen gleichzeitig.",
+    "aktien_usa": "Hoher Tech-Anteil im Index zieht den Gesamtmarkt mit.",
+    "aktien_welt": "Etwas weniger Tech als die USA, aber die größten Positionen sind US-Tech.",
+    "aktien_em": "Weniger Tech-Gewicht, aber Exporteure (Chips aus Taiwan, Korea) leiden mit.",
+    "anleihen": "Sichere Häfen: sinkende Zinsen heben die Kurse.",
+    "geldmarkt": "Stabil, Zinsertrag sinkt aber mit den Leitzinsen.",
+    "gold": "Krisenschutz, aber anfangs Verkäufe zur Liquiditätsbeschaffung.",
+    "goldminen": "Schwanken stärker als Gold, fallen in der Panikphase mit Aktien.",
+    "rohstoffe_oel": "Schwächere Konjunktur senkt die Nachfrage.",
+    "immobilien": "Börsennotierte Immobilien fallen mit dem Aktienmarkt.",
+    "krypto": "Hochriskante Anlagen werden in Abschwüngen zuerst verkauft."
+   },
+   "stoesse": {
+    "schwer": {
+     "aktien_tech": [
+      -80,
+      -70
+     ],
+     "aktien_usa": [
+      -50,
+      -40
+     ],
+     "aktien_welt": [
+      -45,
+      -35
+     ],
+     "aktien_em": [
+      -40,
+      -30
+     ],
+     "anleihen": [
+      -3,
+      0
+     ],
+     "geldmarkt": [
+      1,
+      3
+     ],
+     "gold": [
+      -12,
+      -5
+     ],
+     "goldminen": [
+      -35,
+      -20
+     ],
+     "rohstoffe_oel": [
+      -45,
+      -35
+     ],
+     "immobilien": [
+      -35,
+      -25
+     ],
+     "krypto": [
+      -85,
+      -75
+     ]
+    },
+    "mittel": {
+     "aktien_tech": [
+      -55,
+      -40
+     ],
+     "aktien_usa": [
+      -35,
+      -20
+     ],
+     "aktien_welt": [
+      -30,
+      -15
+     ],
+     "aktien_em": [
+      -25,
+      -10
+     ],
+     "anleihen": [
+      4,
+      8
+     ],
+     "geldmarkt": [
+      2,
+      5
+     ],
+     "gold": [
+      -5,
+      10
+     ],
+     "goldminen": [
+      -20,
+      5
+     ],
+     "rohstoffe_oel": [
+      -25,
+      -10
+     ],
+     "immobilien": [
+      -20,
+      -8
+     ],
+     "krypto": [
+      -65,
+      -45
+     ]
+    },
+    "mild": {
+     "aktien_tech": [
+      -30,
+      -10
+     ],
+     "aktien_usa": [
+      -18,
+      0
+     ],
+     "aktien_welt": [
+      -15,
+      3
+     ],
+     "aktien_em": [
+      -12,
+      5
+     ],
+     "anleihen": [
+      6,
+      14
+     ],
+     "geldmarkt": [
+      3,
+      7
+     ],
+     "gold": [
+      0,
+      30
+     ],
+     "goldminen": [
+      -5,
+      35
+     ],
+     "rohstoffe_oel": [
+      -10,
+      5
+     ],
+     "immobilien": [
+      -10,
+      5
+     ],
+     "krypto": [
+      -40,
+      -10
+     ]
+    }
+   }
+  },
+  {
+   "id": "zinsen_hoch",
+   "name": "Zinsen steigen deutlich",
+   "kurz": "Notenbanken erhöhen die Leitzinsen um rund 2 Prozentpunkte, um Inflation zu bremsen.",
+   "horizont_monate": 24,
+   "tief_monat": 12,
+   "ausloeser": "Die Inflation bleibt hartnäckig. Notenbanken erhöhen die Zinsen schneller als erwartet.",
+   "phasen": [
+    {
+     "zeitraum": "Monat 0–6",
+     "was": "Anleihekurse fallen, langlaufende Anleihen am stärksten. Wachstumsaktien verlieren, weil künftige Gewinne weniger wert sind."
+    },
+    {
+     "zeitraum": "Monat 6–12",
+     "was": "Höhere Finanzierungskosten bremsen Immobilien und verschuldete Firmen. Tiefpunkt der meisten Märkte."
+    },
+    {
+     "zeitraum": "Monat 12–24",
+     "was": "Zinsgipfel erreicht, Märkte stabilisieren sich. Geldmarkt und Tagesgeld bringen deutlich mehr Zinsen."
+    }
+   ],
+   "treiber": [
+    "Höherer Diskontierungszins senkt den Wert künftiger Gewinne",
+    "Bestehende Anleihen mit niedrigem Kupon verlieren an Wert",
+    "Gold bringt keine Zinsen und wird relativ unattraktiver"
+   ],
+   "vorbild": "2022: Aktien und Anleihen fielen gleichzeitig. Globale Anleihen rund −16 %, Nasdaq rund −33 %, S&P 500 rund −19 % im Kalenderjahr (Größenordnung).",
+   "begruendung": {
+    "aktien_tech": "Hohe Bewertungen reagieren am stärksten auf steigende Zinsen.",
+    "aktien_usa": "Bewertungsdruck, aber starke Gewinne dämpfen.",
+    "aktien_welt": "Banken profitieren, Wachstum leidet: insgesamt negativ.",
+    "aktien_em": "Höhere US-Zinsen ziehen Kapital aus Schwellenländern ab.",
+    "anleihen": "Direkter Kursverlust durch höhere Marktzinsen.",
+    "geldmarkt": "Profitiert direkt: Zinsen steigen mit.",
+    "gold": "Keine laufenden Erträge, Opportunitätskosten steigen.",
+    "goldminen": "Hebel auf Gold, zusätzlich höhere Kosten.",
+    "rohstoffe_oel": "Abhängig davon, ob die Inflation von Energie kommt.",
+    "immobilien": "Finanzierung teurer, Bewertungen sinken.",
+    "krypto": "Billiges Geld fehlt, spekulative Anlagen fallen."
+   },
+   "stoesse": {
+    "schwer": {
+     "aktien_tech": [
+      -45,
+      -35
+     ],
+     "aktien_usa": [
+      -30,
+      -20
+     ],
+     "aktien_welt": [
+      -28,
+      -18
+     ],
+     "aktien_em": [
+      -32,
+      -22
+     ],
+     "anleihen": [
+      -20,
+      -15
+     ],
+     "geldmarkt": [
+      2,
+      5
+     ],
+     "gold": [
+      -18,
+      -12
+     ],
+     "goldminen": [
+      -35,
+      -25
+     ],
+     "rohstoffe_oel": [
+      -20,
+      -10
+     ],
+     "immobilien": [
+      -35,
+      -28
+     ],
+     "krypto": [
+      -75,
+      -65
+     ]
+    },
+    "mittel": {
+     "aktien_tech": [
+      -30,
+      -15
+     ],
+     "aktien_usa": [
+      -20,
+      -8
+     ],
+     "aktien_welt": [
+      -18,
+      -6
+     ],
+     "aktien_em": [
+      -22,
+      -10
+     ],
+     "anleihen": [
+      -14,
+      -8
+     ],
+     "geldmarkt": [
+      3,
+      7
+     ],
+     "gold": [
+      -10,
+      -3
+     ],
+     "goldminen": [
+      -20,
+      -8
+     ],
+     "rohstoffe_oel": [
+      -5,
+      5
+     ],
+     "immobilien": [
+      -25,
+      -15
+     ],
+     "krypto": [
+      -55,
+      -40
+     ]
+    },
+    "mild": {
+     "aktien_tech": [
+      -15,
+      0
+     ],
+     "aktien_usa": [
+      -10,
+      5
+     ],
+     "aktien_welt": [
+      -8,
+      6
+     ],
+     "aktien_em": [
+      -10,
+      3
+     ],
+     "anleihen": [
+      -6,
+      -1
+     ],
+     "geldmarkt": [
+      4,
+      9
+     ],
+     "gold": [
+      -3,
+      8
+     ],
+     "goldminen": [
+      -8,
+      10
+     ],
+     "rohstoffe_oel": [
+      0,
+      20
+     ],
+     "immobilien": [
+      -12,
+      -3
+     ],
+     "krypto": [
+      -30,
+      -10
+     ]
+    }
+   }
+  },
+  {
+   "id": "zinsen_runter",
+   "name": "Zinsen sinken deutlich",
+   "kurz": "Notenbanken senken die Leitzinsen um rund 2 Prozentpunkte.",
+   "horizont_monate": 24,
+   "tief_monat": 6,
+   "ausloeser": "Die Konjunktur kühlt ab oder die Inflation ist besiegt. Notenbanken senken die Zinsen kräftig.",
+   "phasen": [
+    {
+     "zeitraum": "Monat 0–6",
+     "was": "Unsicherheit: Senken die Notenbanken wegen einer Krise, fallen Aktien zunächst. Anleihen steigen sofort."
+    },
+    {
+     "zeitraum": "Monat 6–24",
+     "was": "Billigeres Geld treibt Bewertungen. Wachstumsaktien, Immobilien und Gold profitieren am meisten."
+    }
+   ],
+   "treiber": [
+    "Niedrigere Zinsen erhöhen den Wert künftiger Gewinne",
+    "Anleihen mit höheren Kupons steigen im Kurs",
+    "Entscheidend ist der Grund: Senkung in der Rezession ist für Aktien schlecht (schwerer Fall)"
+   ],
+   "vorbild": "2019: Zinssenkungen ohne Rezession, Aktien stiegen stark. 2001 und 2008: Senkungen in der Krise, Aktien fielen trotzdem weiter.",
+   "begruendung": {
+    "aktien_tech": "Profitiert am stärksten von niedrigen Zinsen – außer bei einer Krise.",
+    "aktien_usa": "Höhere Bewertungen möglich.",
+    "aktien_welt": "Breiter Rückenwind durch billigeres Geld.",
+    "aktien_em": "Schwächerer Dollar und Kapitalzuflüsse helfen.",
+    "anleihen": "Direkter Kursgewinn.",
+    "geldmarkt": "Zinsertrag sinkt.",
+    "gold": "Opportunitätskosten sinken, Gold wird attraktiver.",
+    "goldminen": "Hebel auf steigenden Goldpreis.",
+    "rohstoffe_oel": "Hängt von der Konjunktur ab: bei Abschwung fällt Öl.",
+    "immobilien": "Finanzierung günstiger, Bewertungen steigen.",
+    "krypto": "Mehr Liquidität fließt in spekulative Anlagen."
+   },
+   "stoesse": {
+    "schwer": {
+     "aktien_tech": [
+      -25,
+      -5
+     ],
+     "aktien_usa": [
+      -20,
+      -5
+     ],
+     "aktien_welt": [
+      -20,
+      -6
+     ],
+     "aktien_em": [
+      -18,
+      -5
+     ],
+     "anleihen": [
+      0,
+      5
+     ],
+     "geldmarkt": [
+      1,
+      2
+     ],
+     "gold": [
+      -6,
+      0
+     ],
+     "goldminen": [
+      -15,
+      -3
+     ],
+     "rohstoffe_oel": [
+      -30,
+      -20
+     ],
+     "immobilien": [
+      -12,
+      0
+     ],
+     "krypto": [
+      -50,
+      -30
+     ]
+    },
+    "mittel": {
+     "aktien_tech": [
+      -8,
+      18
+     ],
+     "aktien_usa": [
+      -6,
+      12
+     ],
+     "aktien_welt": [
+      -6,
+      10
+     ],
+     "aktien_em": [
+      -5,
+      12
+     ],
+     "anleihen": [
+      2,
+      10
+     ],
+     "geldmarkt": [
+      1,
+      3
+     ],
+     "gold": [
+      0,
+      12
+     ],
+     "goldminen": [
+      -5,
+      20
+     ],
+     "rohstoffe_oel": [
+      -10,
+      0
+     ],
+     "immobilien": [
+      -3,
+      12
+     ],
+     "krypto": [
+      -15,
+      30
+     ]
+    },
+    "mild": {
+     "aktien_tech": [
+      0,
+      35
+     ],
+     "aktien_usa": [
+      0,
+      25
+     ],
+     "aktien_welt": [
+      0,
+      22
+     ],
+     "aktien_em": [
+      0,
+      25
+     ],
+     "anleihen": [
+      4,
+      16
+     ],
+     "geldmarkt": [
+      2,
+      4
+     ],
+     "gold": [
+      2,
+      25
+     ],
+     "goldminen": [
+      0,
+      45
+     ],
+     "rohstoffe_oel": [
+      0,
+      12
+     ],
+     "immobilien": [
+      0,
+      22
+     ],
+     "krypto": [
+      0,
+      80
+     ]
+    }
+   }
+  },
+  {
+   "id": "oelschock",
+   "name": "Ölpreisschock",
+   "kurz": "Das Ölangebot bricht ein, der Ölpreis steigt stark.",
+   "horizont_monate": 18,
+   "tief_monat": 9,
+   "ausloeser": "Ein Konflikt oder ein Förderstopp verknappt das Angebot. Energiepreise steigen sprunghaft.",
+   "phasen": [
+    {
+     "zeitraum": "Monat 0–3",
+     "was": "Ölpreis springt. Energieaktien steigen, Fluglinien, Chemie und Industrie fallen."
+    },
+    {
+     "zeitraum": "Monat 3–9",
+     "was": "Inflation steigt, Konsum schwächelt, Notenbanken zögern. Aktienmärkte erreichen den Tiefpunkt."
+    },
+    {
+     "zeitraum": "Monat 9–18",
+     "was": "Angebot passt sich an oder Nachfrage sinkt. Ölpreis gibt teilweise nach, Märkte erholen sich langsam."
+    }
+   ],
+   "treiber": [
+    "Energie ist Kostenfaktor für fast alle Branchen",
+    "Europa ist als Importeur stärker betroffen als die USA",
+    "Gold profitiert als Inflations- und Krisenschutz"
+   ],
+   "vorbild": "Ölkrise 1973/74: Ölpreis vervierfachte sich, US-Aktien 1973 −17 % und 1974 −26 % (Shiller-Daten in Kompass). 2022: Energiepreisschock in Europa.",
+   "begruendung": {
+    "aktien_tech": "Indirekt: Inflation und höhere Zinsen drücken Bewertungen.",
+    "aktien_usa": "Die USA sind selbst großer Ölproduzent, daher etwas robuster.",
+    "aktien_welt": "Energiesektor gewinnt, der Rest verliert.",
+    "aktien_em": "Importländer leiden, Exporteure gewinnen: insgesamt negativ.",
+    "anleihen": "Inflation steigt, Zinsen ziehen an.",
+    "geldmarkt": "Stabil.",
+    "gold": "Gefragt als Schutz vor Inflation und Krise.",
+    "goldminen": "Höhere Goldpreise, aber auch höhere Energiekosten.",
+    "rohstoffe_oel": "Direkter Profiteur.",
+    "immobilien": "Höhere Zinsen und Baukosten belasten.",
+    "krypto": "Risikoanlagen werden verkauft."
+   },
+   "stoesse": {
+    "schwer": {
+     "aktien_tech": [
+      -35,
+      -25
+     ],
+     "aktien_usa": [
+      -30,
+      -20
+     ],
+     "aktien_welt": [
+      -30,
+      -20
+     ],
+     "aktien_em": [
+      -35,
+      -25
+     ],
+     "anleihen": [
+      -12,
+      -8
+     ],
+     "geldmarkt": [
+      1,
+      2
+     ],
+     "gold": [
+      -5,
+      0
+     ],
+     "goldminen": [
+      -15,
+      -8
+     ],
+     "rohstoffe_oel": [
+      100,
+      60
+     ],
+     "immobilien": [
+      -25,
+      -18
+     ],
+     "krypto": [
+      -60,
+      -45
+     ]
+    },
+    "mittel": {
+     "aktien_tech": [
+      -22,
+      -10
+     ],
+     "aktien_usa": [
+      -18,
+      -8
+     ],
+     "aktien_welt": [
+      -18,
+      -8
+     ],
+     "aktien_em": [
+      -22,
+      -12
+     ],
+     "anleihen": [
+      -5,
+      -2
+     ],
+     "geldmarkt": [
+      2,
+      3
+     ],
+     "gold": [
+      5,
+      12
+     ],
+     "goldminen": [
+      0,
+      10
+     ],
+     "rohstoffe_oel": [
+      50,
+      30
+     ],
+     "immobilien": [
+      -15,
+      -8
+     ],
+     "krypto": [
+      -35,
+      -20
+     ]
+    },
+    "mild": {
+     "aktien_tech": [
+      -10,
+      3
+     ],
+     "aktien_usa": [
+      -8,
+      3
+     ],
+     "aktien_welt": [
+      -8,
+      2
+     ],
+     "aktien_em": [
+      -10,
+      0
+     ],
+     "anleihen": [
+      0,
+      4
+     ],
+     "geldmarkt": [
+      2,
+      4
+     ],
+     "gold": [
+      10,
+      30
+     ],
+     "goldminen": [
+      8,
+      35
+     ],
+     "rohstoffe_oel": [
+      20,
+      5
+     ],
+     "immobilien": [
+      -6,
+      0
+     ],
+     "krypto": [
+      -15,
+      0
+     ]
+    }
+   }
+  },
+  {
+   "id": "rezession",
+   "name": "Globale Rezession",
+   "kurz": "Die Weltwirtschaft schrumpft, Unternehmensgewinne fallen.",
+   "horizont_monate": 24,
+   "tief_monat": 10,
+   "ausloeser": "Nachfrage bricht ein, Arbeitslosigkeit steigt, Kreditausfälle nehmen zu.",
+   "phasen": [
+    {
+     "zeitraum": "Monat 0–4",
+     "was": "Frühindikatoren kippen, zyklische Aktien und Rohstoffe fallen zuerst."
+    },
+    {
+     "zeitraum": "Monat 4–10",
+     "was": "Gewinnrevisionen, Panikverkäufe, Notenbanken senken Zinsen. Tiefpunkt der Märkte – meist bevor die Wirtschaft den Boden erreicht."
+    },
+    {
+     "zeitraum": "Monat 10–24",
+     "was": "Märkte nehmen die Erholung vorweg und steigen, obwohl die Nachrichten noch schlecht sind."
+    }
+   ],
+   "treiber": [
+    "Gewinne fallen, Bewertungen auch",
+    "Flucht in sichere Staatsanleihen",
+    "Märkte drehen meist Monate vor der Wirtschaft"
+   ],
+   "vorbild": "2008/09: MSCI World rund −55 % vom Hoch zum Tief (schwerer Fall). 2020: −34 % in wenigen Wochen, Erholung innerhalb eines Jahres (milder Fall). Größenordnungen.",
+   "begruendung": {
+    "aktien_tech": "Hohe Bewertungen fallen stark, Qualität erholt sich aber oft zuerst.",
+    "aktien_usa": "Breiter Gewinnrückgang.",
+    "aktien_welt": "Breiter Gewinnrückgang über alle Regionen.",
+    "aktien_em": "Schwellenländer sind konjunktursensibler.",
+    "anleihen": "Sichere Häfen, sinkende Zinsen heben die Kurse.",
+    "geldmarkt": "Stabil, Zinsen sinken.",
+    "gold": "Kurzfristig Verkäufe, danach gefragt.",
+    "goldminen": "Fallen in der Panik mit Aktien.",
+    "rohstoffe_oel": "Nachfrage bricht ein.",
+    "immobilien": "Mieten und Bewertungen unter Druck.",
+    "krypto": "Risikoanlagen werden zuerst verkauft."
+   },
+   "stoesse": {
+    "schwer": {
+     "aktien_tech": [
+      -55,
+      -35
+     ],
+     "aktien_usa": [
+      -50,
+      -30
+     ],
+     "aktien_welt": [
+      -50,
+      -30
+     ],
+     "aktien_em": [
+      -55,
+      -35
+     ],
+     "anleihen": [
+      0,
+      10
+     ],
+     "geldmarkt": [
+      1,
+      2
+     ],
+     "gold": [
+      -15,
+      10
+     ],
+     "goldminen": [
+      -40,
+      -10
+     ],
+     "rohstoffe_oel": [
+      -65,
+      -40
+     ],
+     "immobilien": [
+      -55,
+      -35
+     ],
+     "krypto": [
+      -80,
+      -65
+     ]
+    },
+    "mittel": {
+     "aktien_tech": [
+      -35,
+      -15
+     ],
+     "aktien_usa": [
+      -28,
+      -10
+     ],
+     "aktien_welt": [
+      -28,
+      -10
+     ],
+     "aktien_em": [
+      -32,
+      -15
+     ],
+     "anleihen": [
+      3,
+      8
+     ],
+     "geldmarkt": [
+      2,
+      3
+     ],
+     "gold": [
+      -5,
+      8
+     ],
+     "goldminen": [
+      -20,
+      0
+     ],
+     "rohstoffe_oel": [
+      -40,
+      -20
+     ],
+     "immobilien": [
+      -30,
+      -15
+     ],
+     "krypto": [
+      -60,
+      -40
+     ]
+    },
+    "mild": {
+     "aktien_tech": [
+      -18,
+      0
+     ],
+     "aktien_usa": [
+      -15,
+      2
+     ],
+     "aktien_welt": [
+      -15,
+      2
+     ],
+     "aktien_em": [
+      -18,
+      0
+     ],
+     "anleihen": [
+      2,
+      5
+     ],
+     "geldmarkt": [
+      2,
+      4
+     ],
+     "gold": [
+      0,
+      6
+     ],
+     "goldminen": [
+      -10,
+      8
+     ],
+     "rohstoffe_oel": [
+      -20,
+      -8
+     ],
+     "immobilien": [
+      -15,
+      -3
+     ],
+     "krypto": [
+      -35,
+      -15
+     ]
+    }
+   }
+  },
+  {
+   "id": "stagflation",
+   "name": "Stagflation",
+   "kurz": "Hohe Inflation trifft auf schwaches Wachstum – über Jahre.",
+   "horizont_monate": 36,
+   "tief_monat": 20,
+   "ausloeser": "Energie- und Lohnkosten treiben die Preise, während die Wirtschaft stagniert. Notenbanken stecken in der Zwickmühle.",
+   "phasen": [
+    {
+     "zeitraum": "Monat 0–12",
+     "was": "Inflation steigt, Zinsen auch. Aktien und Anleihen fallen gleichzeitig – klassische Mischdepots verlieren."
+    },
+    {
+     "zeitraum": "Monat 12–24",
+     "was": "Realwerte gewinnen: Gold, Rohstoffe. Aktien seitwärts bis abwärts, real deutlich im Minus."
+    },
+    {
+     "zeitraum": "Monat 24–36",
+     "was": "Erst wenn die Inflation gebrochen ist, erholen sich Anleihen und Aktien."
+    }
+   ],
+   "treiber": [
+    "Inflation frisst reale Renditen – die Zahlen hier sind nominal, real ist es schlechter",
+    "Anleihen verlieren doppelt: Kurs und Kaufkraft",
+    "Gold und Rohstoffe sind historisch die Gewinner"
+   ],
+   "vorbild": "1970er-Jahre: US-Aktien 1973 −17 % und 1974 −26 %, Gold 1973 +67 % und 1974 +72 % (Shiller- und Weltbank-Daten in Kompass).",
+   "begruendung": {
+    "aktien_tech": "Hohe Bewertungen plus steigende Zinsen: doppelt belastet.",
+    "aktien_usa": "Gewinnmargen schrumpfen durch Kosten.",
+    "aktien_welt": "Real deutlich negativ.",
+    "aktien_em": "Rohstoffexporteure gewinnen, Importeure verlieren.",
+    "anleihen": "Kursverluste und Kaufkraftverlust.",
+    "geldmarkt": "Nominal positiv, real meist negativ.",
+    "gold": "Historisch einer der Gewinner.",
+    "goldminen": "Hebel auf Gold.",
+    "rohstoffe_oel": "Teil des Problems und deshalb Gewinner.",
+    "immobilien": "Sachwert, aber Zinsen belasten.",
+    "krypto": "Bisher kein bewährter Inflationsschutz."
+   },
+   "stoesse": {
+    "schwer": {
+     "aktien_tech": [
+      -55,
+      -45
+     ],
+     "aktien_usa": [
+      -45,
+      -35
+     ],
+     "aktien_welt": [
+      -45,
+      -35
+     ],
+     "aktien_em": [
+      -45,
+      -35
+     ],
+     "anleihen": [
+      -25,
+      -22
+     ],
+     "geldmarkt": [
+      5,
+      8
+     ],
+     "gold": [
+      0,
+      15
+     ],
+     "goldminen": [
+      -15,
+      0
+     ],
+     "rohstoffe_oel": [
+      40,
+      60
+     ],
+     "immobilien": [
+      -40,
+      -30
+     ],
+     "krypto": [
+      -75,
+      -65
+     ]
+    },
+    "mittel": {
+     "aktien_tech": [
+      -40,
+      -30
+     ],
+     "aktien_usa": [
+      -30,
+      -20
+     ],
+     "aktien_welt": [
+      -30,
+      -20
+     ],
+     "aktien_em": [
+      -30,
+      -20
+     ],
+     "anleihen": [
+      -15,
+      -12
+     ],
+     "geldmarkt": [
+      6,
+      9
+     ],
+     "gold": [
+      10,
+      30
+     ],
+     "goldminen": [
+      5,
+      30
+     ],
+     "rohstoffe_oel": [
+      20,
+      30
+     ],
+     "immobilien": [
+      -25,
+      -18
+     ],
+     "krypto": [
+      -50,
+      -40
+     ]
+    },
+    "mild": {
+     "aktien_tech": [
+      -22,
+      -12
+     ],
+     "aktien_usa": [
+      -15,
+      -5
+     ],
+     "aktien_welt": [
+      -15,
+      -5
+     ],
+     "aktien_em": [
+      -15,
+      -5
+     ],
+     "anleihen": [
+      -8,
+      -4
+     ],
+     "geldmarkt": [
+      6,
+      10
+     ],
+     "gold": [
+      20,
+      60
+     ],
+     "goldminen": [
+      15,
+      70
+     ],
+     "rohstoffe_oel": [
+      10,
+      15
+     ],
+     "immobilien": [
+      -12,
+      -5
+     ],
+     "krypto": [
+      -25,
+      -10
+     ]
+    }
+   }
+  },
+  {
+   "id": "dollar_schwach",
+   "name": "Dollar verliert stark",
+   "kurz": "Der US-Dollar fällt gegenüber dem Euro um rund 15 %.",
+   "horizont_monate": 24,
+   "tief_monat": 12,
+   "ausloeser": "US-Schulden, Zinssenkungen in den USA oder politische Unsicherheit schwächen den Dollar.",
+   "phasen": [
+    {
+     "zeitraum": "Monat 0–12",
+     "was": "Alles, was in Dollar notiert, verliert für Euro-Anleger an Wert – auch wenn der Kurs in Dollar gleich bleibt."
+    },
+    {
+     "zeitraum": "Monat 12–24",
+     "was": "Europäische und Schwellenländer-Anlagen profitieren relativ. Der Effekt flacht ab."
+    }
+   ],
+   "treiber": [
+    "MSCI World besteht zu rund 70 % aus US-Aktien (Größenordnung)",
+    "Gold und Öl werden in Dollar gehandelt",
+    "Euro-Anleihen und Geldmarkt sind nicht betroffen"
+   ],
+   "vorbild": "2002–2008: Der Euro stieg von unter 0,90 auf rund 1,60 Dollar. US-Anlagen brachten Euro-Anlegern deutlich weniger.",
+   "begruendung": {
+    "aktien_tech": "Fast nur US-Firmen: voller Währungsverlust.",
+    "aktien_usa": "Voller Währungsverlust.",
+    "aktien_welt": "Großer US-Anteil: großer Teil des Währungsverlusts.",
+    "aktien_em": "Schwacher Dollar hilft Schwellenländern oft.",
+    "anleihen": "Euro-Staatsanleihen: kein Währungsrisiko.",
+    "geldmarkt": "Euro: kein Währungsrisiko.",
+    "gold": "In Dollar steigt Gold oft, in Euro gleicht sich das teilweise aus.",
+    "goldminen": "Ähnlich wie Gold, mit mehr Schwankung.",
+    "rohstoffe_oel": "In Euro gerechnet günstiger.",
+    "immobilien": "Je nach US-Anteil betroffen.",
+    "krypto": "Unklar, oft gegenläufig zum Dollar."
+   },
+   "stoesse": {
+    "schwer": {
+     "aktien_tech": [
+      -25,
+      -18
+     ],
+     "aktien_usa": [
+      -22,
+      -16
+     ],
+     "aktien_welt": [
+      -16,
+      -10
+     ],
+     "aktien_em": [
+      -10,
+      -3
+     ],
+     "anleihen": [
+      -2,
+      0
+     ],
+     "geldmarkt": [
+      2,
+      4
+     ],
+     "gold": [
+      -12,
+      -5
+     ],
+     "goldminen": [
+      -20,
+      -10
+     ],
+     "rohstoffe_oel": [
+      -18,
+      -12
+     ],
+     "immobilien": [
+      -15,
+      -10
+     ],
+     "krypto": [
+      -40,
+      -30
+     ]
+    },
+    "mittel": {
+     "aktien_tech": [
+      -15,
+      -8
+     ],
+     "aktien_usa": [
+      -14,
+      -8
+     ],
+     "aktien_welt": [
+      -10,
+      -5
+     ],
+     "aktien_em": [
+      -2,
+      5
+     ],
+     "anleihen": [
+      0,
+      2
+     ],
+     "geldmarkt": [
+      2,
+      4
+     ],
+     "gold": [
+      -5,
+      3
+     ],
+     "goldminen": [
+      -10,
+      0
+     ],
+     "rohstoffe_oel": [
+      -10,
+      -5
+     ],
+     "immobilien": [
+      -8,
+      -3
+     ],
+     "krypto": [
+      -20,
+      -10
+     ]
+    },
+    "mild": {
+     "aktien_tech": [
+      -8,
+      0
+     ],
+     "aktien_usa": [
+      -7,
+      0
+     ],
+     "aktien_welt": [
+      -5,
+      2
+     ],
+     "aktien_em": [
+      0,
+      12
+     ],
+     "anleihen": [
+      1,
+      3
+     ],
+     "geldmarkt": [
+      2,
+      4
+     ],
+     "gold": [
+      0,
+      10
+     ],
+     "goldminen": [
+      -3,
+      12
+     ],
+     "rohstoffe_oel": [
+      -3,
+      5
+     ],
+     "immobilien": [
+      -3,
+      3
+     ],
+     "krypto": [
+      0,
+      20
+     ]
+    }
+   }
+  },
+  {
+   "id": "eskalation",
+   "name": "Geopolitische Eskalation",
+   "kurz": "Ein größerer militärischer Konflikt verunsichert die Märkte.",
+   "horizont_monate": 12,
+   "tief_monat": 3,
+   "ausloeser": "Ein Konflikt eskaliert und betrifft Handelswege oder Energieversorgung.",
+   "phasen": [
+    {
+     "zeitraum": "Monat 0–3",
+     "was": "Schock: Aktien fallen, Gold und Öl steigen, Anleger flüchten in sichere Häfen."
+    },
+    {
+     "zeitraum": "Monat 3–12",
+     "was": "Bleibt der Konflikt regional, erholen sich die Märkte meist innerhalb von Monaten. Weitet er sich aus, folgt der schwere Fall."
+    }
+   ],
+   "treiber": [
+    "Unsicherheit wird schnell eingepreist",
+    "Energie- und Lieferketten sind der Übertragungsweg",
+    "Historisch waren die meisten Kriegsschocks an der Börse kurz"
+   ],
+   "vorbild": "Golfkrieg 1990 und Ukraine-Krieg 2022: Aktien fielen zunächst, erholten sich aber innerhalb von Monaten teilweise oder ganz (Größenordnung).",
+   "begruendung": {
+    "aktien_tech": "Lieferketten (Chips) können betroffen sein.",
+    "aktien_usa": "Geografisch entfernt, gilt als sicherer.",
+    "aktien_welt": "Kurzer Schock, meist schnelle Erholung.",
+    "aktien_em": "Näher an Konfliktregionen, Kapitalflucht.",
+    "anleihen": "Sichere Häfen.",
+    "geldmarkt": "Stabil.",
+    "gold": "Klassischer Krisenschutz.",
+    "goldminen": "Hebel auf Gold.",
+    "rohstoffe_oel": "Angst vor Lieferausfällen treibt den Preis.",
+    "immobilien": "Leicht belastet.",
+    "krypto": "Unberechenbar."
+   },
+   "stoesse": {
+    "schwer": {
+     "aktien_tech": [
+      -30,
+      -18
+     ],
+     "aktien_usa": [
+      -25,
+      -15
+     ],
+     "aktien_welt": [
+      -28,
+      -18
+     ],
+     "aktien_em": [
+      -35,
+      -25
+     ],
+     "anleihen": [
+      -2,
+      0
+     ],
+     "geldmarkt": [
+      1,
+      2
+     ],
+     "gold": [
+      15,
+      25
+     ],
+     "goldminen": [
+      10,
+      30
+     ],
+     "rohstoffe_oel": [
+      80,
+      40
+     ],
+     "immobilien": [
+      -20,
+      -12
+     ],
+     "krypto": [
+      -50,
+      -35
+     ]
+    },
+    "mittel": {
+     "aktien_tech": [
+      -15,
+      -3
+     ],
+     "aktien_usa": [
+      -12,
+      -2
+     ],
+     "aktien_welt": [
+      -14,
+      -4
+     ],
+     "aktien_em": [
+      -18,
+      -8
+     ],
+     "anleihen": [
+      2,
+      3
+     ],
+     "geldmarkt": [
+      1,
+      2
+     ],
+     "gold": [
+      8,
+      10
+     ],
+     "goldminen": [
+      5,
+      10
+     ],
+     "rohstoffe_oel": [
+      30,
+      10
+     ],
+     "immobilien": [
+      -10,
+      -4
+     ],
+     "krypto": [
+      -25,
+      -10
+     ]
+    },
+    "mild": {
+     "aktien_tech": [
+      -6,
+      5
+     ],
+     "aktien_usa": [
+      -5,
+      5
+     ],
+     "aktien_welt": [
+      -6,
+      4
+     ],
+     "aktien_em": [
+      -8,
+      2
+     ],
+     "anleihen": [
+      1,
+      3
+     ],
+     "geldmarkt": [
+      1,
+      2
+     ],
+     "gold": [
+      3,
+      5
+     ],
+     "goldminen": [
+      0,
+      5
+     ],
+     "rohstoffe_oel": [
+      10,
+      0
+     ],
+     "immobilien": [
+      -4,
+      2
+     ],
+     "krypto": [
+      -10,
+      10
+     ]
+    }
+   }
+  }
+ ]
+}

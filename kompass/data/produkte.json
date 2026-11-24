@@ -18,7 +18,10 @@
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B4L5Y983"
     }
    ],
-   "id": "IE00B4L5Y983"
+   "id": "IE00B4L5Y983",
+   "klassen": {
+    "aktien_welt": 1
+   }
   },
   {
    "kategorie": "Aktien-ETF Welt",
@@ -37,7 +40,10 @@
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BJ0KDQ92"
     }
    ],
-   "id": "IE00BJ0KDQ92"
+   "id": "IE00BJ0KDQ92",
+   "klassen": {
+    "aktien_welt": 1
+   }
   },
   {
    "kategorie": "Aktien-ETF Welt",
@@ -56,7 +62,11 @@
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BK5BQT80"
     }
    ],
-   "id": "IE00BK5BQT80"
+   "id": "IE00BK5BQT80",
+   "klassen": {
+    "aktien_welt": 0.9,
+    "aktien_em": 0.1
+   }
   },
   {
    "kategorie": "Aktien-ETF Welt",
@@ -75,7 +85,11 @@
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B3YLTY66"
     }
    ],
-   "id": "IE00B3YLTY66"
+   "id": "IE00B3YLTY66",
+   "klassen": {
+    "aktien_welt": 0.9,
+    "aktien_em": 0.1
+   }
   },
   {
    "kategorie": "Aktien-ETF Schwellenländer",
@@ -94,7 +108,10 @@
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BKM4GZ66"
     }
    ],
-   "id": "IE00BKM4GZ66"
+   "id": "IE00BKM4GZ66",
+   "klassen": {
+    "aktien_em": 1
+   }
   },
   {
    "kategorie": "Aktien-ETF USA",
@@ -113,7 +130,10 @@
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B5BMR087"
     }
    ],
-   "id": "IE00B5BMR087"
+   "id": "IE00B5BMR087",
+   "klassen": {
+    "aktien_usa": 1
+   }
   },
   {
    "kategorie": "Edelmetalle",
@@ -132,7 +152,10 @@
      "url": "https://www.justetf.com/de/etf-profile.html?isin=DE000A0S9GB0"
     }
    ],
-   "id": "DE000A0S9GB0"
+   "id": "DE000A0S9GB0",
+   "klassen": {
+    "gold": 1
+   }
   },
   {
    "kategorie": "Edelmetalle",
@@ -151,7 +174,10 @@
      "url": "https://www.justetf.com/de/etf-profile.html?isin=DE000EWG2LD7"
     }
    ],
-   "id": "DE000EWG2LD7"
+   "id": "DE000EWG2LD7",
+   "klassen": {
+    "gold": 1
+   }
   },
   {
    "kategorie": "Edelmetalle",
@@ -170,7 +196,10 @@
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B6R52036"
     }
    ],
-   "id": "IE00B6R52036"
+   "id": "IE00B6R52036",
+   "klassen": {
+    "goldminen": 1
+   }
   },
   {
    "kategorie": "Anleihen",
@@ -189,7 +218,10 @@
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B4WXJJ64"
     }
    ],
-   "id": "IE00B4WXJJ64"
+   "id": "IE00B4WXJJ64",
+   "klassen": {
+    "anleihen": 1
+   }
   },
   {
    "kategorie": "Tagesgeld & Geldmarkt",
@@ -208,7 +240,10 @@
      "url": "https://www.justetf.com/de/etf-profile.html?isin=LU0290358497"
     }
    ],
-   "id": "LU0290358497"
+   "id": "LU0290358497",
+   "klassen": {
+    "geldmarkt": 1
+   }
   },
   {
    "kategorie": "Immobilien",
@@ -227,7 +262,10 @@
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B1FZS350"
     }
    ],
-   "id": "IE00B1FZS350"
+   "id": "IE00B1FZS350",
+   "klassen": {
+    "immobilien": 1
+   }
   },
   {
    "kategorie": "Krypto",
@@ -242,7 +280,10 @@
      "url": "https://www.bafin.de/DE/Verbraucher/GeldanlageWertpapiere/Kryptowerte/kryptowerte_node.html"
     }
    ],
-   "id": "BTC-EUR"
+   "id": "BTC-EUR",
+   "klassen": {
+    "krypto": 1
+   }
   },
   {
    "kategorie": "Edelmetalle",
@@ -258,7 +299,10 @@
      "url": "https://www.gold.de/"
     }
    ],
-   "id": "GOLD-PHYSISCH"
+   "id": "GOLD-PHYSISCH",
+   "klassen": {
+    "gold": 1
+   }
   }
  ]
 }

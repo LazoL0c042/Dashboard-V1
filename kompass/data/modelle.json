@@ -1,22 +1,219 @@
 {
-  "_hinweis": "Standard-Zuordnung. Der Admin kann sie in der App unter Einstellungen ändern. Modellnamen ändern sich bei den Anbietern regelmäßig – bei Fehlern dort anpassen.",
-  "anbieter": {
-    "groq": {"name": "Groq", "base_url": "https://api.groq.com/openai/v1", "key_env": "GROQ_API_KEY"},
-    "mistral": {"name": "Mistral", "base_url": "https://api.mistral.ai/v1", "key_env": "MISTRAL_API_KEY"},
-    "openrouter": {"name": "OpenRouter (free)", "base_url": "https://openrouter.ai/api/v1", "key_env": "OPENROUTER_API_KEY"},
-    "cerebras": {"name": "Cerebras", "base_url": "https://api.cerebras.ai/v1", "key_env": "CEREBRAS_API_KEY"},
-    "gemini": {"name": "Google Gemini", "base_url": "https://generativelanguage.googleapis.com/v1beta/openai", "key_env": "GEMINI_API_KEY"}
+ "_hinweis": "Standard-Zuordnung. Der Admin kann sie in der App unter Einstellungen ändern. Modellnamen ändern sich bei den Anbietern regelmäßig – bei Fehlern dort anpassen.",
+ "anbieter": {
+  "groq": {
+   "name": "Groq",
+   "base_url": "https://api.groq.com/openai/v1",
+   "key_env": "GROQ_API_KEY"
   },
-  "rollen": {
-    "moderator":   [["gemini", "gemini-2.5-flash", "gemini"], ["mistral", "mistral-medium-latest", "mistral"], ["groq", "openai/gpt-oss-120b", "gpt-oss"]],
-    "geopolitik":  [["gemini", "gemini-2.5-flash", "gemini"], ["mistral", "mistral-medium-latest", "mistral"], ["groq", "llama-3.3-70b-versatile", "llama"]],
-    "finanzen":    [["mistral", "mistral-medium-latest", "mistral"], ["groq", "openai/gpt-oss-120b", "gpt-oss"], ["cerebras", "qwen-3-235b-a22b-instruct-2507", "qwen"]],
-    "geschichte":  [["groq", "llama-3.3-70b-versatile", "llama"], ["cerebras", "llama-3.3-70b", "llama"], ["openrouter", "deepseek/deepseek-chat-v3.1:free", "deepseek"]],
-    "kritiker":    [["openrouter", "deepseek/deepseek-chat-v3.1:free", "deepseek"], ["cerebras", "qwen-3-235b-a22b-instruct-2507", "qwen"], ["groq", "moonshotai/kimi-k2-instruct", "kimi"]],
-    "rendite":     [["groq", "openai/gpt-oss-120b", "gpt-oss"], ["cerebras", "gpt-oss-120b", "gpt-oss"], ["mistral", "mistral-medium-latest", "mistral"]],
-    "statistiker": [["cerebras", "qwen-3-235b-a22b-instruct-2507", "qwen"], ["groq", "qwen/qwen3-32b", "qwen"], ["gemini", "gemini-2.5-flash", "gemini"]],
-    "premortem":   [["groq", "moonshotai/kimi-k2-instruct", "kimi"], ["openrouter", "deepseek/deepseek-chat-v3.1:free", "deepseek"], ["mistral", "mistral-medium-latest", "mistral"]],
-    "produkt":     [["gemini", "gemini-2.5-flash", "gemini"], ["mistral", "mistral-medium-latest", "mistral"], ["groq", "openai/gpt-oss-120b", "gpt-oss"]],
-    "recherche":   [["gemini", "gemini-2.5-flash", "gemini"], ["mistral", "mistral-medium-latest", "mistral"], ["groq", "llama-3.3-70b-versatile", "llama"]]
+  "mistral": {
+   "name": "Mistral",
+   "base_url": "https://api.mistral.ai/v1",
+   "key_env": "MISTRAL_API_KEY"
+  },
+  "openrouter": {
+   "name": "OpenRouter (free)",
+   "base_url": "https://openrouter.ai/api/v1",
+   "key_env": "OPENROUTER_API_KEY"
+  },
+  "cerebras": {
+   "name": "Cerebras",
+   "base_url": "https://api.cerebras.ai/v1",
+   "key_env": "CEREBRAS_API_KEY"
+  },
+  "gemini": {
+   "name": "Google Gemini",
+   "base_url": "https://generativelanguage.googleapis.com/v1beta/openai",
+   "key_env": "GEMINI_API_KEY"
   }
+ },
+ "rollen": {
+  "moderator": [
+   [
+    "gemini",
+    "gemini-2.5-flash",
+    "gemini"
+   ],
+   [
+    "mistral",
+    "mistral-medium-latest",
+    "mistral"
+   ],
+   [
+    "groq",
+    "openai/gpt-oss-120b",
+    "gpt-oss"
+   ]
+  ],
+  "geopolitik": [
+   [
+    "gemini",
+    "gemini-2.5-flash",
+    "gemini"
+   ],
+   [
+    "mistral",
+    "mistral-medium-latest",
+    "mistral"
+   ],
+   [
+    "groq",
+    "llama-3.3-70b-versatile",
+    "llama"
+   ]
+  ],
+  "finanzen": [
+   [
+    "mistral",
+    "mistral-medium-latest",
+    "mistral"
+   ],
+   [
+    "groq",
+    "openai/gpt-oss-120b",
+    "gpt-oss"
+   ],
+   [
+    "cerebras",
+    "qwen-3-235b-a22b-instruct-2507",
+    "qwen"
+   ]
+  ],
+  "geschichte": [
+   [
+    "groq",
+    "llama-3.3-70b-versatile",
+    "llama"
+   ],
+   [
+    "cerebras",
+    "llama-3.3-70b",
+    "llama"
+   ],
+   [
+    "openrouter",
+    "deepseek/deepseek-chat-v3.1:free",
+    "deepseek"
+   ]
+  ],
+  "kritiker": [
+   [
+    "openrouter",
+    "deepseek/deepseek-chat-v3.1:free",
+    "deepseek"
+   ],
+   [
+    "cerebras",
+    "qwen-3-235b-a22b-instruct-2507",
+    "qwen"
+   ],
+   [
+    "groq",
+    "moonshotai/kimi-k2-instruct",
+    "kimi"
+   ]
+  ],
+  "rendite": [
+   [
+    "groq",
+    "openai/gpt-oss-120b",
+    "gpt-oss"
+   ],
+   [
+    "cerebras",
+    "gpt-oss-120b",
+    "gpt-oss"
+   ],
+   [
+    "mistral",
+    "mistral-medium-latest",
+    "mistral"
+   ]
+  ],
+  "statistiker": [
+   [
+    "cerebras",
+    "qwen-3-235b-a22b-instruct-2507",
+    "qwen"
+   ],
+   [
+    "groq",
+    "qwen/qwen3-32b",
+    "qwen"
+   ],
+   [
+    "gemini",
+    "gemini-2.5-flash",
+    "gemini"
+   ]
+  ],
+  "premortem": [
+   [
+    "groq",
+    "moonshotai/kimi-k2-instruct",
+    "kimi"
+   ],
+   [
+    "openrouter",
+    "deepseek/deepseek-chat-v3.1:free",
+    "deepseek"
+   ],
+   [
+    "mistral",
+    "mistral-medium-latest",
+    "mistral"
+   ]
+  ],
+  "produkt": [
+   [
+    "gemini",
+    "gemini-2.5-flash",
+    "gemini"
+   ],
+   [
+    "mistral",
+    "mistral-medium-latest",
+    "mistral"
+   ],
+   [
+    "groq",
+    "openai/gpt-oss-120b",
+    "gpt-oss"
+   ]
+  ],
+  "recherche": [
+   [
+    "gemini",
+    "gemini-2.5-flash",
+    "gemini"
+   ],
+   [
+    "mistral",
+    "mistral-medium-latest",
+    "mistral"
+   ],
+   [
+    "groq",
+    "llama-3.3-70b-versatile",
+    "llama"
+   ]
+  ],
+  "szenario": [
+   [
+    "gemini",
+    "gemini-2.5-flash",
+    "gemini"
+   ],
+   [
+    "mistral",
+    "mistral-medium-latest",
+    "mistral"
+   ],
+   [
+    "groq",
+    "openai/gpt-oss-120b",
+    "gpt-oss"
+   ]
+  ]
+ }
 }

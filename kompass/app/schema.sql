@@ -86,7 +86,7 @@ BEGIN SELECT RAISE(ABORT, 'Pläne sind eingefroren'); END;
 CREATE TABLE IF NOT EXISTS plan_addenda (
     id INTEGER PRIMARY KEY,
     plan_id INTEGER NOT NULL REFERENCES plans(id) ON DELETE CASCADE,
-    kind TEXT NOT NULL CHECK (kind IN ('auswertung', 'nachbesprechung', 'notiz')),
+    kind TEXT NOT NULL CHECK (kind IN ('auswertung', 'nachbesprechung', 'notiz', 'szenario')),
     content_json TEXT NOT NULL,
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
@@ -137,4 +137,30 @@ CREATE TABLE IF NOT EXISTS llm_usage (
 CREATE TABLE IF NOT EXISTS settings (
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL
+);
+
+-- Hypothetische Portfolios: frei änderbar (im Gegensatz zu Plänen).
+CREATE TABLE IF NOT EXISTS portfolios (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    beschreibung TEXT NOT NULL DEFAULT '',
+    startdatum TEXT NOT NULL,
+    einmalbetrag REAL NOT NULL DEFAULT 0,
+    sparrate REAL NOT NULL DEFAULT 0,
+    positionen_json TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- KI-Begründungen zu Szenarien (und eigene Szenarien aus Freitext).
+CREATE TABLE IF NOT EXISTS szenario_ki (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    eingabe_json TEXT NOT NULL,
+    ergebnis_json TEXT,
+    status TEXT NOT NULL DEFAULT 'laeuft',
+    provider TEXT,
+    model TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );

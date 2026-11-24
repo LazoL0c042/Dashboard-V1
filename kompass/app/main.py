@@ -8,7 +8,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from . import auth, calculator, config, council, db, llm, plans, products, profile, research, taxes
+from . import auth, calculator, config, council, db, llm, plans, portfolios, products, profile, research, scenarios, taxes
 
 STATIC = Path(__file__).resolve().parent.parent / "static"
 COOKIE = "kompass_session"
@@ -101,6 +101,37 @@ class Rechner(BaseModel):
 
 class Modelle(BaseModel):
     rollen: dict[str, list[list[str]]]
+
+
+class Position(BaseModel):
+    ticker: str
+    isin: str = ""
+    id: str = ""
+    name: str = ""
+    anteil: float = 0
+    klassen: dict[str, float] = {}
+
+
+class PortfolioEingabe(BaseModel):
+    name: str
+    beschreibung: str = ""
+    startdatum: str
+    einmalbetrag: float = 0
+    sparrate: float = 0
+    positionen: list[Position]
+
+
+class SzenarioKI(BaseModel):
+    szenario: str | None = None
+    freitext: str = ""
+    titel: str = ""
+    depotwert: float = 10000
+    positionen: list[dict]
+    ergebnis_kurz: dict = {}
+
+
+class SzenarioNotiz(BaseModel):
+    inhalt: dict
 
 
 class ProduktFakt(BaseModel):
@@ -476,6 +507,83 @@ def create_app(db_path: str | None = None, runner=None) -> FastAPI:
         r["steuerklasse"] = klasse
         r["steuerklasse_name"] = taxes.KLASSEN[klasse]
         return r
+
+
+    # ----- Portfolios -----
+
+    @app.get("/api/portfolios")
+    def portfolios_liste(u=Depends(get_user), c=Depends(get_conn)):
+        return {"portfolios": portfolios.liste(c, u["id"]), "benchmark": config.BENCHMARK,
+                "klassen": scenarios.klassen()}
+
+    @app.post("/api/portfolios")
+    def portfolio_neu(b: PortfolioEingabe, u=Depends(get_user), c=Depends(get_conn)):
+        try:
+            return {"id": portfolios.anlegen(c, u["id"], b.model_dump())}
+        except ValueError as e:
+            fehler(e)
+
+    @app.get("/api/portfolios/{pid}")
+    def portfolio_get(pid: int, u=Depends(get_user), c=Depends(get_conn)):
+        p = portfolios.get(c, u["id"], pid)
+        if not p:
+            raise HTTPException(404, "Portfolio nicht gefunden")
+        return p
+
+    @app.put("/api/portfolios/{pid}")
+    def portfolio_aendern(pid: int, b: PortfolioEingabe, u=Depends(get_user), c=Depends(get_conn)):
+        try:
+            ok = portfolios.aendern(c, u["id"], pid, b.model_dump())
+        except ValueError as e:
+            fehler(e)
+        if not ok:
+            raise HTTPException(404, "Portfolio nicht gefunden")
+        return {"ok": True}
+
+    @app.delete("/api/portfolios/{pid}")
+    def portfolio_loeschen(pid: int, u=Depends(get_user), c=Depends(get_conn)):
+        if not portfolios.loeschen(c, u["id"], pid):
+            raise HTTPException(404, "Portfolio nicht gefunden")
+        return {"ok": True}
+
+    @app.get("/api/kurse")
+    def kurse(tickers: str, start: str, u=Depends(get_user), c=Depends(get_conn)):
+        from datetime import date as _date
+        liste = [t.strip() for t in tickers.split(",") if t.strip()][:25]
+        try:
+            s = _date.fromisoformat(start)
+        except ValueError:
+            raise HTTPException(400, "Startdatum ungültig")
+        return {"kurse": portfolios.kurse(c, liste, s), "quelle": "Yahoo Finance (yfinance), Wochenschlusskurse"}
+
+    # ----- Szenarien -----
+
+    @app.get("/api/szenarien")
+    def szenarien(u=Depends(get_user)):
+        return scenarios.daten()
+
+    @app.post("/api/szenario/ki")
+    def szenario_ki(b: SzenarioKI, u=Depends(hinweis_ok), c=Depends(get_conn)):
+        try:
+            kid = scenarios.start(c, u["id"], b.model_dump())
+        except ValueError as e:
+            fehler(e)
+        run_bg(scenarios.run, kid)
+        return {"id": kid}
+
+    @app.get("/api/szenario/ki/{kid}")
+    def szenario_ki_get(kid: int, u=Depends(get_user), c=Depends(get_conn)):
+        r = scenarios.get(c, u["id"], kid)
+        if not r:
+            raise HTTPException(404, "Nicht gefunden")
+        return r
+
+    @app.post("/api/plaene/{pid}/szenario")
+    def plan_szenario(pid: int, b: SzenarioNotiz, u=Depends(get_user), c=Depends(get_conn)):
+        try:
+            return {"id": plans.nachtrag(c, u["id"], pid, "szenario", b.inhalt)}
+        except LookupError as e:
+            fehler(e, 404)
 
     # ----- Web-App -----
 
