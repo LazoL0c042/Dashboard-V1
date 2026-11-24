@@ -37,7 +37,7 @@ def test_glossar_vollstaendig_und_mit_historie():
 
 
 def test_entwurf_warenkorb(conn, user, user2):
-    e = entwurf.hinzufuegen(conn, user, {"asset_id": "msci_world", "anteil": 70})
+    e = entwurf.hinzufuegen(conn, user, {"asset_id": "msci_world", "anteil": 95})
     e = entwurf.hinzufuegen(conn, user, {"asset_id": "bitcoin", "anteil": 5})
     assert [p["ticker"] for p in e["positionen"]] == ["EUNL.DE", "BTC-EUR"]
     with pytest.raises(ValueError, match="schon"):
@@ -50,7 +50,7 @@ def test_entwurf_warenkorb(conn, user, user2):
 
 
 def test_entwurf_ohne_ticker_nicht_speicherbar(conn, user):
-    entwurf.hinzufuegen(conn, user, {"asset_id": "tagesgeld", "anteil": 20})
+    entwurf.hinzufuegen(conn, user, {"asset_id": "tagesgeld", "anteil": 100})
     with pytest.raises(ValueError, match="Ticker"):
         entwurf.als_portfolio(entwurf.get(conn, user))
 
@@ -94,3 +94,27 @@ def test_council_recherche_anhaengen(conn, user):
     assert len(json.loads(s["research_ids"])) == 1
     assert council.messages_for(conn, sid)[-1]["role"] == "recherche"
     assert "Material [1]" in council._recherche_text(conn, s)
+
+
+def test_entwurf_nie_ueber_100(conn, user):
+    entwurf.hinzufuegen(conn, user, {"asset_id": "msci_world", "anteil": 80})
+    e = entwurf.hinzufuegen(conn, user, {"asset_id": "gold", "anteil": 50})
+    assert [p["anteil"] for p in e["positionen"]] == [80, 20]
+    with pytest.raises(ValueError, match="100 %"):
+        entwurf.hinzufuegen(conn, user, {"asset_id": "bitcoin", "anteil": 5})
+    e["positionen"][0]["anteil"] = 90
+    assert [p["anteil"] for p in entwurf.speichern(conn, user, e)["positionen"]] == [90, 10]
+    e["positionen"][0]["anteil"] = 50
+    with pytest.raises(ValueError, match="genau 100"):
+        entwurf.als_portfolio(entwurf.speichern(conn, user, e))
+
+
+def test_bau_gewichte_max_100(conn, user):
+    e = entwurf.get(conn, user)
+    e["bau"] = {"gewichte": {"aktien": 70, "krypto": 40}}
+    with pytest.raises(ValueError, match="100 %"):
+        entwurf.speichern(conn, user, e)
+    e["bau"] = {"schritt": 3, "gewichte": {"aktien": 70, "edelmetalle": 30, "quatsch": 5},
+                "auswahl": {"aktien": [{"asset_id": "msci_world", "anteil": 100}, {"asset_id": "gibtsnicht"}]}, "produkte": {"msci_world": "IE00BJ0KDQ92"}}
+    b = entwurf.speichern(conn, user, e)["bau"]
+    assert b["gewichte"] == {"aktien": 70, "edelmetalle": 30} and len(b["auswahl"]["aktien"]) == 1 and b["schritt"] == 3

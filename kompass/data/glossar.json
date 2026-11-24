@@ -96,8 +96,11 @@
    ],
    "produkte": [
     "IE00B4L5Y983",
-    "IE00BJ0KDQ92"
-   ]
+    "IE00BJ0KDQ92",
+    "IE00BFY0GT14"
+   ],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": "aktien"
   },
   {
    "id": "all_world",
@@ -135,8 +138,11 @@
    ],
    "produkte": [
     "IE00BK5BQT80",
-    "IE00B3YLTY66"
-   ]
+    "IE00B3YLTY66",
+    "IE00B6R52259"
+   ],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": "aktien"
   },
   {
    "id": "em",
@@ -173,8 +179,11 @@
     "Stärkere Schwankungen"
    ],
    "produkte": [
-    "IE00BKM4GZ66"
-   ]
+    "IE00BKM4GZ66",
+    "IE00BTJRMP35"
+   ],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": "aktien"
   },
   {
    "id": "sp500",
@@ -210,8 +219,11 @@
     "Dollar-Risiko"
    ],
    "produkte": [
-    "IE00B5BMR087"
-   ]
+    "IE00B5BMR087",
+    "IE00BFMXXD54"
+   ],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": "aktien"
   },
   {
    "id": "nasdaq",
@@ -246,7 +258,12 @@
     "Hohe Bewertungen",
     "Langes Erholen nach Crashs"
    ],
-   "produkte": []
+   "produkte": [
+    "DE000A0F5UF5",
+    "IE00B53SZB19"
+   ],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": null
   },
   {
    "id": "branchen_halbleiter",
@@ -282,7 +299,11 @@
     "Sehr hohe Schwankung",
     "Wette auf eine Branche statt auf die Welt"
    ],
-   "produkte": []
+   "produkte": [
+    "IE00BMC38736"
+   ],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": null
   },
   {
    "id": "branchen_clean",
@@ -317,7 +338,11 @@
     "Extreme Schwankungen",
     "Hohe Bewertungen in Boomphasen"
    ],
-   "produkte": []
+   "produkte": [
+    "IE00B1XNHC34"
+   ],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": null
   },
   {
    "id": "small_value",
@@ -351,7 +376,12 @@
    "contra": [
     "Längere Phasen schlechter als der Markt"
    ],
-   "produkte": []
+   "produkte": [
+    "IE00BSPLC413",
+    "IE00BSPLC298"
+   ],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": "aktien"
   },
   {
    "id": "einzelaktien",
@@ -388,7 +418,9 @@
     "Hoher Recherche-Aufwand",
     "Klumpenrisiko"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null
   },
   {
    "id": "staatsanleihen",
@@ -426,7 +458,9 @@
    ],
    "produkte": [
     "IE00B4WXJJ64"
-   ]
+   ],
+   "steuerklasse": "anleihen_etf",
+   "hist_proxy": "anleihen"
   },
   {
    "id": "unternehmensanleihen",
@@ -459,7 +493,11 @@
    "contra": [
     "Fallen in Krisen teils mit Aktien"
    ],
-   "produkte": []
+   "produkte": [
+    "IE00B3F81R35"
+   ],
+   "steuerklasse": "anleihen_etf",
+   "hist_proxy": "anleihen"
   },
   {
    "id": "hochzins",
@@ -494,7 +532,9 @@
     "Ausfallrisiko",
     "Kein sicherer Hafen"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "anleihen_etf",
+   "hist_proxy": null
   },
   {
    "id": "tagesgeld",
@@ -529,7 +569,9 @@
    "contra": [
     "Nach Inflation oft keine echte Rendite"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "zinsen",
+   "hist_proxy": "zins"
   },
   {
    "id": "geldmarkt_etf",
@@ -566,7 +608,9 @@
    ],
    "produkte": [
     "LU0290358497"
-   ]
+   ],
+   "steuerklasse": "anleihen_etf",
+   "hist_proxy": "zins"
   },
   {
    "id": "gold",
@@ -607,7 +651,9 @@
     "DE000A0S9GB0",
     "DE000EWG2LD7",
     "GOLD-PHYSISCH"
-   ]
+   ],
+   "steuerklasse": "gold_physisch",
+   "hist_proxy": "gold"
   },
   {
    "id": "gold_hebel",
@@ -645,7 +691,9 @@
     "Doppelte Verluste",
     "Ungeeignet für langes Halten"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null
   },
   {
    "id": "silber",
@@ -682,7 +730,9 @@
     "Hohe Schwankung",
     "Mehrwertsteuer frisst Rendite"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "gold_physisch",
+   "hist_proxy": null
   },
   {
    "id": "goldminen",
@@ -720,7 +770,9 @@
    ],
    "produkte": [
     "IE00B6R52036"
-   ]
+   ],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": null
   },
   {
    "id": "oel",
@@ -756,7 +808,9 @@
     "Langfristig kaum Rendite über Terminkontrakte",
     "Extreme Ausschläge"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null
   },
   {
    "id": "rohstoffe_breit",
@@ -791,7 +845,9 @@
    "contra": [
     "Langfristig schwache Rendite"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null
   },
   {
    "id": "immobilie_direkt",
@@ -831,7 +887,9 @@
     "Hoher Kapitalbedarf",
     "Zinsänderungsrisiko bei Anschlussfinanzierung"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "immobilie_privat",
+   "hist_proxy": null
   },
   {
    "id": "reits",
@@ -868,7 +926,9 @@
    ],
    "produkte": [
     "IE00B1FZS350"
-   ]
+   ],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": null
   },
   {
    "id": "offene_immofonds",
@@ -903,7 +963,9 @@
     "Eingeschränkte Verfügbarkeit",
     "Ausgabeaufschläge"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "immobilienfonds",
+   "hist_proxy": null
   },
   {
    "id": "immo_crowd",
@@ -939,7 +1001,9 @@
     "Kaum Verkaufbarkeit",
     "Totalverlustrisiko"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "zinsen",
+   "hist_proxy": null
   },
   {
    "id": "bitcoin",
@@ -980,7 +1044,9 @@
    ],
    "produkte": [
     "BTC-EUR"
-   ]
+   ],
+   "steuerklasse": "krypto_direkt",
+   "hist_proxy": null
   },
   {
    "id": "ethereum",
@@ -1014,7 +1080,9 @@
    "contra": [
     "Noch stärkere Schwankung als Bitcoin"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "krypto_direkt",
+   "hist_proxy": null
   },
   {
    "id": "altcoins",
@@ -1048,7 +1116,9 @@
    "contra": [
     "Hohes Ausfall- und Betrugsrisiko"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "krypto_direkt",
+   "hist_proxy": null
   },
   {
    "id": "memecoins",
@@ -1083,7 +1153,9 @@
    "contra": [
     "Totalverlust wahrscheinlich bei den meisten Memecoins"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "krypto_direkt",
+   "hist_proxy": null
   },
   {
    "id": "stablecoins",
@@ -1120,7 +1192,9 @@
     "Keine Einlagensicherung",
     "Emittent kann scheitern"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "krypto_direkt",
+   "hist_proxy": null
   },
   {
    "id": "krypto_etp",
@@ -1156,7 +1230,9 @@
     "Emittentenrisiko",
     "Kosten"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null
   },
   {
    "id": "knockout",
@@ -1192,7 +1268,9 @@
     "Totalverlust",
     "Für langfristige Anlage ungeeignet"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null
   },
   {
    "id": "hebel_etf",
@@ -1227,7 +1305,9 @@
     "Doppelte Verluste",
     "Hohe Kosten"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null
   },
   {
    "id": "eltif",
@@ -1263,7 +1343,9 @@
     "Illiquide",
     "Intransparent"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null
   },
   {
    "id": "startups",
@@ -1298,7 +1380,9 @@
     "Totalverlust häufig",
     "Kein Verkauf möglich"
    ],
-   "produkte": []
+   "produkte": [],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null
   }
  ],
  "klassen_erwartung": {
@@ -1374,5 +1458,6 @@
    "name": "Spekulativ",
    "text": "Bereit, Teile komplett zu verlieren, um überdurchschnittliche Chancen zu nutzen."
   }
- ]
+ ],
+ "_hinweis_proxy": "hist_proxy: welche historische Reihe der Rechner als Stellvertreter nutzt (US-Aktien, US-Anleihen, Gold, fester Zins). Anlagen ohne Stellvertreter werden nur mit Annahmen gerechnet."
 }

@@ -61,7 +61,7 @@ const ICONS = {
   rechner: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg>',
 };
 const BEREICHE = [
-  ["plaene", "Pläne", "#/plaene", ["#/plaene", "#/portfolios", "#/szenario", "#/entwurf", "#/berater"]],
+  ["plaene", "Pläne", "#/plaene", ["#/plaene", "#/portfolios", "#/szenario", "#/entwurf", "#/berater", "#/bauen"]],
   ["council", "Council", "#/council", ["#/council"]],
   ["recherche", "Recherche", "#/recherche", ["#/recherche", "#/produkte", "#/glossar", "#/quellen"]],
   ["rechner", "Rechner", "#/rechner", ["#/rechner"]],
@@ -139,6 +139,8 @@ const routes = [
   [/^#\/glossar\/([\w-]+)$/, viewAsset],
   [/^#\/quellen$/, viewQuellen],
   [/^#\/entwurf$/, viewEntwurf],
+  [/^#\/bauen$/, () => viewBauen(null)],
+  [/^#\/bauen\/([1-5])$/, viewBauen],
   [/^#\/berater\/neu(?:\?(.*))?$/, viewBeraterNeu],
   [/^#\/berater\/(\d+)$/, viewBerater],
   [/^#\/plaene\/(\d+)$/, viewPlan],
@@ -439,12 +441,14 @@ async function viewPlanNeu(query) {
   const pv = (k) => prof.aktuell[k]?.value || "";
   const optionen = kat.produkte.map((p) => `<option value="${esc(p.ticker)}|${esc(p.isin)}|${esc(p.name)}">${esc(p.name)} (${esc(p.ticker)})</option>`).join("");
   let zn = 0;
-  const zeile = (sel = "", anteil = 100, eigen = null) => `<div class="row prod"><select name="p" aria-label="Produkt" style="flex:3 1 240px">${optionen.replace(`value="${sel}`, `selected value="${sel}`)}<option value="eigen" ${eigen ? "selected" : ""}>Eigener Ticker …</option></select>
+  const zeile = (sel = "", anteil = 0, eigen = null) => `<div class="row prod"><select name="p" aria-label="Produkt" style="flex:3 1 240px">${optionen.replace(`value="${sel}`, `selected value="${sel}`)}<option value="eigen" ${eigen ? "selected" : ""}>Eigener Ticker …</option></select>
     <input class="ptick" placeholder="Ticker, z. B. SAP.DE" value="${esc(eigen || "")}" ${eigen ? "" : "hidden"} style="flex:1 1 140px">
-    <div style="flex:2 1 220px">${slider({ id: `pl-a${zn++}`, label: "Anteil", skala: "prozent", wert: anteil, klein: true })}</div></div>`;
+    <div style="flex:2 1 220px">${slider({ id: `pl-a${zn++}`, label: "Anteil", skala: "prozent", wert: anteil, klein: true, gruppe: "pl" })}</div></div>`;
+  const gleich = auf100(produkteVorschlag.map((p) => (p.anteil == null ? 1 : +p.anteil)));
+  produkteVorschlag = produkteVorschlag.map((p, i) => ({ ...p, anteil: gleich[i] }));
   const start = produkteVorschlag.length
     ? produkteVorschlag.map((p) => { const k = kat.produkte.find((x) => (p.isin && x.isin === p.isin) || x.ticker === p.ticker); return k ? zeile(`${k.ticker}|${k.isin}`, p.anteil ?? 100) : zeile("", p.anteil ?? 100, p.ticker); }).join("")
-    : zeile();
+    : zeile("", 100);
   render(`${kopf("Entscheidung einfrieren", sessionId ? `#/council/${sessionId}` : portfolioId ? `#/portfolios/${portfolioId}` : "#/plaene/entscheidungen")}
     <p class="muted">Der Plan wird eingefroren: später nicht mehr änderbar, nur Notizen und Auswertungen kommen dazu. So kannst du ehrlich prüfen, was funktioniert hat.</p>
     <form id="f" class="card">
@@ -461,7 +465,7 @@ async function viewPlanNeu(query) {
       </div>
       <label for="pl-start">Startdatum</label><input id="pl-start" name="startdatum" type="date" value="${vorschlag.startdatum || new Date().toISOString().slice(0, 10)}">
       <label>Produkte und Anteil (%)</label><div id="prods">${start}</div>
-      <button type="button" class="ghost" id="add">+ Produkt</button>
+      <div class="actions"><button type="button" id="add">+ Produkt</button><span id="rest-pl" class="rest"></span></div>
       <div id="e"></div>
       <div class="actions"><button class="primary">Einfrieren und speichern</button></div>
     </form>`);
@@ -654,84 +658,6 @@ async function viewProdukt(kennung) {
   if (y) y.onclick = async () => { const r = await api(`/api/admin/produkt/${p.isin}/yahoo`, { body: {} }); toast(r.geladen.length ? "Geladen: " + r.geladen.join(", ") : "Yahoo hat keine Daten"); viewProdukt(kennung); };
   const ff = document.getElementById("ff");
   if (ff) ff.onsubmit = async (ev) => { ev.preventDefault(); await api(`/api/admin/produkt/${p.isin}/fakt`, { body: formData(ev.target) }); viewProdukt(kennung); };
-}
-
-// ---------- Rechner ----------
-
-async function viewRechner() {
-  const [info, prof] = await Promise.all([api("/api/rechner/info"), api("/api/profil")]);
-  const pv = (k, d) => (prof.aktuell[k] ? Number(prof.aktuell[k].value) || d : d);
-  render(`${kopf("Rechner")}
-    <div class="cols">
-      <form id="f" class="card">
-        <h2 style="margin-top:0">Einzahlungen</h2>
-        ${slider({ id: "r-start", label: "Startkapital", skala: "geld", wert: pv("kapital", 10000) })}
-        ${slider({ id: "r-monat", label: "Monatlich", skala: "rate", wert: pv("sparrate", 300) })}
-        ${slider({ id: "r-jahre", label: "Anlagezeitraum", skala: "jahre", wert: pv("horizont_jahre", 20) })}
-        <h2>Aufteilung</h2>
-        ${slider({ id: "r-aktien", label: "Aktien", skala: "prozent", wert: 100 })}
-        ${slider({ id: "r-anleihen", label: "Anleihen", skala: "prozent", wert: 0 })}
-        ${slider({ id: "r-gold", label: "Gold", skala: "prozent", wert: 0 })}
-        ${slider({ id: "r-eigene", label: "Eigene Annahme (Tagesgeld, Krypto …)", skala: "prozent", wert: 0 })}
-        <p class="muted small" id="r-summe"></p>
-        <details><summary>Mehr Einstellungen</summary>
-          ${slider({ id: "r-zins", label: "Eigene Annahme: Rendite", skala: "zins", wert: 2.5 })}
-          ${slider({ id: "r-ter", label: "Laufende Kosten (TER)", skala: "ter", wert: 0.2 })}
-          ${slider({ id: "r-steig", label: "Sparrate steigt jährlich um", skala: "steigerung", wert: 0 })}
-        </details>
-        <label class="check-row"><input type="checkbox" id="r-steuer"> Nach deutschen Steuern</label>
-        <div id="st" hidden class="row">
-          <div><label for="r-klasse">Steuerklasse</label><select id="r-klasse"><option value="">automatisch</option>${Object.entries(info.steuerklassen).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join("")}</select></div>
-          <div><label for="r-kist">Kirchensteuer</label><select id="r-kist"><option value="">keine</option><option value="0.08">8 % (BY, BW)</option><option value="0.09">9 %</option></select></div>
-          <div><label for="r-verh">Verheiratet</label><select id="r-verh"><option value="">nein</option><option value="1">ja (2.000 € Pauschbetrag)</option></select></div>
-        </div>
-      </form>
-      <div id="r"><div class="card progress"><span class="dot"></span>Rechne …</div></div>
-    </div>`);
-  const steuer = document.getElementById("r-steuer");
-  const rechne = debounce(async () => {
-    const mix = { aktien: slWert("r-aktien"), anleihen: slWert("r-anleihen"), gold: slWert("r-gold"), eigene: slWert("r-eigene") };
-    const summe = Object.values(mix).reduce((a, b) => a + b, 0);
-    document.getElementById("r-summe").textContent = summe === 100 ? "Summe 100 %" : `Summe ${summe} % – wird auf 100 % umgelegt`;
-    const body = {
-      start: slWert("r-start"), monthly: slWert("r-monat"), years: slWert("r-jahre"), mix,
-      ter: slWert("r-ter"), increase: slWert("r-steig"), custom_rate: mix.eigene > 0 ? slWert("r-zins") : null,
-      steuern: { aktiv: steuer.checked, klasse: document.getElementById("r-klasse").value || null,
-        kirchensteuer: document.getElementById("r-kist").value ? Number(document.getElementById("r-kist").value) : null,
-        verheiratet: !!document.getElementById("r-verh").value },
-    };
-    const out = document.getElementById("r");
-    if (!summe) { out.innerHTML = errBox("Mindestens eine Anlageklasse über 0 % stellen."); return; }
-    try { out.innerHTML = rechnerErgebnis(await api("/api/rechner", { body }), body); }
-    catch (e) { out.innerHTML = errBox(e); }
-  }, 250);
-  initSlider(document, rechne);
-  steuer.onchange = () => { document.getElementById("st").hidden = !steuer.checked; rechne(); };
-  ["r-klasse", "r-kist", "r-verh"].forEach((id) => (document.getElementById(id).onchange = rechne));
-  rechne();
-}
-
-function rechnerErgebnis(r, body) {
-  const farben = { worst: "var(--rose)", realistisch: "var(--lav)", best: "var(--mint)" };
-  const namen = { worst: "Worst Case", realistisch: "Realistisch", best: "Best Case" };
-  const s = r.szenarien;
-  return `<div class="grid3 r-erg">${["worst", "realistisch", "best"].map((k) => {
-    const x = s[k];
-    const netto = body.steuern.aktiv ? x.end_real_netto : x.end_real;
-    return `<div class="kpi" style="background:${farben[k]}">
-      <div class="l">${namen[k]}${body.steuern.aktiv ? " · nach Steuern" : ""}</div>
-      <div class="big">${eur(netto)}</div>
-      <div class="sub">in heutiger Kaufkraft</div>
-      <div class="sub">Nominal ${eur(body.steuern.aktiv ? x.steuer.netto : x.end_nominal)}${body.steuern.aktiv ? ` · Steuer ${eur(x.steuer.steuer)}` : ""}</div>
-      <div class="sub">${pct(x.rendite_pa_real * 100)} p.a. real · wie ${x.startjahr}–${x.endjahr}</div>
-    </div>`;
-  }).join("")}</div>
-  <p class="muted small">Eingezahlt: ${eur(s.realistisch.eingezahlt)} · ${r.fenster} historische Zeiträume aus ${r.zeitraum[0]}–${r.zeitraum[1]} · Worst = schlechteste 5 %, Best = beste 5 %${body.steuern.aktiv ? ` · Steuerklasse: ${esc(r.steuerklasse_name)}` : ""}</p>
-  <details><summary>Annahmen und Grenzen</summary><div class="card flat">
-    ${r.hinweise.map((h) => `<p class="small">${esc(h)}</p>`).join("")}
-    ${body.steuern.aktiv ? s.realistisch.steuer.hinweise.map((h) => `<p class="small">${esc(h)}</p>`).join("") + '<p class="small">Vereinfachtes Steuermodell: jährlich gezahlte Steuer mindert hier nicht den Zinseszins; Pauschbetrag voll für diese Anlage.</p>' : ""}
-    <p class="small">${src("Shiller (Yale), Weltbank, US BLS via datahub.io – siehe data/history/QUELLEN.md")}</p>
-  </div></details>`;
 }
 
 // ---------- Profil ----------

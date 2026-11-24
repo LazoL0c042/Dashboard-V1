@@ -21,7 +21,8 @@
    "id": "IE00B4L5Y983",
    "klassen": {
     "aktien_welt": 1
-   }
+   },
+   "asset": "msci_world"
   },
   {
    "kategorie": "Aktien-ETF Welt",
@@ -43,7 +44,8 @@
    "id": "IE00BJ0KDQ92",
    "klassen": {
     "aktien_welt": 1
-   }
+   },
+   "asset": "msci_world"
   },
   {
    "kategorie": "Aktien-ETF Welt",
@@ -66,7 +68,8 @@
    "klassen": {
     "aktien_welt": 0.9,
     "aktien_em": 0.1
-   }
+   },
+   "asset": "all_world"
   },
   {
    "kategorie": "Aktien-ETF Welt",
@@ -89,7 +92,8 @@
    "klassen": {
     "aktien_welt": 0.9,
     "aktien_em": 0.1
-   }
+   },
+   "asset": "all_world"
   },
   {
    "kategorie": "Aktien-ETF Schwellenländer",
@@ -111,7 +115,8 @@
    "id": "IE00BKM4GZ66",
    "klassen": {
     "aktien_em": 1
-   }
+   },
+   "asset": "em"
   },
   {
    "kategorie": "Aktien-ETF USA",
@@ -133,7 +138,8 @@
    "id": "IE00B5BMR087",
    "klassen": {
     "aktien_usa": 1
-   }
+   },
+   "asset": "sp500"
   },
   {
    "kategorie": "Edelmetalle",
@@ -155,7 +161,8 @@
    "id": "DE000A0S9GB0",
    "klassen": {
     "gold": 1
-   }
+   },
+   "asset": "gold"
   },
   {
    "kategorie": "Edelmetalle",
@@ -177,7 +184,8 @@
    "id": "DE000EWG2LD7",
    "klassen": {
     "gold": 1
-   }
+   },
+   "asset": "gold"
   },
   {
    "kategorie": "Edelmetalle",
@@ -199,7 +207,8 @@
    "id": "IE00B6R52036",
    "klassen": {
     "goldminen": 1
-   }
+   },
+   "asset": "goldminen"
   },
   {
    "kategorie": "Anleihen",
@@ -221,7 +230,8 @@
    "id": "IE00B4WXJJ64",
    "klassen": {
     "anleihen": 1
-   }
+   },
+   "asset": "staatsanleihen"
   },
   {
    "kategorie": "Tagesgeld & Geldmarkt",
@@ -243,7 +253,8 @@
    "id": "LU0290358497",
    "klassen": {
     "geldmarkt": 1
-   }
+   },
+   "asset": "geldmarkt_etf"
   },
   {
    "kategorie": "Immobilien",
@@ -265,7 +276,8 @@
    "id": "IE00B1FZS350",
    "klassen": {
     "immobilien": 1
-   }
+   },
+   "asset": "reits"
   },
   {
    "kategorie": "Krypto",
@@ -283,7 +295,8 @@
    "id": "BTC-EUR",
    "klassen": {
     "krypto": 1
-   }
+   },
+   "asset": "bitcoin"
   },
   {
    "kategorie": "Edelmetalle",
@@ -302,7 +315,218 @@
    "id": "GOLD-PHYSISCH",
    "klassen": {
     "gold": 1
-   }
+   },
+   "asset": "gold"
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "SPDR MSCI World",
+   "isin": "IE00BFY0GT14",
+   "ticker": "SPPW.DE",
+   "anbieter": "SPDR",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BFY0GT14",
+   "asset": "msci_world",
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BFY0GT14"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "iShares MSCI ACWI",
+   "isin": "IE00B6R52259",
+   "ticker": "IUSQ.DE",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 0.9,
+    "aktien_em": 0.1
+   },
+   "id": "IE00B6R52259",
+   "asset": "all_world",
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B6R52259"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Schwellenländer",
+   "name": "Xtrackers MSCI Emerging Markets 1C",
+   "isin": "IE00BTJRMP35",
+   "ticker": "XMME.DE",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_em": 1
+   },
+   "id": "IE00BTJRMP35",
+   "asset": "em",
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BTJRMP35"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF USA",
+   "name": "Vanguard S&P 500 (Acc)",
+   "isin": "IE00BFMXXD54",
+   "ticker": "VUAA.DE",
+   "anbieter": "Vanguard",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_usa": 1
+   },
+   "id": "IE00BFMXXD54",
+   "asset": "sp500",
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BFMXXD54"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Tech",
+   "name": "iShares NASDAQ-100 (DE)",
+   "isin": "DE000A0F5UF5",
+   "ticker": "EXXT.DE",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_tech": 1
+   },
+   "id": "DE000A0F5UF5",
+   "asset": "nasdaq",
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=DE000A0F5UF5"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Tech",
+   "name": "iShares Nasdaq 100 (Acc)",
+   "isin": "IE00B53SZB19",
+   "ticker": "SXRV.DE",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_tech": 1
+   },
+   "id": "IE00B53SZB19",
+   "asset": "nasdaq",
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B53SZB19"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Branche",
+   "name": "VanEck Semiconductor",
+   "isin": "IE00BMC38736",
+   "ticker": "VVSM.DE",
+   "anbieter": "VanEck",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_tech": 1
+   },
+   "id": "IE00BMC38736",
+   "asset": "branchen_halbleiter",
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BMC38736"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Branche",
+   "name": "iShares Global Clean Energy",
+   "isin": "IE00B1XNHC34",
+   "ticker": "IQQH.DE",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00B1XNHC34",
+   "asset": "branchen_clean",
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B1XNHC34"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Faktor",
+   "name": "SPDR MSCI USA Small Cap Value Weighted",
+   "isin": "IE00BSPLC413",
+   "ticker": "ZPRV.DE",
+   "anbieter": "SPDR",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_usa": 1
+   },
+   "id": "IE00BSPLC413",
+   "asset": "small_value",
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BSPLC413"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Faktor",
+   "name": "SPDR MSCI Europe Small Cap Value Weighted",
+   "isin": "IE00BSPLC298",
+   "ticker": "ZPRX.DE",
+   "anbieter": "SPDR",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BSPLC298",
+   "asset": "small_value",
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BSPLC298"
+    }
+   ]
+  },
+  {
+   "kategorie": "Anleihen",
+   "name": "iShares Core € Corp Bond",
+   "isin": "IE00B3F81R35",
+   "ticker": "EUN5.DE",
+   "anbieter": "iShares",
+   "steuerklasse": "anleihen_etf",
+   "klassen": {
+    "anleihen": 1
+   },
+   "id": "IE00B3F81R35",
+   "asset": "unternehmensanleihen",
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B3F81R35"
+    }
+   ]
   }
  ]
 }

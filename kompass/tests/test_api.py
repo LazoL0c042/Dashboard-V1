@@ -88,3 +88,15 @@ def test_szenarien_endpunkt(client):
     r = client.post("/api/szenario/ki", json={"szenario": "ki_blase", "positionen": [{"name": "A", "anteil": 1, "klassen": {"aktien_welt": 1}}]})
     assert r.status_code == 200
     assert client.get(f"/api/szenario/ki/{r.json()['id']}").json()["status"] == "laeuft"
+
+
+def test_rechner_mit_steuer_mix_und_steuern_endpunkt(client):
+    anmelden(client)
+    r = client.post("/api/rechner", json={"start": 10000, "monthly": 0, "years": 10, "mix": {"aktien": 50, "gold": 50},
+                                          "steuern": {"aktiv": True}, "steuer_anteile": {"aktien_etf": 0.5, "gold_physisch": 0.5}})
+    assert r.status_code == 200
+    teile = r.json()["szenarien"]["realistisch"]["steuer"]["teile"]
+    assert {t["klasse"] for t in teile} == {"aktien_etf", "gold_physisch"}
+    s = client.post("/api/steuern/mix", json={"jahre": 10, "faelle": [{"end_nominal": 20000, "eingezahlt": 10000}],
+                                              "anteile": {"krypto_direkt": 1}}).json()
+    assert s[0]["steuer"] == 0

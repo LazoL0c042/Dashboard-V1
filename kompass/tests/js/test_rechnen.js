@@ -95,4 +95,27 @@ for (const s of sz.szenarien) for (const v of ["schwer", "mittel", "mild"]) asse
   assert.ok(w.some((x) => x.includes("spekulativ")) && w.some((x) => x.includes("Krypto insgesamt")));
 }
 
+// Normen
+{
+  const pos = [{ name: "Welt", asset_id: "msci_world", anteil: 60, klassen: { aktien_welt: 1 }, risiko: 3, eltern: "aktien" },
+    { name: "BTC", asset_id: "bitcoin", anteil: 30, klassen: { krypto: 1 }, risiko: 5, eltern: "krypto" },
+    { name: "Gold", asset_id: "gold", anteil: 10, klassen: { gold: 1 }, risiko: 3, eltern: "edelmetalle" }];
+  const n = Object.fromEntries(R.normen(pos, { risiko: 3, horizont_jahre: 4, alter: 34, ruecklage: 1000, einkommen: 3000 }).map((x) => [x.norm, x.status]));
+  assert.strictEqual(n["Notgroschen"], "fail");
+  assert.strictEqual(n["Spekulativer Anteil begrenzt"], "fail");
+  assert.strictEqual(n["Krypto-Anteil"], "fail");
+  assert.strictEqual(n["Aktienquote passt zum Zeitraum"], "fail"); // 60 % Aktien bei 4 Jahren
+  assert.strictEqual(n["Mehrere Anlageklassen"], "ok");
+  const ok = Object.fromEntries(R.normen([{ name: "Welt", asset_id: "msci_world", anteil: 100, klassen: { aktien_welt: 1 }, risiko: 3, ter: 0.2 }], { risiko: 3, horizont_jahre: 20 }).map((x) => [x.norm, x.status]));
+  assert.strictEqual(ok["Keine Einzelwette über 40 %"], "ok");
+  assert.strictEqual(ok["Kosten unter 0,3 % p.a."], "ok");
+  assert.strictEqual(ok["Notgroschen"], "offen");
+}
+// Impliziter Zins trifft das Ziel
+{
+  const r = R.impliziterZins(10000, 200, 15, 120000);
+  const v = R.verlaufAusZins(10000, 200, 15, r);
+  near(v.at(-1).ende, 120000, 1e-3);
+}
+
 console.log("ok");

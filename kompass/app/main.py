@@ -97,6 +97,7 @@ class Rechner(BaseModel):
     increase: float = Field(0, ge=0, le=20)  # in Prozent
     custom_rate: float | None = None  # in Prozent
     steuern: Steuern = Steuern()
+    steuer_anteile: dict[str, float] | None = None  # {steuerklasse: gewicht} für gemischte Depots
 
 
 class Modelle(BaseModel):
@@ -150,6 +151,20 @@ class EntwurfPosition(BaseModel):
 
 class BeraterStart(BaseModel):
     text: str
+
+
+class SteuerFall(BaseModel):
+    end_nominal: float
+    eingezahlt: float
+    verlauf: list[dict] = []
+
+
+class SteuernMix(BaseModel):
+    jahre: int = Field(ge=1, le=100)
+    faelle: list[SteuerFall]
+    anteile: dict[str, float]
+    verheiratet: bool = False
+    kirchensteuer: float | None = None
 
 
 class ProduktFakt(BaseModel):
@@ -508,6 +523,14 @@ def create_app(db_path: str | None = None, runner=None) -> FastAPI:
                 "klassen": {"aktien": "Aktien (Welt, hist. USA)", "anleihen": "Anleihen", "gold": "Gold",
                             "eigene": "Eigene Annahme (Tagesgeld, Krypto, Immobilien …)"}}
 
+    @app.post("/api/steuern/mix")
+    def steuern_mix(b: SteuernMix, u=Depends(get_user)):
+        anteile = {k: v for k, v in b.anteile.items() if k in taxes.KLASSEN and v > 0}
+        if not anteile:
+            raise HTTPException(400, "Keine gültigen Steuerklassen")
+        return [taxes.nach_steuern_mix(f.end_nominal, f.eingezahlt, b.jahre, f.verlauf, anteile, b.verheiratet, b.kirchensteuer)
+                for f in b.faelle]
+
     @app.post("/api/rechner")
     def rechner(b: Rechner, u=Depends(get_user)):
         try:
@@ -521,10 +544,15 @@ def create_app(db_path: str | None = None, runner=None) -> FastAPI:
             fehler(e)
         klasse = b.steuern.klasse or taxes.klasse_fuer_mix(r["mix"])
         steuerfrei = r["mix"].get("gold", 0) if klasse not in ("gold_physisch",) else 0
+        mix_st = {k: v for k, v in (b.steuer_anteile or {}).items() if k in taxes.KLASSEN and v > 0}
         for s in r["szenarien"].values():
             if b.steuern.aktiv:
-                st = taxes.nach_steuern(s["end_nominal"], s["eingezahlt"], b.years, klasse, s["verlauf"],
-                                        b.steuern.verheiratet, b.steuern.kirchensteuer, steuerfreier_anteil=steuerfrei)
+                if mix_st:
+                    st = taxes.nach_steuern_mix(s["end_nominal"], s["eingezahlt"], b.years, s["verlauf"], mix_st,
+                                                b.steuern.verheiratet, b.steuern.kirchensteuer)
+                else:
+                    st = taxes.nach_steuern(s["end_nominal"], s["eingezahlt"], b.years, klasse, s["verlauf"],
+                                            b.steuern.verheiratet, b.steuern.kirchensteuer, steuerfreier_anteil=steuerfrei)
                 s["steuer"] = st
                 # Realwert nach Steuern: gleiche Kaufkraft-Umrechnung wie vor Steuern
                 s["end_real_netto"] = s["end_real"] * st["netto"] / s["end_nominal"] if s["end_nominal"] else 0
@@ -649,7 +677,10 @@ def create_app(db_path: str | None = None, runner=None) -> FastAPI:
 
     @app.put("/api/entwurf")
     def entwurf_put(b: dict, u=Depends(get_user), c=Depends(get_conn)):
-        return entwurf.speichern(c, u["id"], b)
+        try:
+            return entwurf.speichern(c, u["id"], b)
+        except ValueError as e:
+            fehler(e)
 
     @app.post("/api/entwurf/position")
     def entwurf_position(b: EntwurfPosition, u=Depends(get_user), c=Depends(get_conn)):

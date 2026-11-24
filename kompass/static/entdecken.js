@@ -43,7 +43,7 @@ async function viewGlossar() {
       const items = g.assets.filter((a) => a.eltern === h.id);
       return `<section class="g-klasse" data-klasse="${h.id}"><div class="g-kopf"><h2>${esc(h.name)}</h2><p class="muted">${esc(h.kurz)}</p></div>
         <div class="g-grid">${items.map((a) => `<article class="g-karte" data-risiko="${a.risiko}">
-          <a class="g-link" href="#/glossar/${a.id}">${monogramm(a, g)}<span class="g-name">${esc(a.name)}</span></a>
+          <div class="g-link">${monogramm(a, g)}<span class="g-name">${esc(a.name)}</span></div>
           <p class="g-kurz">${esc(a.kurz)}</p>
           <div class="g-stats"><span>Risiko ${pips(a.risiko, 5, a.risiko >= 5 ? "rot" : "")}</span><span>≈ ${num(a.erwartung.rendite, 1)} % p.a.<span class="est">Annahme</span></span></div>
           <div class="g-aktion"><a class="btn klein" href="#/glossar/${a.id}">Details</a>
@@ -161,8 +161,9 @@ async function viewQuellen() {
     ${rechercheTabs("quellen")}
     <p class="muted" style="max-width:80ch">25 Quellen für Märkte, Unternehmen, Start-ups, Zinsen und Stimmung. Ausgewählt nach Unabhängigkeit, Nähe zur Primärquelle und Fachtiefe. Die Nachrichtensuche in Recherche und Council nutzt nur diese Seiten.</p>
     ${kats.map((k) => `<h2>${esc(k)}</h2><div class="cards">${d.quellen.filter((q) => q.kategorie === k).map((q) => `<article class="card flat q-karte">
-      <div class="row" style="justify-content:space-between;align-items:baseline"><a class="q-name" href="${esc(q.url)}" target="_blank" rel="noopener">${esc(q.name)}</a><span class="pill ${zug[q.zugang] || "p-sky"}">${esc(q.zugang)}</span></div>
-      <p class="muted small">${esc(q.fokus)}</p><p>${esc(q.warum)}</p><p class="small"><b>Achtung:</b> ${esc(q.achtung)}</p></article>`).join("")}</div>`).join("")}`);
+      <div class="row" style="justify-content:space-between;align-items:baseline"><span class="q-name">${esc(q.name)}</span><span class="pill ${zug[q.zugang] || "p-sky"}">${esc(q.zugang)}</span></div>
+      <p class="muted small">${esc(q.fokus)}</p><p>${esc(q.warum)}</p><p class="small"><b>Achtung:</b> ${esc(q.achtung)}</p>
+      <div class="actions" style="margin-top:4px"><a class="btn klein" href="${esc(q.url)}" target="_blank" rel="noopener">Website öffnen ↗</a></div></article>`).join("")}</div>`).join("")}`);
 }
 
 // ---------- Entwurf (Warenkorb) ----------
@@ -178,7 +179,7 @@ async function viewEntwurf() {
         <div class="card"><label for="e-name">Name</label><input id="e-name" value="${esc(e.name)}" placeholder="z. B. Wachstum mit Goldpuffer">
           <h2>Positionen</h2>
           <div id="e-pos">${e.positionen.length ? "" : '<p class="muted">Noch leer. Füge Anlagen aus dem Glossar hinzu oder lass dir vom Council einen Vorschlag machen.</p>'}</div>
-          <div class="actions"><span class="muted" id="e-summe"></span><button class="ghost" id="e-norm">Auf 100 % verteilen</button><button class="ghost" id="e-leeren">Entwurf leeren</button></div>
+          <div class="actions"><span id="rest-entwurf" class="rest"></span><span class="muted" id="e-summe" hidden></span><button class="ghost" id="e-norm">Gleichmäßig auf 100 % hochrechnen</button><button class="ghost" id="e-leeren">Entwurf leeren</button></div>
         </div>
         <div class="card"><h2 style="margin-top:0">Erwartung über ${e.horizont_jahre} Jahre <span class="est">Annahmen</span></h2><div id="e-erw"></div></div>
       </div>
@@ -202,7 +203,7 @@ async function viewEntwurf() {
           <span class="muted small">${a ? `${esc(a.name)} · Risiko ${a.risiko}/5` : esc(p.ticker)}${(+p.hebel || 1) > 1 ? ` · Hebel ${p.hebel}×` : ""}</span>
           ${p.ticker ? "" : `<input class="e-tick" data-i="${i}" placeholder="Ticker für die Rückrechnung, z. B. ein Tagesgeld-ETF wie XEON.DE">`}
           ${p.warum ? `<div class="muted small">Council: ${esc(p.warum)}</div>` : ""}</div></div>
-        <div class="e-sl">${slider({ id: `e-a${i}`, label: "Anteil", skala: "prozent", wert: p.anteil, klein: true })}</div>
+        <div class="e-sl">${slider({ id: `e-a${i}`, label: "Anteil", skala: "prozent", wert: p.anteil, klein: true, gruppe: "entwurf" })}</div>
         <button class="ghost" data-del="${i}" aria-label="${esc(p.name)} entfernen">Entfernen</button></div>`;
     }).join("");
     initSlider(posBox, (id, v) => { e.positionen[+id.slice(3)].anteil = v; aktualisiere(); });
@@ -252,7 +253,8 @@ async function viewEntwurf() {
   document.getElementById("e-norm").onclick = () => {
     const s = e.positionen.reduce((a, p) => a + (+p.anteil || 0), 0);
     if (!s) return;
-    e.positionen.forEach((p, i) => { p.anteil = Math.round((p.anteil / s) * 100); setzeSlider(`e-a${i}`, p.anteil); });
+    const neu = auf100(e.positionen.map((p) => +p.anteil || 0));
+    e.positionen.forEach((p, i) => { p.anteil = neu[i]; setzeSlider(`e-a${i}`, p.anteil, true); });
     aktualisiere();
   };
   document.getElementById("e-leeren").onclick = async () => { await api("/api/entwurf", { method: "DELETE" }); aktualisiereEntwurfZaehler(); viewEntwurf(); };

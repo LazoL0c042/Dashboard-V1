@@ -40,7 +40,7 @@ function slider(opt) {
   const rid = `${opt.id}-r`;
   return `<div class="sl${opt.klein ? " klein" : ""}">
     <div class="sl-kopf"><label for="${rid}">${esc(opt.label)}</label><output for="${rid}" id="${opt.id}-o">${esc(sk.fmt(sk.werte[idx]))}</output></div>
-    <input type="range" id="${rid}" class="sl-r" data-skala="${opt.skala}" data-ziel="${opt.id}" min="0" max="${sk.werte.length - 1}" step="1" value="${idx}"
+    <input type="range" id="${rid}" class="sl-r" data-skala="${opt.skala}" data-ziel="${opt.id}" ${opt.gruppe ? `data-gruppe="${opt.gruppe}"` : ""} min="0" max="${sk.werte.length - 1}" step="1" value="${idx}"
       aria-valuetext="${esc(sk.fmt(sk.werte[idx]))}">
     <input type="hidden" id="${opt.id}" ${opt.name ? `name="${opt.name}"` : ""} value="${sk.werte[idx]}">
     ${opt.hinweis ? `<div class="sl-hinweis" id="${opt.id}-h">${esc(opt.hinweis)}</div>` : ""}
@@ -59,25 +59,69 @@ function initSlider(root = document, onChange) {
     };
     male();
     r.addEventListener("input", () => {
-      const v = sk.werte[+r.value];
+      let v = sk.werte[+r.value];
+      // Gruppe: alle Regler zusammen höchstens 100 %
+      if (r.dataset.gruppe && !r.dataset.frei) {
+        const andere = gruppenSumme(r.dataset.gruppe, r);
+        const erlaubt = Math.max(0, 100 - andere);
+        if (v > erlaubt + 1e-9) {
+          let i = +r.value;
+          while (i > 0 && sk.werte[i] > erlaubt + 1e-9) i--;
+          r.value = i;
+          v = sk.werte[i];
+          r.classList.add("anschlag");
+          setTimeout(() => r.classList.remove("anschlag"), 400);
+        }
+      }
       const ziel = document.getElementById(r.dataset.ziel);
       ziel.value = v;
       const t = sk.fmt(v);
       document.getElementById(`${r.dataset.ziel}-o`).textContent = t;
       r.setAttribute("aria-valuetext", t);
       male();
+      if (r.dataset.gruppe) gruppenAnzeige(r.dataset.gruppe);
       if (onChange) onChange(r.dataset.ziel, v);
     });
+    if (r.dataset.gruppe) gruppenAnzeige(r.dataset.gruppe);
   });
+}
+
+function gruppenSumme(gruppe, ausser = null) {
+  let s = 0;
+  document.querySelectorAll(`input.sl-r[data-gruppe="${gruppe}"]`).forEach((x) => {
+    if (x !== ausser) s += Number(document.getElementById(x.dataset.ziel).value) || 0;
+  });
+  return s;
+}
+
+// Zeigt "Noch frei: X %" in einem Element mit id="rest-<gruppe>" (falls vorhanden).
+function gruppenAnzeige(gruppe) {
+  const el = document.getElementById(`rest-${gruppe}`);
+  if (!el) return;
+  const s = Math.round(gruppenSumme(gruppe) * 10) / 10;
+  el.className = `rest ${s >= 99.95 ? "voll" : ""}`;
+  el.textContent = s >= 99.95 ? "100 % verteilt" : `Noch frei: ${num(100 - s, 1)} %`;
 }
 
 const slWert = (id) => Number(document.getElementById(id)?.value || 0);
 
-function setzeSlider(id, v) {
+function setzeSlider(id, v, ohneGrenze = false) {
   const r = document.getElementById(`${id}-r`);
   if (!r) return;
   r.value = naechsterIndex(SKALEN[r.dataset.skala].werte, v);
+  if (ohneGrenze) r.dataset.frei = "1";
   r.dispatchEvent(new Event("input"));
+  delete r.dataset.frei;
+}
+
+// Prozentwerte so runden, dass die Summe genau 100 ergibt (größter Rest bekommt die Differenz).
+function auf100(werte) {
+  const s = werte.reduce((a, b) => a + b, 0);
+  if (!s) return werte.map(() => 0);
+  const roh = werte.map((v) => (v / s) * 100), ganz = roh.map(Math.floor);
+  let rest = 100 - ganz.reduce((a, b) => a + b, 0);
+  roh.map((v, i) => [v - Math.floor(v), i]).sort((a, b) => b[0] - a[0]).forEach(([, i]) => { if (rest > 0) { ganz[i]++; rest--; } });
+  return ganz;
 }
 
 function rechercheTabs(aktiv) {

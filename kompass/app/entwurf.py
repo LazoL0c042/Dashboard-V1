@@ -10,7 +10,7 @@ MAX_POSITIONEN = 20
 
 def leer() -> dict:
     return {"name": "", "beschreibung": "", "risiko": 3, "einmalbetrag": 10000, "sparrate": 300,
-            "horizont_jahre": 20, "rueckrechnung_jahre": 5, "positionen": []}
+            "horizont_jahre": 20, "rueckrechnung_jahre": 5, "positionen": [], "bau": None}
 
 
 def get(conn, user_id: int) -> dict:
@@ -64,7 +64,14 @@ def speichern(conn, user_id: int, d: dict) -> dict:
             if p.get("ticker"):
                 q["ticker"] = str(p["ticker"]).strip()[:30]
             pos.append(q)
+    # Summe nie über 100 %: überzählige Prozente bei der letzten Position kappen
+    rest = 100.0
+    for p in pos:
+        p["anteil"] = max(0.0, min(float(p["anteil"]), rest))
+        rest -= p["anteil"]
     e["positionen"] = pos
+    if isinstance(d.get("bau"), dict):
+        e["bau"] = _bau(d["bau"])
     conn.execute(
         "INSERT INTO entwuerfe (user_id, inhalt_json) VALUES (?, ?) ON CONFLICT(user_id) DO UPDATE SET "
         "inhalt_json = excluded.inhalt_json, updated_at = datetime('now')",
@@ -72,6 +79,22 @@ def speichern(conn, user_id: int, d: dict) -> dict:
     )
     conn.commit()
     return e
+
+
+def _bau(b: dict) -> dict:
+    """Zwischenstand des Schritt-für-Schritt-Baukastens (nur bekannte Felder)."""
+    hk = {h["id"] for h in glossar.daten()["hauptklassen"]}
+    assets = {a["id"] for a in glossar.daten()["assets"]}
+    gew = {k: _zahl(v, 0, 100, 0) for k, v in (b.get("gewichte") or {}).items() if k in hk}
+    if sum(gew.values()) > 100.5:
+        raise ValueError("Die Gewichte der Anlageklassen ergeben mehr als 100 %.")
+    auswahl = {}
+    for k, liste in (b.get("auswahl") or {}).items():
+        if k in hk and isinstance(liste, list):
+            auswahl[k] = [{"asset_id": x["asset_id"], "anteil": _zahl(x.get("anteil"), 0, 100, 0)} for x in liste
+                          if isinstance(x, dict) and x.get("asset_id") in assets]
+    produkte_wahl = {k: str(v)[:40] for k, v in (b.get("produkte") or {}).items() if k in assets}
+    return {"schritt": int(_zahl(b.get("schritt"), 1, 5, 1)), "gewichte": gew, "auswahl": auswahl, "produkte": produkte_wahl}
 
 
 def hinzufuegen(conn, user_id: int, quelle: dict) -> dict:
@@ -82,6 +105,11 @@ def hinzufuegen(conn, user_id: int, quelle: dict) -> dict:
     schluessel = lambda x: (x.get("asset_id"), x.get("ticker"))  # noqa: E731
     if any(schluessel(x) == schluessel(pos) for x in e["positionen"]):
         raise ValueError(f"{pos['name']} ist schon im Entwurf.")
+    if sum(float(p.get("anteil") or 0) for p in e["positionen"]) + pos["anteil"] > 100.5:
+        frei = max(0.0, 100 - sum(float(p.get("anteil") or 0) for p in e["positionen"]))
+        if frei <= 0:
+            raise ValueError("Der Entwurf ist schon zu 100 % verteilt. Reduziere erst eine andere Position.")
+        pos["anteil"] = frei
     if len(e["positionen"]) >= MAX_POSITIONEN:
         raise ValueError(f"Höchstens {MAX_POSITIONEN} Positionen.")
     e["positionen"].append(pos)
@@ -95,6 +123,9 @@ def leeren(conn, user_id: int) -> None:
 
 def als_portfolio(e: dict) -> dict:
     """Eingabe für portfolios.anlegen. Wirft ValueError, wenn Ticker fehlen."""
+    summe = sum(float(p.get("anteil") or 0) for p in e["positionen"])
+    if abs(summe - 100) > 0.5:
+        raise ValueError(f"Die Anteile ergeben {summe:.0f} % – verteile genau 100 %, bevor du speicherst.")
     ohne = [p["name"] for p in e["positionen"] if not p.get("ticker")]
     if ohne:
         raise ValueError("Für die Rückrechnung braucht jede Position einen Ticker. Fehlt bei: " + ", ".join(ohne))

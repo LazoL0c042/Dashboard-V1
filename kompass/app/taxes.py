@@ -20,6 +20,8 @@ KLASSEN = {
     "gold_physisch": "Gold physisch / Xetra-Gold",
     "krypto_direkt": "Krypto direkt gehalten",
     "sonstiges": "Sonstiges (ohne Teilfreistellung)",
+    "immobilienfonds": "Offener Immobilienfonds (Teilfreistellung 60 %)",
+    "immobilie_privat": "Eigene Immobilie (vermietet)",
 }
 
 
@@ -70,6 +72,7 @@ def nach_steuern(
     verheiratet: bool = False,
     kirchensteuer: float | None = None,
     steuerfreier_anteil: float = 0.0,
+    pausch_faktor: float = 1.0,
 ) -> dict:
     """Steuer bei Verkauf am Ende. `verlauf` = Liste je Jahr {anfang, einzahlung, ende}.
 
@@ -79,11 +82,21 @@ def nach_steuern(
         raise ValueError(f"Unbekannte Steuerklasse: {klasse}")
     cfg = config()
     satz = steuersatz(kirchensteuer)
-    pausch = cfg["sparerpauschbetrag"]["zusammen" if verheiratet else "einzeln"]
+    pausch = cfg["sparerpauschbetrag"]["zusammen" if verheiratet else "einzeln"] * pausch_faktor
     gewinn = end_nominal - eingezahlt
     hinweise = [f"Steuersatz {satz:.4%} ({'mit' if kirchensteuer else 'ohne'} Kirchensteuer)."]
     ergebnis = {"steuer": 0.0, "netto": end_nominal, "gewinn": gewinn, "satz": satz,
                 "teilfreistellung": 0.0, "vorabpauschale_summe": 0.0, "hinweise": hinweise}
+
+    if klasse == "immobilie_privat":
+        frist = cfg["spekulationsfrist_immobilie_jahre"]["wert"]
+        if jahre > frist:
+            hinweise.append(f"Verkauf nach mehr als {frist} Jahren steuerfrei (§ 23 EStG). Mieteinnahmen sind hier nicht berücksichtigt.")
+            return ergebnis
+        steuer = max(0.0, gewinn) * satz
+        hinweise.append("Verkauf innerhalb von 10 Jahren: persönlicher Steuersatz – hier vereinfacht mit Abgeltungsteuersatz.")
+        ergebnis.update(steuer=steuer, netto=end_nominal - steuer)
+        return ergebnis
 
     if klasse in ("gold_physisch", "krypto_direkt"):
         if jahre >= cfg["haltefrist_steuerfrei_jahre"]["wert"]:
@@ -129,3 +142,22 @@ def nach_steuern(
     ergebnis.update(steuer=steuer, netto=end_nominal - steuer, teilfreistellung=tf,
                     vorabpauschale_summe=vp_summe)
     return ergebnis
+
+
+def nach_steuern_mix(end_nominal: float, eingezahlt: float, jahre: int, verlauf: list[dict] | None,
+                     anteile: dict[str, float], verheiratet: bool = False, kirchensteuer: float | None = None) -> dict:
+    """Steuer für ein gemischtes Depot: je Steuerklasse anteilig gerechnet, Pauschbetrag anteilig verteilt.
+
+    anteile: {steuerklasse: gewicht}, Summe 1. Vereinfachung: alle Teile wachsen gleich schnell.
+    """
+    summe = sum(anteile.values()) or 1
+    steuer, hinweise, teile = 0.0, [], []
+    for klasse, w in anteile.items():
+        f = w / summe
+        teil_verlauf = [{k: v * f for k, v in j.items()} for j in (verlauf or [])]
+        r = nach_steuern(end_nominal * f, eingezahlt * f, jahre, klasse, teil_verlauf, verheiratet, kirchensteuer, pausch_faktor=f)
+        steuer += r["steuer"]
+        teile.append({"klasse": klasse, "name": KLASSEN[klasse], "anteil": f, "steuer": r["steuer"]})
+        hinweise += [h for h in r["hinweise"] if h not in hinweise]
+    hinweise.append("Vereinfachung: alle Teile des Depots wachsen gleich schnell; Pauschbetrag anteilig verteilt.")
+    return {"steuer": steuer, "netto": end_nominal - steuer, "teile": teile, "hinweise": hinweise}

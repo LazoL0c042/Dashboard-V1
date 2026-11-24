@@ -251,7 +251,66 @@
     return out;
   }
 
-  const api = { erwartung, warnungen, positionsErwartung, kursAm, termine, rueckrechnung, kennzahlen, fenster, szenario, pfadWert, klassenAnteile };
+  // ---------- Bewertung nach allgemeinen Faustregeln ----------
+  // positionen: [{name, anteil, klassen, risiko, eltern, hebel, ter}], r: {risiko, horizont_jahre, alter, ruecklage, einkommen}
+  // Ergebnis: [{norm, status: "ok"|"warn"|"fail"|"offen", text, quelle}]
+  function normen(positionen, r) {
+    const summe = positionen.reduce((a, x) => a + (+x.anteil || 0), 0) || 1;
+    const w = (f) => positionen.filter(f).reduce((a, x) => a + (+x.anteil || 0), 0) / summe;
+    const istAktie = (x) => Object.keys(x.klassen || {}).some((k) => k.startsWith("aktien")) || x.eltern === "aktien";
+    const aktien = positionen.reduce((a, x) => {
+      const kl = x.klassen || {}, g = Object.values(kl).reduce((s, v) => s + v, 0) || 1;
+      return a + ((+x.anteil || 0) / summe) * Object.entries(kl).filter(([k]) => k.startsWith("aktien") || k === "goldminen" || k === "immobilien").reduce((s, [, v]) => s + v / g, 0);
+    }, 0);
+    const out = [];
+    const add = (norm, status, text, quelle = "Allgemeine Faustregel – keine Vorschrift") => out.push({ norm, status, text, quelle });
+    // 1. Notgroschen
+    if (r.ruecklage == null || r.einkommen == null) add("Notgroschen", "offen", "3–6 Monatsausgaben sollten auf Tagesgeld liegen, bevor investiert wird. Trag Notgroschen und Einkommen im Profil ein.", "Verbraucherzentralen, Finanztip");
+    else { const m = r.ruecklage / Math.max(1, r.einkommen); add("Notgroschen", m >= 3 ? "ok" : "fail", `Rücklage ≈ ${m.toFixed(1)} Monatsgehälter (Faustregel: 3–6).`, "Verbraucherzentralen, Finanztip"); }
+    // 2. Streuung
+    const klassen = new Set(positionen.filter((x) => +x.anteil > 0).map((x) => x.eltern || Object.keys(x.klassen || {})[0]));
+    const groessteNichtBreit = positionen.filter((x) => !["msci_world", "all_world"].includes(x.asset_id)).reduce((m, x) => Math.max(m, (+x.anteil || 0) / summe), 0);
+    if (groessteNichtBreit > 0.4) add("Keine Einzelwette über 40 %", "fail", `Eine Position außerhalb eines breiten Welt-ETF macht ${Math.round(groessteNichtBreit * 100)} % aus.`);
+    else add("Keine Einzelwette über 40 %", "ok", "Keine schmale Position dominiert das Depot.");
+    add("Mehrere Anlageklassen", klassen.size >= 2 ? "ok" : "warn", klassen.size >= 2 ? `${klassen.size} Anlageklassen im Depot.` : "Nur eine Anlageklasse – in Krisen gibt es keinen Puffer.");
+    // 3. Aktienquote zum Horizont
+    const h = +r.horizont_jahre || 0;
+    const maxQ = h < 3 ? 0.1 : h < 5 ? 0.3 : h < 10 ? 0.6 : 1;
+    add("Aktienquote passt zum Zeitraum", aktien <= maxQ + 0.001 ? "ok" : "fail",
+      `Aktien und Ähnliches ≈ ${Math.round(aktien * 100)} % bei ${h} Jahren (Faustregel: unter 5 Jahren höchstens ~30 %, unter 10 Jahren höchstens ~60 %).`, "Allgemeine Faustregel: Geld für die nächsten Jahre nicht in Aktien");
+    if (r.alter) { const ziel = Math.max(0, Math.min(1, (100 - r.alter) / 100)); add("100 minus Alter (Orientierung)", Math.abs(aktien - ziel) <= 0.2 ? "ok" : "warn", `Faustregel: ~${Math.round(ziel * 100)} % Aktien mit ${r.alter} Jahren, du hast ≈ ${Math.round(aktien * 100)} %. Grobe Orientierung, kein Muss.`); }
+    // 4. Spekulation, Krypto, Hebel
+    const spek = w((x) => (x.risiko || 0) >= 5), grenzeSpek = r.risiko >= 5 ? 0.2 : r.risiko >= 4 ? 0.1 : 0.05;
+    add("Spekulativer Anteil begrenzt", spek <= grenzeSpek + 0.001 ? "ok" : "fail", `Risiko-5-Anlagen: ${Math.round(spek * 100)} % (Grenze bei deiner Stufe ${r.risiko}: ${Math.round(grenzeSpek * 100)} %).`, "Verbreitete Faustregel: nur Geld, dessen Verlust verkraftbar ist");
+    const krypto = w((x) => hauptKlasse(x) === "krypto"), grenzeKr = r.risiko >= 5 ? 0.1 : 0.05;
+    if (krypto > 0) add("Krypto-Anteil", krypto <= grenzeKr + 0.001 ? "ok" : "fail", `Krypto: ${Math.round(krypto * 100)} % (Faustregel: höchstens ${Math.round(grenzeKr * 100)} %).`, "Verbreitete Faustregel");
+    const hebel = w((x) => (+x.hebel || 1) > 1);
+    if (hebel > 0) add("Hebelprodukte", r.risiko >= 5 && hebel <= 0.1 ? "warn" : "fail", `Gehebelt: ${Math.round(hebel * 100)} %. Hebel gehört nicht in ein langfristiges Depot – höchstens als kleine Wette bei Stufe 5.`);
+    // 5. Kosten
+    const mitTer = positionen.filter((x) => x.ter != null);
+    if (mitTer.length === positionen.length && positionen.length) { const ter = positionen.reduce((a, x) => a + ((+x.anteil || 0) / summe) * x.ter, 0); add("Kosten unter 0,3 % p.a.", ter <= 0.3 ? "ok" : "warn", `Gewichtete laufende Kosten ≈ ${ter.toFixed(2)} % p.a.`, "Finanztip, Stiftung Warentest (günstige ETFs)"); }
+    else add("Kosten unter 0,3 % p.a.", "offen", "Für einige Produkte sind die Kosten (TER) noch nicht hinterlegt – auf justETF oder beim Anbieter prüfen.");
+    // 6. Länderklumpen USA
+    const usa = positionen.reduce((a, x) => { const kl = x.klassen || {}, g = Object.values(kl).reduce((s, v) => s + v, 0) || 1;
+      return a + ((+x.anteil || 0) / summe) * ((kl.aktien_usa || 0) + (kl.aktien_tech || 0) + 0.7 * (kl.aktien_welt || 0)) / g; }, 0);
+    if (aktien > 0) add("Länderklumpen USA", usa / aktien <= 0.75 ? "ok" : "warn", `≈ ${Math.round((usa / aktien) * 100)} % deiner Aktien hängen an den USA (Größenordnung).`);
+    return out;
+  }
+
+  // Konstanter Zins, mit dem einmal + monatlich in T Jahren genau `ziel` ergibt (für Steuer-Verläufe).
+  function impliziterZins(einmal, spar, T, ziel) {
+    const fv = (r) => { let w = einmal; for (let t = 0; t < T; t++) w = w * (1 + r) + 12 * spar * Math.sqrt(1 + r); return w; };
+    let lo = -0.99, hi = 2;
+    for (let i = 0; i < 80; i++) { const m = (lo + hi) / 2; if (fv(m) < ziel) lo = m; else hi = m; }
+    return (lo + hi) / 2;
+  }
+  function verlaufAusZins(einmal, spar, T, r) {
+    const out = []; let w = einmal;
+    for (let t = 0; t < T; t++) { const a = w; w = w * (1 + r) + 12 * spar * Math.sqrt(1 + r); out.push({ anfang: a, einzahlung: 12 * spar, ende: w }); }
+    return out;
+  }
+
+  const api = { normen, impliziterZins, verlaufAusZins, erwartung, warnungen, positionsErwartung, kursAm, termine, rueckrechnung, kennzahlen, fenster, szenario, pfadWert, klassenAnteile };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.Rechnen = api;
 })(typeof window !== "undefined" ? window : globalThis);

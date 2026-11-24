@@ -43,7 +43,7 @@ async function rechne(p) {
 async function viewPortfolios() {
   const d = await api("/api/portfolios");
   const ps = d.portfolios;
-  render(`${kopf("Pläne", "#/", `<a class="btn primary" href="#/berater/neu">Mit dem Council bauen</a><a class="btn" href="#/entwurf">Entwurf</a><a class="btn" href="#/portfolios/neu">Selbst anlegen</a>`)}
+  render(`${kopf("Pläne", "#/", `<a class="btn primary" href="#/bauen">Schritt für Schritt bauen</a><a class="btn" href="#/berater/neu">Mit dem Council bauen</a><a class="btn" href="#/entwurf">Entwurf</a><a class="btn" href="#/portfolios/neu">Schnell anlegen</a>`)}
     ${planTabs("portfolios")}
     <p class="muted">Hypothetische Depots: Was wäre, wenn du ab einem Datum so investiert hättest? Frei änderbar. Für eine ehrliche Prüfung später: als Entscheidung einfrieren.</p>
     ${ps.length ? `<div class="card"><h2 style="margin-top:0">Rendite im Vergleich</h2><p class="muted small">Zeitgewichtet seit Start des jeweiligen Portfolios. Darunter: MSCI World im selben Zeitraum.</p><div id="cmp"><p class="muted">Rechne …</p></div></div>` : ""}
@@ -103,7 +103,7 @@ async function viewPortfolioForm(id) {
     return `<div class="card flat prow" style="margin:8px 0">
       <div class="row">
         <div style="flex:3 1 260px"><label>Produkt</label><select class="psel">${optionen(k ? k.id : "")}<option value="eigen" ${eigen ? "selected" : ""}>Eigener Ticker (Aktie, ETF …)</option></select></div>
-        <div style="flex:2 1 200px">${slider({ id: `pf-a${zn++}`, label: "Anteil", skala: "prozent", wert: x.anteil ?? 10, klein: true })}</div>
+        <div style="flex:2 1 200px">${slider({ id: `pf-a${zn++}`, label: "Anteil", skala: "prozent", wert: x.anteil ?? 10, klein: true, gruppe: "pf" })}</div>
         <div style="flex:0 0 auto;align-self:flex-end"><button type="button" class="ghost pdel" aria-label="Position entfernen">Entfernen</button></div>
       </div>
       <div class="row peigen" ${eigen ? "" : "hidden"}>
@@ -119,7 +119,7 @@ async function viewPortfolioForm(id) {
         <label for="pf-b">Beschreibung / Idee</label><textarea id="pf-b" name="beschreibung" placeholder="Warum dieses Portfolio?">${esc(p.beschreibung)}</textarea>
         <h2>Positionen</h2>
         <div id="rows">${p.positionen.map(zeile).join("")}</div>
-        <div class="actions"><button type="button" id="add">+ Position</button><span class="muted" id="summe"></span></div>
+        <div class="actions"><button type="button" id="add">+ Position</button><span id="rest-pf" class="rest"></span><span id="summe" hidden></span></div>
       </div>
       <div class="card">
         ${slider({ id: "pf-z", label: "Start der Rückrechnung", skala: "zurueck", wert: Math.max(0.25, (Date.now() - Date.parse(p.startdatum)) / (365.25 * 864e5)), hinweis: `Startdatum: ${datumKurz(p.startdatum, true)}` })}
@@ -213,13 +213,13 @@ async function viewPortfolio(id) {
       <details><summary>Werte als Tabelle</summary><div class="table-wrap" id="tab"></div></details>
     </div>
     <div class="cols" style="margin-top:4px">
-      <div class="card"><h2 style="margin-top:0">Positionen</h2><p class="muted small">Zeile antippen für die Kursentwicklung.</p>
+      <div class="card"><h2 style="margin-top:0">Positionen</h2><p class="muted small">„Kurs“ öffnet die Kursentwicklung der Position.</p>
         <div class="table-wrap"><table>
-          <tr><th>Position</th><th class="num">Ziel</th><th class="num">Aktuell</th><th class="num">Wert</th><th class="num">Rendite</th><th>Verlauf</th></tr>
+          <tr><th>Position</th><th class="num">Ziel</th><th class="num">Aktuell</th><th class="num">Wert</th><th class="num">Rendite</th><th>Verlauf</th><th></th></tr>
           ${r.positionen.map((x, i) => `<tr class="click" data-i="${i}" tabindex="0"><td>${esc(x.name)}<br><span class="muted small">${esc(x.isin || "")} ${esc(x.ticker)}</span></td>
             <td class="num">${num(x.gewicht * 100, 1)} %</td><td class="num">${x.anteilAktuell == null ? "–" : num(x.anteilAktuell * 100, 1) + " %"}</td>
             <td class="num">${eur(x.wert)}</td><td class="num ${tone(x.rendite)}">${pctS(x.rendite)}</td>
-            <td>${Charts.spark((r.kurse[x.ticker] || []).slice(-52).map((q) => q[1]))}</td></tr>`).join("")}
+            <td>${Charts.spark((r.kurse[x.ticker] || []).slice(-52).map((q) => q[1]))}</td><td><button type="button" class="klein" tabindex="-1">Kurs ›</button></td></tr>`).join("")}
         </table></div>
         <div id="kurs" style="margin-top:16px"></div>
       </div>
@@ -340,6 +340,7 @@ async function strategieAusQuelle(quelle, id) {
 async function viewSzenario(query) {
   const q = new URLSearchParams(query || "");
   const [sz, st] = await Promise.all([szDaten(), strategieAusQuelle(q.get("quelle"), q.get("id"))]);
+  auf100(st.positionen.map((x) => +x.anteil || 0)).forEach((v, i) => (st.positionen[i].anteil = v));
   const klOpt = (sel) => Object.entries(sz.klassen).map(([k, v]) => `<option value="${k}" ${sel === k ? "selected" : ""}>${esc(v)}</option>`).join("");
   let gewaehlt = null, kiDef = null;
   render(`${kopf("Szenario anwenden", st.zurueck)}
@@ -360,7 +361,8 @@ async function viewSzenario(query) {
         <div id="pos">${st.positionen.map((x, i) => `<div class="row" style="margin-top:8px" data-i="${i}">
           <div style="flex:2 1 150px"><label>${esc(x.name)}${x.geschaetzt ? ' <span class="est">Klasse geschätzt</span>' : ""}</label>
             <select class="skl">${klOpt(Object.keys(x.klassen || { aktien_welt: 1 }).sort((a, b) => (x.klassen[b] || 0) - (x.klassen[a] || 0))[0])}</select></div>
-          <div style="flex:2 1 160px">${slider({ id: `sa${i}`, label: "Anteil", skala: "prozent", wert: Math.round(x.anteil), klein: true })}</div></div>`).join("")}</div>
+          <div style="flex:2 1 160px">${slider({ id: `sa${i}`, label: "Anteil", skala: "prozent", wert: Math.round(x.anteil), klein: true, gruppe: "sz" })}</div></div>`).join("")}</div>
+        <p><span id="rest-sz" class="rest"></span></p>
         <p class="muted small">Gemischte Produkte (z. B. All-World) werden mit ihrer genauen Klassen-Mischung gerechnet, solange du die Klasse nicht änderst.</p>
       </div>
     </div>

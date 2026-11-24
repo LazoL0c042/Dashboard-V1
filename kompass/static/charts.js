@@ -15,7 +15,8 @@
     const span = max - min, step0 = span / n, mag = Math.pow(10, Math.floor(Math.log10(step0)));
     const step = [1, 2, 2.5, 5, 10].map((f) => f * mag).find((s) => span / s <= n) || 10 * mag;
     const out = [];
-    for (let v = Math.floor(min / step) * step; v <= max + step * 1e-9; v += step) out.push(+v.toFixed(10));
+    const oben = Math.ceil(max / step - 1e-9) * step;
+    for (let v = Math.floor(min / step) * step; v <= oben + step * 1e-9; v += step) out.push(+v.toFixed(10));
     return out;
   }
 

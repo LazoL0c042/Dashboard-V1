@@ -25,6 +25,12 @@ def test_eigener_ticker_braucht_klasse(conn, user):
     assert portfolios.anlegen(conn, user, d)
 
 
+def test_portfolio_max_100_prozent(conn, user):
+    d = {**GUT, "positionen": [{"ticker": "EUNL.DE", "isin": "IE00B4L5Y983", "anteil": 80}, {"ticker": "4GLD.DE", "isin": "DE000A0S9GB0", "anteil": 30}]}
+    with pytest.raises(ValueError, match="höchstens 100"):
+        portfolios.anlegen(conn, user, d)
+
+
 def test_pruefungen(conn, user):
     with pytest.raises(ValueError, match="Zukunft"):
         portfolios.anlegen(conn, user, {**GUT, "startdatum": (date.today() + timedelta(days=3)).isoformat()})

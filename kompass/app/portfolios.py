@@ -45,6 +45,9 @@ def _pruefe(d: dict) -> dict:
         })
     if not pos:
         raise ValueError("Mindestens eine Position mit Anteil angeben.")
+    summe = sum(p["anteil"] for p in pos)
+    if summe > 100.5:
+        raise ValueError(f"Die Anteile ergeben zusammen {summe:.1f} % – höchstens 100 % sind möglich.")
     if len(pos) > MAX_POSITIONEN:
         raise ValueError(f"Höchstens {MAX_POSITIONEN} Positionen.")
     return {"name": name[:120], "beschreibung": (d.get("beschreibung") or "").strip()[:1000],
