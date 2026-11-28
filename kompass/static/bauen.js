@@ -56,8 +56,15 @@ async function produktDetail(id) {
   return PRODUKT_CACHE[id];
 }
 
-async function viewBauen(schrittParam) {
-  const [g, kat, e0, prof] = await Promise.all([glossarDaten(), katalog(), api("/api/entwurf"), api("/api/profil")]);
+async function viewBauen(eidParam, schrittParam) {
+  if (!eidParam) {
+    // Ohne Entwurf: neue Strategie anlegen und dorthin wechseln
+    const neu = await neueStrategie(null);
+    location.replace(`#/bauen/${neu.id}/1`);
+    return;
+  }
+  const eid = +eidParam;
+  const [g, kat, e0, prof] = await Promise.all([glossarDaten(), katalog(), api(`/api/entwuerfe/${eid}`), api("/api/profil")]);
   const e = e0;
   if (!e.bau) {
     // Aus vorhandenen Entwurfs-Positionen übernehmen, sonst leer starten
@@ -78,7 +85,7 @@ async function viewBauen(schrittParam) {
 
   const speichereSofort = async () => {
     e.positionen = bauPositionen(e, g, kat);
-    try { await api("/api/entwurf", { method: "PUT", body: e }); aktualisiereEntwurfZaehler(); } catch (ex) { toast(ex.message); }
+    try { await api(`/api/entwuerfe/${eid}`, { method: "PUT", body: e }); aktualisiereEntwurfZaehler(); } catch (ex) { toast(ex.message); }
   };
   const speichere = debounce(speichereSofort, 500);
 
@@ -96,7 +103,7 @@ async function viewBauen(schrittParam) {
   };
 
   const kopfzeile = () => `<a class="crumb" href="#/plaene">‹ Pläne</a>
-    <div class="pagehead"><h1>Portfolio bauen</h1><div class="actions"><a class="btn" href="#/berater/neu">Council fragen</a><a class="btn" href="#/entwurf">Entwurf ansehen</a></div></div>
+    <div class="pagehead"><h1>Portfolio bauen</h1><div class="actions"><button type="button" id="b-council">Council fragen</button><a class="btn" href="#/entwurf/${eid}">Entwurf ansehen</a></div></div>
     <nav class="stepper" aria-label="Schritte">${SCHRITTE.map((n, i) => {
       const nr = i + 1, sperre = nr > schritt && gueltig(nr);
       return `<button type="button" class="step${nr === schritt ? " on" : ""}${nr < schritt ? " fertig" : ""}" data-s="${nr}" ${sperre ? "disabled" : ""} ${nr === schritt ? 'aria-current="step"' : ""}>
@@ -105,9 +112,11 @@ async function viewBauen(schrittParam) {
   const fuss = (weiterText = "Weiter") => `<div class="step-fuss">${schritt > 1 ? '<button type="button" id="zurueck">‹ Zurück</button>' : "<span></span>"}
     <span class="muted small" id="sperre"></span>
     ${schritt < 5 ? `<button type="button" class="primary" id="weiter">${weiterText} ›</button>` : ""}</div>`;
-  const geheZu = async (n) => { b.schritt = n; await speichereSofort(); location.hash = `#/bauen/${n}`; };
+  const geheZu = async (n) => { b.schritt = n; await speichereSofort(); location.hash = `#/bauen/${eid}/${n}`; };
   const verdrahteFuss = () => {
     document.querySelectorAll(".step[data-s]").forEach((x) => (x.onclick = () => geheZu(+x.dataset.s)));
+    const bc = document.getElementById("b-council");
+    if (bc) bc.onclick = () => assistentOeffnen(null, eid);
     const z = document.getElementById("zurueck");
     if (z) z.onclick = () => geheZu(schritt - 1);
     const w = document.getElementById("weiter");
@@ -223,7 +232,7 @@ async function viewBauen(schrittParam) {
           <div class="card"><h2 style="margin-top:0">Erwartung über ${e.horizont_jahre} Jahre <span class="est">Annahmen</span></h2><div id="b-erw"></div></div>
         </div>
         <div class="card"><h2 style="margin-top:0">Anpassen</h2><div id="b-tausch"></div>
-          <div class="actions"><a class="btn" href="#/berater/neu?frage=${encodeURIComponent("Ist mehr Risiko für mich sinnvoll? Zum Beispiel Gold gehebelt oder ein Branchen-ETF?")}">Council fragen: Ist mehr Risiko sinnvoll?</a></div></div>
+          <div class="actions"><button type="button" data-assistent="Ist mehr Risiko für mich sinnvoll? Zum Beispiel Gold gehebelt oder ein Branchen-ETF?">Council fragen: Ist mehr Risiko sinnvoll?</button></div></div>
       </div>${fuss()}`);
     verdrahteFuss();
     const zeichne = () => {
@@ -316,8 +325,10 @@ async function viewBauen(schrittParam) {
           ${ohneProdukt.length ? `<div class="notice small" style="margin-top:10px">Noch kein Produkt gewählt für: ${ohneProdukt.map((p) => esc(p.name)).join(", ")}.</div>` : ""}
           <label for="b-name" style="margin-top:14px">Name</label><input id="b-name" value="${esc(e.name)}" placeholder="z. B. Mein Wachstumsdepot">
           <div id="b-err"></div>
-          <div class="actions"><button class="primary" id="b-save">Als Portfolio speichern</button><a class="btn" href="#/szenario?quelle=entwurf">Szenario anwenden</a>
-            <a class="btn" href="#/berater/neu?frage=${encodeURIComponent("Bewerte mein gebautes Portfolio und die Gewichtungen.")}">Council bewerten lassen</a></div>
+          <div class="actions"><a class="btn" href="#/szenario?quelle=entwurf&id=${eid}">Szenario anwenden</a>
+            <button type="button" id="b-bewerten">Council bewerten lassen</button></div>
+        </div>
+        <div class="card" id="b-check"></div>
         </div>
       </div>
     </div>${fuss()}`);
@@ -330,13 +341,13 @@ async function viewBauen(schrittParam) {
     if (box) box.innerHTML = n2.map((x) => `<div class="norm"><span class="pill ${cls[x.status]}">${icon[x.status]}</span><div><b>${esc(x.norm)}</b><br><span>${esc(x.text)}</span><br><span class="src">${esc(x.quelle)}</span></div></div>`).join("");
   });
   document.getElementById("b-name").oninput = (ev) => { e.name = ev.target.value; speichere(); };
-  document.getElementById("b-save").onclick = async () => {
-    try {
-      e.positionen = positionen();
-      await api("/api/entwurf", { method: "PUT", body: e });
-      const r = await api("/api/entwurf/speichern", { body: {} });
-      aktualisiereEntwurfZaehler();
-      location.hash = `#/portfolios/${r.id}`;
-    } catch (ex) { document.getElementById("b-err").innerHTML = errBox(ex); }
-  };
+  document.getElementById("b-bewerten").onclick = () => assistentOeffnen("Bewerte mein gebautes Portfolio und die Gewichtungen.", eid);
+  sicherheitscheck(document.getElementById("b-check"), { art: "entwurf", id: eid }, async (checkId, trotzdem) => {
+    e.positionen = positionen();
+    await api(`/api/entwuerfe/${eid}`, { method: "PUT", body: e });
+    const r = await api(`/api/entwuerfe/${eid}/speichern`, { body: { check_id: checkId, trotzdem } });
+    aktualisiereEntwurfZaehler();
+    location.hash = `#/portfolios/${r.id}`;
+  }, "Als Portfolio speichern");
+
 }

@@ -3,12 +3,12 @@ import json
 import threading
 from pathlib import Path
 
-from fastapi import Depends, FastAPI, HTTPException, Request, Response
+from fastapi import Depends, FastAPI, File, HTTPException, Request, Response, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from . import auth, berater, indikatoren, calculator, config, council, db, entwurf, glossar, llm, plans, portfolios, products, profile, research, scenarios, taxes
+from . import auth, berater, faktencheck, indikatoren, links, sprache, calculator, config, council, db, entwurf, glossar, llm, plans, portfolios, products, profile, research, scenarios, taxes
 
 STATIC = Path(__file__).resolve().parent.parent / "static"
 COOKIE = "kompass_session"
@@ -57,6 +57,8 @@ class Produkt(BaseModel):
 
 
 class NeuerPlan(BaseModel):
+    check_id: int | None = None
+    trotzdem: bool = False
     session_id: int | None = None
     titel: str
     was: str = ""
@@ -149,7 +151,32 @@ class EntwurfPosition(BaseModel):
     klassen: dict[str, float] = {}
 
 
+class Speichern(BaseModel):
+    check_id: int | None = None
+    trotzdem: bool = False
+
+
+class CheckStart(BaseModel):
+    art: str
+    id: int | None = None
+    session_id: int | None = None
+    positionen: list[dict] = []
+    text: str = ""
+
+
+class Import(BaseModel):
+    isin: str
+    asset: str
+
+
+class NeuerEntwurf(BaseModel):
+    name: str = ""
+    quelle: dict | None = None
+
+
 class BeraterStart(BaseModel):
+    entwurf_id: int | None = None
+    seite: str | None = None
     text: str
 
 
@@ -425,6 +452,7 @@ def create_app(db_path: str | None = None, runner=None) -> FastAPI:
         eingabe = b.model_dump()
         eingabe["produkte"] = [p for p in eingabe["produkte"]]
         try:
+            eingabe["sicherheitscheck"] = faktencheck.freigabe(c, u["id"], b.check_id, b.trotzdem)
             return {"id": plans.freeze(c, u["id"], eingabe, b.session_id)}
         except LookupError as e:
             fehler(e, 404)
@@ -723,10 +751,11 @@ def create_app(db_path: str | None = None, runner=None) -> FastAPI:
         return {"ok": True}
 
     @app.post("/api/entwurf/speichern")
-    def entwurf_als_portfolio(u=Depends(get_user), c=Depends(get_conn)):
+    def entwurf_als_portfolio(b: Speichern = Speichern(), u=Depends(get_user), c=Depends(get_conn)):
         e = entwurf.get(c, u["id"])
         try:
-            pid = portfolios.anlegen(c, u["id"], entwurf.als_portfolio(e))
+            faktencheck.freigabe(c, u["id"], b.check_id, b.trotzdem)
+            pid = portfolios.anlegen(c, u["id"], entwurf.als_portfolio(e, c))
         except ValueError as ex:
             fehler(ex)
         entwurf.leeren(c, u["id"])
@@ -742,7 +771,7 @@ def create_app(db_path: str | None = None, runner=None) -> FastAPI:
     def berater_neu(b: BeraterStart, u=Depends(hinweis_ok), c=Depends(get_conn)):
         if not b.text.strip():
             raise HTTPException(400, "Schreib, was für ein Portfolio du bauen möchtest.")
-        cid = berater.anlegen(c, u["id"], b.text.strip()[:120])
+        cid = berater.anlegen(c, u["id"], b.text.strip()[:120], b.entwurf_id, b.seite)
         c.execute("UPDATE berater_chats SET status = 'denkt' WHERE id = ?", (cid,))
         c.commit()
         run_bg(berater.antworten, cid, b.text)
@@ -753,7 +782,11 @@ def create_app(db_path: str | None = None, runner=None) -> FastAPI:
         ch = berater.chat_for(c, u["id"], cid)
         if not ch:
             raise HTTPException(404, "Gespräch nicht gefunden")
-        return {"chat": ch, "nachrichten": berater.nachrichten(c, cid), "entwurf": entwurf.get(c, u["id"]),
+        try:
+            ent = entwurf.get(c, u["id"], ch.get("entwurf_id"))
+        except LookupError:
+            ent = entwurf.get(c, u["id"])
+        return {"chat": ch, "nachrichten": berater.nachrichten(c, cid), "entwurf": ent,
                 "profil_offen": profile.pending(c, u["id"])}
 
     @app.post("/api/berater/{cid}")
@@ -765,6 +798,7 @@ def create_app(db_path: str | None = None, runner=None) -> FastAPI:
             raise HTTPException(409, "Der Council antwortet noch")
         if not b.text.strip():
             raise HTTPException(400, "Nachricht fehlt")
+        berater.kontext_setzen(c, u["id"], cid, b.entwurf_id, b.seite)
         c.execute("UPDATE berater_chats SET status = 'denkt', error = NULL WHERE id = ?", (cid,))
         c.commit()
         run_bg(berater.antworten, cid, b.text)
@@ -778,11 +812,136 @@ def create_app(db_path: str | None = None, runner=None) -> FastAPI:
         if not m or not (m["data"] or {}).get("vorschlag"):
             raise HTTPException(404, "Kein Vorschlag")
         v = m["data"]["vorschlag"]
-        e = entwurf.get(c, u["id"])
+        ch = berater.chat_for(c, u["id"], cid)
+        try:
+            e = entwurf.get(c, u["id"], ch.get("entwurf_id"))
+        except LookupError:
+            e = entwurf.get(c, u["id"])
         e["positionen"] = v.get("aufgeloest") or []
         if v.get("name") and not e["name"]:
             e["name"] = v["name"]
         return entwurf.speichern(c, u["id"], e)
+
+
+    # ----- Strategie-Entwürfe (mehrere) -----
+
+    @app.get("/api/entwuerfe")
+    def entwuerfe_liste(u=Depends(get_user), c=Depends(get_conn)):
+        return entwurf.liste(c, u["id"])
+
+    @app.post("/api/entwuerfe")
+    def entwurf_neu(b: NeuerEntwurf, u=Depends(get_user), c=Depends(get_conn)):
+        e = entwurf.neu(c, u["id"], {"name": b.name})
+        if b.quelle:
+            try:
+                e = entwurf.hinzufuegen(c, u["id"], {**b.quelle, "anteil": b.quelle.get("anteil", 100)}, e["id"])
+            except ValueError as ex:
+                fehler(ex)
+        return e
+
+    def _entwurf_oder_404(c, u, eid):
+        try:
+            return entwurf.get(c, u["id"], eid)
+        except LookupError as e:
+            fehler(e, 404)
+
+    @app.get("/api/entwuerfe/{eid}")
+    def entwurf_id_get(eid: int, u=Depends(get_user), c=Depends(get_conn)):
+        return _entwurf_oder_404(c, u, eid)
+
+    @app.put("/api/entwuerfe/{eid}")
+    def entwurf_id_put(eid: int, b: dict, u=Depends(get_user), c=Depends(get_conn)):
+        _entwurf_oder_404(c, u, eid)
+        try:
+            return entwurf.speichern(c, u["id"], b, eid)
+        except ValueError as e:
+            fehler(e)
+
+    @app.delete("/api/entwuerfe/{eid}")
+    def entwurf_id_loeschen(eid: int, u=Depends(get_user), c=Depends(get_conn)):
+        if not entwurf.loeschen(c, u["id"], eid):
+            raise HTTPException(404, "Entwurf nicht gefunden")
+        return {"ok": True}
+
+    @app.post("/api/entwuerfe/{eid}/position")
+    def entwurf_id_position(eid: int, b: EntwurfPosition, u=Depends(get_user), c=Depends(get_conn)):
+        _entwurf_oder_404(c, u, eid)
+        try:
+            return entwurf.hinzufuegen(c, u["id"], b.model_dump(), eid)
+        except ValueError as e:
+            fehler(e)
+
+    @app.post("/api/entwuerfe/{eid}/speichern")
+    def entwurf_id_speichern(eid: int, b: Speichern, u=Depends(get_user), c=Depends(get_conn)):
+        e = _entwurf_oder_404(c, u, eid)
+        try:
+            check = faktencheck.freigabe(c, u["id"], b.check_id, b.trotzdem)
+            daten = entwurf.als_portfolio(e, c)
+            daten["beschreibung"] = (daten["beschreibung"] + f"\n\nSicherheitscheck: {check['ampel']} ({check['zeitpunkt'][:16]})").strip()
+            pid = portfolios.anlegen(c, u["id"], daten)
+        except ValueError as ex:
+            fehler(ex)
+        entwurf.loeschen(c, u["id"], eid)
+        return {"id": pid}
+
+    # ----- Sicherheitscheck -----
+
+    @app.post("/api/faktencheck")
+    def check_start(b: CheckStart, u=Depends(get_user), c=Depends(get_conn)):
+        try:
+            fid = faktencheck.start(c, u["id"], b.model_dump())
+        except ValueError as e:
+            fehler(e)
+        run_bg(faktencheck.run, fid)
+        return {"id": fid}
+
+    @app.get("/api/faktencheck/{fid}")
+    def check_get(fid: int, u=Depends(get_user), c=Depends(get_conn)):
+        r = faktencheck.get(c, u["id"], fid)
+        if not r:
+            raise HTTPException(404, "Nicht gefunden")
+        return r
+
+    # ----- Produkte: Rangliste, Prüfung, Import -----
+
+    @app.get("/api/produkte/ranking/{asset_id}")
+    def produkte_ranking(asset_id: str, u=Depends(get_user), c=Depends(get_conn)):
+        return products.ranking(c, asset_id)
+
+    @app.post("/api/produkte/import")
+    def produkt_import(b: Import, u=Depends(get_user), c=Depends(get_conn)):
+        try:
+            return products.importieren(c, b.isin, b.asset)
+        except ValueError as e:
+            fehler(e)
+
+    def _katalog_pruefen(c):
+        import time
+        for p in products.katalog():
+            if p.get("isin"):
+                products.pruefen(c, p)
+                time.sleep(0.6)
+
+    @app.post("/api/admin/katalog/pruefen")
+    def katalog_pruefen(u=Depends(get_admin)):
+        run_bg(_katalog_pruefen)
+        return {"ok": True, "anzahl": len(products.katalog())}
+
+    @app.get("/api/wirkung")
+    def wirkung(u=Depends(get_user)):
+        return glossar.wirkung()
+
+    # ----- Sprache (Rückfallebene, wenn der Browser keine Spracherkennung hat) -----
+
+    @app.post("/api/sprache")
+    async def sprache_route(audio: UploadFile = File(...), u=Depends(get_user)):
+        daten = await audio.read()
+        try:
+            return {"text": sprache.transkribieren(daten, "." + (audio.filename or "a.webm").rsplit(".", 1)[-1])}
+        except sprache.NichtVerfuegbar as e:
+            raise HTTPException(501, str(e))
+        except ValueError as e:
+            fehler(e)
 
     # ----- Web-App -----
 

@@ -4,3 +4,8 @@ httpx>=0.27
 python-dotenv>=1.0
 yfinance>=0.2.50
 pytest>=8
+python-multipart>=0.0.9
+# Optional: Transkripte von YouTube-Videos für den Council
+youtube-transcript-api>=0.6
+# Optional (groß, ~0,5 GB Modell): Spracheingabe ohne Browser-Erkennung
+# faster-whisper>=1.0

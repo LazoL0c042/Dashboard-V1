@@ -214,6 +214,23 @@
     "openai/gpt-oss-120b",
     "gpt-oss"
    ]
+  ],
+  "faktencheck": [
+   [
+    "cerebras",
+    "qwen-3-235b-a22b-instruct-2507",
+    "qwen"
+   ],
+   [
+    "groq",
+    "openai/gpt-oss-120b",
+    "gpt-oss"
+   ],
+   [
+    "mistral",
+    "mistral-medium-latest",
+    "mistral"
+   ]
   ]
  }
 }

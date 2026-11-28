@@ -13,9 +13,43 @@ def leer() -> dict:
             "horizont_jahre": 20, "rueckrechnung_jahre": 5, "positionen": [], "bau": None}
 
 
-def get(conn, user_id: int) -> dict:
-    r = one(conn, "SELECT inhalt_json FROM entwuerfe WHERE user_id = ?", (user_id,))
-    return {**leer(), **json.loads(r["inhalt_json"])} if r else leer()
+def _laden(r) -> dict:
+    return {**leer(), **json.loads(r["inhalt_json"]), "id": r["id"], "updated_at": r["updated_at"]}
+
+
+def get(conn, user_id: int, eid: int | None = None) -> dict:
+    """Ein Entwurf (Strategie in Arbeit). Ohne eid: der zuletzt bearbeitete, sonst ein leerer (noch ohne id)."""
+    if eid is not None:
+        r = one(conn, "SELECT * FROM strategien WHERE id = ? AND user_id = ?", (eid, user_id))
+        if not r:
+            raise LookupError("Entwurf nicht gefunden")
+        return _laden(r)
+    r = one(conn, "SELECT * FROM strategien WHERE user_id = ? ORDER BY updated_at DESC, id DESC LIMIT 1", (user_id,))
+    return _laden(r) if r else {**leer(), "id": None}
+
+
+def liste(conn, user_id: int) -> list[dict]:
+    from .db import rows
+    out = []
+    for r in rows(conn, "SELECT * FROM strategien WHERE user_id = ? ORDER BY updated_at DESC, id DESC", (user_id,)):
+        e = _laden(r)
+        out.append({"id": e["id"], "name": e["name"] or "Unbenannter Entwurf", "risiko": e["risiko"], "einmalbetrag": e["einmalbetrag"],
+                    "sparrate": e["sparrate"], "horizont_jahre": e["horizont_jahre"], "updated_at": e["updated_at"],
+                    "positionen": [{"name": p["name"], "anteil": p["anteil"], "asset_id": p.get("asset_id"), "klassen": p.get("klassen", {})} for p in e["positionen"]],
+                    "schritt": (e.get("bau") or {}).get("schritt")})
+    return out
+
+
+def neu(conn, user_id: int, d: dict | None = None) -> dict:
+    cur = conn.execute("INSERT INTO strategien (user_id, inhalt_json) VALUES (?, ?)", (user_id, json.dumps(leer(), ensure_ascii=False)))
+    conn.commit()
+    return speichern(conn, user_id, {**leer(), **(d or {})}, cur.lastrowid)
+
+
+def loeschen(conn, user_id: int, eid: int) -> bool:
+    cur = conn.execute("DELETE FROM strategien WHERE id = ? AND user_id = ?", (eid, user_id))
+    conn.commit()
+    return cur.rowcount > 0
 
 
 def _zahl(v, lo, hi, default):
@@ -48,7 +82,7 @@ def position_aus(quelle: dict) -> dict | None:
     return pos
 
 
-def speichern(conn, user_id: int, d: dict) -> dict:
+def speichern(conn, user_id: int, d: dict, eid: int | None = None) -> dict:
     e = leer()
     e["name"] = str(d.get("name") or "")[:120]
     e["beschreibung"] = str(d.get("beschreibung") or "")[:1000]
@@ -72,13 +106,17 @@ def speichern(conn, user_id: int, d: dict) -> dict:
     e["positionen"] = pos
     if isinstance(d.get("bau"), dict):
         e["bau"] = _bau(d["bau"])
-    conn.execute(
-        "INSERT INTO entwuerfe (user_id, inhalt_json) VALUES (?, ?) ON CONFLICT(user_id) DO UPDATE SET "
-        "inhalt_json = excluded.inhalt_json, updated_at = datetime('now')",
-        (user_id, json.dumps(e, ensure_ascii=False)),
-    )
+    eid = eid if eid is not None else d.get("id")
+    if eid is None:
+        cur = conn.execute("INSERT INTO strategien (user_id, inhalt_json) VALUES (?, ?)", (user_id, json.dumps(e, ensure_ascii=False)))
+        eid = cur.lastrowid
+    else:
+        cur = conn.execute("UPDATE strategien SET inhalt_json = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now') WHERE id = ? AND user_id = ?",
+                           (json.dumps(e, ensure_ascii=False), eid, user_id))
+        if cur.rowcount == 0:
+            raise LookupError("Entwurf nicht gefunden")
     conn.commit()
-    return e
+    return get(conn, user_id, eid)
 
 
 def _bau(b: dict) -> dict:
@@ -97,8 +135,8 @@ def _bau(b: dict) -> dict:
     return {"schritt": int(_zahl(b.get("schritt"), 1, 5, 1)), "gewichte": gew, "auswahl": auswahl, "produkte": produkte_wahl}
 
 
-def hinzufuegen(conn, user_id: int, quelle: dict) -> dict:
-    e = get(conn, user_id)
+def hinzufuegen(conn, user_id: int, quelle: dict, eid: int | None = None) -> dict:
+    e = get(conn, user_id, eid)
     pos = position_aus(quelle)
     if not pos:
         raise ValueError("Unbekanntes Produkt oder Asset.")
@@ -113,16 +151,23 @@ def hinzufuegen(conn, user_id: int, quelle: dict) -> dict:
     if len(e["positionen"]) >= MAX_POSITIONEN:
         raise ValueError(f"Höchstens {MAX_POSITIONEN} Positionen.")
     e["positionen"].append(pos)
-    return speichern(conn, user_id, e)
+    return speichern(conn, user_id, e, e["id"])
 
 
-def leeren(conn, user_id: int) -> None:
-    conn.execute("DELETE FROM entwuerfe WHERE user_id = ?", (user_id,))
-    conn.commit()
+def leeren(conn, user_id: int, eid: int | None = None) -> None:
+    e = get(conn, user_id, eid)
+    if e["id"] is not None:
+        loeschen(conn, user_id, e["id"])
 
 
-def als_portfolio(e: dict) -> dict:
-    """Eingabe für portfolios.anlegen. Wirft ValueError, wenn Ticker fehlen."""
+def als_portfolio(e: dict, conn=None) -> dict:
+    """Eingabe für portfolios.anlegen. Wirft ValueError, wenn Ticker fehlen (versucht vorher, sie über die ISIN aufzulösen)."""
+    if conn is not None:
+        for p in e["positionen"]:
+            if not p.get("ticker") and p.get("isin"):
+                kat = products.finde(p["isin"])
+                if kat:
+                    p["ticker"] = products.mit_status(conn, kat, aufloesen=True).get("ticker", "")
     summe = sum(float(p.get("anteil") or 0) for p in e["positionen"])
     if abs(summe - 100) > 0.5:
         raise ValueError(f"Die Anteile ergeben {summe:.0f} % – verteile genau 100 %, bevor du speicherst.")

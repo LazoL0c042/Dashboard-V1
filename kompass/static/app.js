@@ -44,7 +44,7 @@ function toast(text) {
 }
 
 const ZURUECK = { "#/": "Start", "#/council": "Council", "#/plaene": "Pläne", "#/plaene/entscheidungen": "Entscheidungen",
-  "#/recherche": "Recherche", "#/produkte": "Produkte", "#/rechner": "Rechner", "#/berater/neu": "Portfolio-Council", "#/entwurf": "Entwurf", "#/glossar": "Glossar" };
+  "#/recherche": "Recherche", "#/produkte": "Produkte", "#/rechner": "Rechner", "#/berater/neu": "Portfolio-Council", "#/entwurf": "Entwurf", "#/glossar": "Glossar", "#/plaene/entwuerfe": "Entwürfe", "#/wirkung": "Wirkungsgefüge" };
 
 function kopf(title, back = "#/", aktionen = "") {
   const name = ZURUECK[back] || (back && back.startsWith("#/portfolios") ? "Portfolio" : back && back.startsWith("#/council/") ? "Council-Sitzung" : back && back.startsWith("#/plaene/") ? "Entscheidung" : "Zurück");
@@ -58,12 +58,13 @@ const ICONS = {
   plaene: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>',
   council: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg>',
   recherche: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+  glossar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2Z"/><path d="M4 19V5M9 7h6M9 11h6"/></svg>',
   rechner: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg>',
 };
 const BEREICHE = [
-  ["plaene", "Pläne", "#/plaene", ["#/plaene", "#/portfolios", "#/szenario", "#/entwurf", "#/berater", "#/bauen"]],
-  ["council", "Council", "#/council", ["#/council"]],
-  ["recherche", "Recherche", "#/recherche", ["#/recherche", "#/produkte", "#/glossar", "#/quellen", "#/ereignisse"]],
+  ["plaene", "Pläne", "#/plaene", ["#/plaene", "#/portfolios", "#/szenario", "#/entwurf", "#/bauen"]],
+  ["glossar", "Glossar", "#/glossar", ["#/glossar", "#/wirkung", "#/ereignisse"]],
+  ["recherche", "Recherche", "#/recherche", ["#/recherche", "#/produkte", "#/quellen"]],
   ["rechner", "Rechner", "#/rechner", ["#/rechner"]],
 ];
 
@@ -78,12 +79,19 @@ function renderNav() {
       const on = pre.some((x) => h === x || h.startsWith(x + "/") || h.startsWith(x + "?"));
       return `<a class="nav-link n-${k}${on ? " on" : ""}" href="${href}"${on ? ' aria-current="page"' : ""}>${ICONS[k]}<span>${name}</span></a>`;
     }).join("")}</div>
-    <a class="nav-me nav-entwurf" id="nav-entwurf" href="#/entwurf" ${ENTWURF_ANZAHL ? "" : "hidden"}>Entwurf <b>${ENTWURF_ANZAHL || 0}</b></a>
+    <button type="button" class="nav-link n-council nav-council${typeof ASS !== "undefined" && ASS.offen ? " on" : ""}" id="nav-council" aria-label="Council zuschalten">${ICONS.council}<span>Council</span></button>
+    <a class="nav-me nav-entwurf" id="nav-entwurf" href="#/plaene/entwuerfe" ${ENTWURF_ANZAHL ? "" : "hidden"}>Entwürfe <b>${ENTWURF_ANZAHL || 0}</b></a>
     ${ME.is_admin ? '<a class="nav-me nav-admin" href="#/admin">Einstellungen</a>' : ""}<a class="nav-me" href="#/profil">${esc(ME.name)}</a></div>`;
+  document.getElementById("nav-council").onclick = () => (ASS.offen ? assistentZu() : assistentOeffnen());
+  assistentInit();
 }
 
 function render(html) {
   $app.innerHTML = html;
+  // Sanfter Übergang bei jedem Seitenwechsel (abschaltbar über „Bewegung reduzieren“)
+  $app.classList.remove("wechsel");
+  void $app.offsetWidth;
+  $app.classList.add("wechsel");
   window.scrollTo(0, 0);
 }
 
@@ -136,14 +144,19 @@ const routes = [
   [/^#\/portfolios\/(\d+)\/bearbeiten$/, viewPortfolioForm],
   [/^#\/szenario(?:\?(.*))?$/, viewSzenario],
   [/^#\/glossar$/, viewGlossar],
+  [/^#\/glossar\/klasse\/([\w-]+)$/, viewKlasse],
   [/^#\/glossar\/([\w-]+)$/, viewAsset],
+  [/^#\/wirkung$/, viewWirkung],
+  [/^#\/plaene\/entwuerfe$/, viewEntwuerfe],
+  [/^#\/entwurf\/(\d+)$/, viewEntwurfId],
   [/^#\/quellen$/, viewQuellen],
   [/^#\/ereignisse$/, viewEreignisse],
   [/^#\/ereignisse\/([\w-]+)$/, viewEreignis],
   [/^#\/council\?idee=(.*)$/, (q) => viewCouncilList(decodeURIComponent(q))],
-  [/^#\/entwurf$/, viewEntwurf],
-  [/^#\/bauen$/, () => viewBauen(null)],
-  [/^#\/bauen\/([1-5])$/, viewBauen],
+  [/^#\/entwurf$/, async () => { const l = await api("/api/entwuerfe"); location.replace(l.length ? `#/entwurf/${l[0].id}` : "#/plaene/entwuerfe"); }],
+  [/^#\/bauen$/, () => viewBauen(null, null)],
+  [/^#\/bauen\/(\d+)$/, (eid) => viewBauen(eid, null)],
+  [/^#\/bauen\/(\d+)\/([1-5])$/, viewBauen],
   [/^#\/berater\/neu(?:\?(.*))?$/, viewBeraterNeu],
   [/^#\/berater\/(\d+)$/, viewBerater],
   [/^#\/plaene\/(\d+)$/, viewPlan],
@@ -229,21 +242,39 @@ function viewHinweis() {
 // ---------- Start ----------
 
 async function viewHome() {
-  const [pl, co, pf] = await Promise.all([api("/api/plaene"), api("/api/council"), api("/api/portfolios")]);
+  const [pl, co, pf, ent] = await Promise.all([api("/api/plaene"), api("/api/council"), api("/api/portfolios"), api("/api/entwuerfe")]);
   const offen = co.filter((s) => s.status === "klaeren" || s.status === "laeuft").length;
-  const letzte = co[0];
-  render(`<div class="pagehead"><h1>Hallo ${esc(ME.name)}</h1></div>
-    <div class="tiles">
-      <a class="tile t-mint" href="#/plaene"><span class="name">Pläne</span>
-        <span><span class="big-num">${pf.portfolios.length}</span> <span class="num">Portfolios · ${pl.plaene.length} Entscheidungen</span></span></a>
-      <a class="tile t-lav" href="#/council"><span class="name">Council</span>
-        <span>${offen ? `<span class="big-num">${offen}</span> <span class="num">offene Sitzung${offen > 1 ? "en" : ""}</span>` : '<span class="num">Neue Idee besprechen</span>'}</span></a>
-      <a class="tile t-sky" href="#/recherche"><span class="name">Recherche</span><span class="num">Nachrichten · Gesetze · Produkte</span></a>
-      <a class="tile t-peach" href="#/rechner"><span class="name">Rechner</span><span class="num">Worst · Realistisch · Best</span></a>
-    </div>
-    ${pf.portfolios.length ? `<div class="pagehead" style="margin-top:32px"><h2 style="margin:0">Deine Portfolios</h2><a class="btn" href="#/plaene">Alle ansehen</a></div>
-      <div class="cards" id="home-pf">${pf.portfolios.slice(0, 6).map((p) => `<a class="pcard" href="#/portfolios/${p.id}" id="hp-${p.id}"><span class="pname">${esc(p.name)}</span><span class="muted">Rechne …</span></a>`).join("")}</div>` : ""}
-    ${letzte ? `<h2>Zuletzt im Council</h2><div class="card list"><a class="item" href="#/council/${letzte.id}"><span class="t">${esc(letzte.idea.slice(0, 140))}</span>${statusPill(letzte.status)}</a></div>` : ""}`);
+  const heute = new Date().toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "long" });
+  const zuletzt = [
+    ...co.slice(0, 4).map((s) => ({ t: s.created_at, html: `<a class="item" href="#/council/${s.id}"><span class="t">${esc(s.idea.slice(0, 90))}<br><span class="muted small">Council · ${datum(s.created_at)}</span></span>${statusPill(s.status)}</a>` })),
+    ...pl.plaene.slice(0, 4).map((p) => ({ t: p.created_at, html: `<a class="item" href="#/plaene/${p.id}"><span class="t">${esc(p.title)}<br><span class="muted small">Entscheidung · ${datum(p.created_at)}</span></span><span class="pill p-mint">eingefroren</span></a>` })),
+  ].sort((x, y) => (y.t || "").localeCompare(x.t || "")).slice(0, 5);
+  render(`<div class="home">
+    <section class="home-kopf">
+      <div><p class="muted small" style="margin:0">${esc(heute)}</p><h1 style="margin:2px 0 0">Hallo ${esc(ME.name)}</h1>
+        <p class="muted" style="margin:6px 0 0">${ent.length ? `${ent.length} Strateg${ent.length > 1 ? "ien" : "ie"} in Arbeit` : "Noch keine Strategie in Arbeit"} · ${pf.portfolios.length} Portfolio${pf.portfolios.length === 1 ? "" : "s"} · ${pl.plaene.length} eingefrorene Entscheidung${pl.plaene.length === 1 ? "" : "en"}${offen ? ` · ${offen} offene Council-Sitzung${offen > 1 ? "en" : ""}` : ""}</p></div>
+      <div class="schnell">
+        <a class="tile t-mint" href="#/bauen"><span class="name">Strategie bauen</span><span class="num">in 5 Schritten</span></a>
+        <button type="button" class="tile t-lav" id="h-council"><span class="name">Council fragen</span><span class="num">tippen, sprechen, Link</span></button>
+        <a class="tile t-sky" href="#/glossar"><span class="name">Glossar</span><span class="num">Anlagen · Wirkung · Produkte</span></a>
+        <a class="tile t-peach" href="#/rechner"><span class="name">Rechner</span><span class="num">Worst · Realistisch · Best</span></a>
+      </div>
+    </section>
+    <div class="home-grid">
+      <div class="home-haupt">
+        <section><div class="pagehead"><h2 style="margin:0">Entwürfe</h2><a class="btn" href="#/plaene/entwuerfe">Alle Entwürfe</a></div>
+          <div class="cards">${ent.slice(0, 3).map(entwurfKarte).join("")}<a class="pcard neu" href="#/bauen">+ Neue Strategie</a></div></section>
+        <section><div class="pagehead"><h2 style="margin:0">Portfolios</h2><a class="btn" href="#/plaene">Alle ansehen</a></div>
+          ${pf.portfolios.length ? `<div class="cards">${pf.portfolios.slice(0, 6).map((p) => `<a class="pcard" href="#/portfolios/${p.id}" id="hp-${p.id}"><span class="pname">${esc(p.name)}</span><span class="muted">Rechne …</span></a>`).join("")}</div>`
+            : '<div class="card flat"><p class="muted" style="margin:0">Ein Portfolio entsteht, wenn du eine Strategie nach dem Sicherheitscheck speicherst – oder direkt unter Pläne.</p></div>'}</section>
+      </div>
+      <aside class="home-seite">
+        <section class="card"><div class="row" style="justify-content:space-between;align-items:baseline"><h2 style="margin:0">Marktlage heute</h2><a class="btn klein" href="#/ereignisse">Details</a></div>
+          <div id="h-markt"><div class="progress" style="margin-top:12px"><span class="dot"></span>Lade Live-Kennzahlen …</div></div></section>
+        <section class="card"><h2 style="margin-top:0">Zuletzt</h2><div class="list">${zuletzt.map((z) => z.html).join("") || '<p class="muted">Noch nichts. Frag den Council oder bau eine Strategie.</p>'}</div></section>
+      </aside>
+    </div></div>`);
+  document.getElementById("h-council").onclick = () => assistentOeffnen();
   for (const p of pf.portfolios.slice(0, 6)) {
     rechne(p).then((r) => {
       const box = document.getElementById(`hp-${p.id}`);
@@ -253,6 +284,17 @@ async function viewHome() {
         <div class="${tone(k.gewinnProzent)}" style="font-weight:620">${pctS(k.gewinnProzent)}</div></div>${Charts.spark(r.punkte.map((x) => x.wert))}</div>`;
     }).catch(() => {});
   }
+  ereignisDaten().then((d) => {
+    const box = document.getElementById("h-markt");
+    if (!box) return;
+    const ind = d.indikatoren, wahl = ["fear_greed", "vix", "us_zins_10j", "ezb_einlagenzins", "cape", "us_inflation"].filter((k) => ind[k]);
+    const fg = (v) => (v < 25 ? "Extreme Angst" : v < 45 ? "Angst" : v <= 55 ? "Neutral" : v <= 75 ? "Gier" : "Extreme Gier");
+    const top = d.aehnlichkeit[0];
+    box.innerHTML = `<div class="mini-kpis">${wahl.map((k) => { const x = ind[k]; return `<div class="mini-kpi"><span class="l">${esc(x.name)}</span>
+        <b>${num(x.wert, k === "fear_greed" || k === "vix" ? 0 : 2)}${x.einheit === "%" ? " %" : ""}</b><span class="sub">${k === "fear_greed" ? esc(fg(x.wert)) + " · " : ""}${esc(x.datum)}${x.live ? "" : ' <span class="est">nicht live</span>'}</span></div>`; }).join("")}</div>
+      ${top ? `<a class="item aehnlich" href="#/ereignisse/${top.id}"><span class="t"><span class="muted small">Am ähnlichsten zu heute</span><br><b>${esc(top.name)}</b> · ${num(top.aehnlichkeit, 0)} % ähnlich</span></a>
+        <p class="muted small" style="margin:6px 0 0">Ähnlichkeit heißt nicht, dass es wieder so kommt.</p>` : ""}`;
+  }).catch(() => { const box = document.getElementById("h-markt"); if (box) box.innerHTML = '<p class="muted">Kennzahlen gerade nicht erreichbar.</p>'; });
 }
 
 // ---------- Council ----------
@@ -470,8 +512,9 @@ async function viewPlanNeu(query) {
       <label>Produkte und Anteil (%)</label><div id="prods">${start}</div>
       <div class="actions"><button type="button" id="add">+ Produkt</button><span id="rest-pl" class="rest"></span></div>
       <div id="e"></div>
-      <div class="actions"><button class="primary">Einfrieren und speichern</button></div>
-    </form>`);
+      <div class="actions" id="pl-submit"><button class="primary">Weiter zum Sicherheitscheck</button></div>
+    </form>
+    <div id="pl-check" class="card" hidden></div>`);
   const prods = document.getElementById("prods");
   prods.addEventListener("change", (ev) => { if (ev.target.name === "p") ev.target.parentElement.querySelector(".ptick").hidden = ev.target.value !== "eigen"; });
   document.getElementById("add").onclick = () => { prods.insertAdjacentHTML("beforeend", zeile("", 10)); initSlider(prods); };
@@ -495,10 +538,19 @@ async function viewPlanNeu(query) {
       horizont_jahre: Number(d.horizont_jahre) || 0, einmalbetrag: Number(d.einmalbetrag) || 0,
       sparrate: Number(d.sparrate) || 0, zielbetrag: Number(d.zielbetrag) > 0 ? Number(d.zielbetrag) : null,
     };
-    try {
-      const r = await api("/api/plaene", { body });
+    if (!produkte.length) { document.getElementById("e").innerHTML = errBox("Mindestens ein Produkt angeben."); return; }
+    // Vor dem Einfrieren: Sicherheitscheck gegen Echtzeit-Daten
+    const box = document.getElementById("pl-check");
+    box.hidden = false;
+    document.getElementById("pl-submit").hidden = true;
+    sicherheitscheck(box, {
+      art: sessionId ? "session" : "plan", session_id: sessionId ? Number(sessionId) : null,
+      positionen: produkte, text: [d.titel, d.was, d.warum, d.kriterien].filter(Boolean).join("\n"),
+    }, async (checkId, trotzdem) => {
+      const r = await api("/api/plaene", { body: { ...body, check_id: checkId, trotzdem } });
       location.hash = `#/plaene/${r.id}`;
-    } catch (e) { document.getElementById("e").innerHTML = errBox(e); }
+    }, "Einfrieren und speichern");
+    box.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 }
 

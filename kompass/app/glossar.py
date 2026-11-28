@@ -51,3 +51,8 @@ def langfrist(spalte: str) -> dict | None:
 
 def domains() -> set[str]:
     return {q["domain"] for q in medien()["quellen"]}
+
+
+@lru_cache(maxsize=1)
+def wirkung() -> dict:
+    return json.loads((DATA / "wirkung.json").read_text(encoding="utf-8"))

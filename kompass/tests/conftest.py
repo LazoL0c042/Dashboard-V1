@@ -8,6 +8,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 os.environ["KOMPASS_DB"] = ":memory:"
 os.environ["COOKIE_SECURE"] = "false"
 os.environ["KOMPASS_OFFLINE"] = "1"
+os.environ["KOMPASS_PRODUKTE_EXTRA"] = str(Path(__file__).resolve().parent / "_produkte_extra_test.json")
 
 from app import db  # noqa: E402
 

@@ -1,5 +1,5 @@
 {
- "_hinweis": "Startkatalog. ISINs geprüft, Ticker (Yahoo Finance, Xetra) können sich ändern. Kennzahlen kommen live oder mit Quelle aus der App, nie aus dieser Datei.",
+ "_hinweis": "Katalog. ISINs und Eigenschaften gelten als ungeprüft (geprueft=false), bis der Server sie über Yahoo Finance/justETF bestätigt. Ticker leer = wird über die ISIN aufgelöst. Kennzahlen kommen live oder mit Quelle aus der App, nie aus dieser Datei.",
  "produkte": [
   {
    "kategorie": "Aktien-ETF Welt",
@@ -22,7 +22,8 @@
    "klassen": {
     "aktien_welt": 1
    },
-   "asset": "msci_world"
+   "asset": "msci_world",
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF Welt",
@@ -45,7 +46,8 @@
    "klassen": {
     "aktien_welt": 1
    },
-   "asset": "msci_world"
+   "asset": "msci_world",
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF Welt",
@@ -69,7 +71,8 @@
     "aktien_welt": 0.9,
     "aktien_em": 0.1
    },
-   "asset": "all_world"
+   "asset": "all_world",
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF Welt",
@@ -93,7 +96,8 @@
     "aktien_welt": 0.9,
     "aktien_em": 0.1
    },
-   "asset": "all_world"
+   "asset": "all_world",
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF Schwellenländer",
@@ -116,7 +120,8 @@
    "klassen": {
     "aktien_em": 1
    },
-   "asset": "em"
+   "asset": "em",
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF USA",
@@ -139,7 +144,8 @@
    "klassen": {
     "aktien_usa": 1
    },
-   "asset": "sp500"
+   "asset": "sp500",
+   "geprueft": false
   },
   {
    "kategorie": "Edelmetalle",
@@ -162,7 +168,8 @@
    "klassen": {
     "gold": 1
    },
-   "asset": "gold"
+   "asset": "gold",
+   "geprueft": false
   },
   {
    "kategorie": "Edelmetalle",
@@ -185,7 +192,8 @@
    "klassen": {
     "gold": 1
    },
-   "asset": "gold"
+   "asset": "gold",
+   "geprueft": false
   },
   {
    "kategorie": "Edelmetalle",
@@ -208,7 +216,8 @@
    "klassen": {
     "goldminen": 1
    },
-   "asset": "goldminen"
+   "asset": "goldminen",
+   "geprueft": false
   },
   {
    "kategorie": "Anleihen",
@@ -231,7 +240,8 @@
    "klassen": {
     "anleihen": 1
    },
-   "asset": "staatsanleihen"
+   "asset": "staatsanleihen",
+   "geprueft": false
   },
   {
    "kategorie": "Tagesgeld & Geldmarkt",
@@ -254,7 +264,8 @@
    "klassen": {
     "geldmarkt": 1
    },
-   "asset": "geldmarkt_etf"
+   "asset": "geldmarkt_etf",
+   "geprueft": false
   },
   {
    "kategorie": "Immobilien",
@@ -277,7 +288,8 @@
    "klassen": {
     "immobilien": 1
    },
-   "asset": "reits"
+   "asset": "reits",
+   "geprueft": false
   },
   {
    "kategorie": "Krypto",
@@ -296,7 +308,8 @@
    "klassen": {
     "krypto": 1
    },
-   "asset": "bitcoin"
+   "asset": "bitcoin",
+   "geprueft": false
   },
   {
    "kategorie": "Edelmetalle",
@@ -316,7 +329,8 @@
    "klassen": {
     "gold": 1
    },
-   "asset": "gold"
+   "asset": "gold",
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF Welt",
@@ -335,7 +349,8 @@
      "titel": "justETF",
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BFY0GT14"
     }
-   ]
+   ],
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF Welt",
@@ -355,7 +370,8 @@
      "titel": "justETF",
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B6R52259"
     }
-   ]
+   ],
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF Schwellenländer",
@@ -374,7 +390,8 @@
      "titel": "justETF",
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BTJRMP35"
     }
-   ]
+   ],
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF USA",
@@ -393,7 +410,8 @@
      "titel": "justETF",
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BFMXXD54"
     }
-   ]
+   ],
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF Tech",
@@ -412,7 +430,8 @@
      "titel": "justETF",
      "url": "https://www.justetf.com/de/etf-profile.html?isin=DE000A0F5UF5"
     }
-   ]
+   ],
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF Tech",
@@ -431,7 +450,8 @@
      "titel": "justETF",
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B53SZB19"
     }
-   ]
+   ],
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF Branche",
@@ -450,7 +470,8 @@
      "titel": "justETF",
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BMC38736"
     }
-   ]
+   ],
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF Branche",
@@ -469,7 +490,8 @@
      "titel": "justETF",
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B1XNHC34"
     }
-   ]
+   ],
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF Faktor",
@@ -488,7 +510,8 @@
      "titel": "justETF",
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BSPLC413"
     }
-   ]
+   ],
+   "geprueft": false
   },
   {
    "kategorie": "Aktien-ETF Faktor",
@@ -507,7 +530,8 @@
      "titel": "justETF",
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BSPLC298"
     }
-   ]
+   ],
+   "geprueft": false
   },
   {
    "kategorie": "Anleihen",
@@ -525,6 +549,1839 @@
     {
      "titel": "justETF",
      "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B3F81R35"
+    }
+   ],
+   "geprueft": false
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "Xtrackers MSCI World 1D",
+   "isin": "IE00BK1PV551",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BK1PV551",
+   "asset": "msci_world",
+   "index": "MSCI World",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "Ausschüttende Variante des großen Xtrackers-World-ETF.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BK1PV551"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "iShares MSCI World (Dist)",
+   "isin": "IE00B0M62Q58",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00B0M62Q58",
+   "asset": "msci_world",
+   "index": "MSCI World",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Einer der ältesten World-ETFs in Europa, ausschüttend.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B0M62Q58"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "Amundi Core MSCI World",
+   "isin": "LU1781541179",
+   "ticker": "",
+   "anbieter": "Amundi",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "LU1781541179",
+   "asset": "msci_world",
+   "index": "MSCI World",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Früher Lyxor; in Luxemburg aufgelegt.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=LU1781541179"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "Xtrackers MSCI World Swap 1C",
+   "isin": "LU0274208692",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "LU0274208692",
+   "asset": "msci_world",
+   "index": "MSCI World",
+   "ertrag": "thesaurierend",
+   "replikation": "synthetisch (Swap)",
+   "besonderheit": "Synthetisch: Indexrendite per Swap, kein direkter Aktienbesitz.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=LU0274208692"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "Invesco MSCI World",
+   "isin": "IE00B60SX394",
+   "ticker": "",
+   "anbieter": "Invesco",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00B60SX394",
+   "asset": "msci_world",
+   "index": "MSCI World",
+   "ertrag": "thesaurierend",
+   "replikation": "synthetisch (Swap)",
+   "besonderheit": "Synthetischer World-ETF; Swap kann steuerliche Vorteile bei US-Dividenden haben.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B60SX394"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "Vanguard FTSE Developed World (Acc)",
+   "isin": "IE00BK5BQV03",
+   "ticker": "",
+   "anbieter": "Vanguard",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BK5BQV03",
+   "asset": "msci_world",
+   "index": "FTSE Developed",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "FTSE-Index statt MSCI, sonst sehr ähnlich (Industrieländer).",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BK5BQV03"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "Vanguard FTSE Developed World (Dist)",
+   "isin": "IE00BKX55T58",
+   "ticker": "",
+   "anbieter": "Vanguard",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BKX55T58",
+   "asset": "msci_world",
+   "index": "FTSE Developed",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Ausschüttende Variante.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BKX55T58"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "Vanguard FTSE All-World (Dist)",
+   "isin": "IE00B3RBWM25",
+   "ticker": "",
+   "anbieter": "Vanguard",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 0.9,
+    "aktien_em": 0.1
+   },
+   "id": "IE00B3RBWM25",
+   "asset": "all_world",
+   "index": "FTSE All-World",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Ausschüttende Variante des bekannten All-World-ETF.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B3RBWM25"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "SPDR MSCI ACWI",
+   "isin": "IE00B44Z5B48",
+   "ticker": "",
+   "anbieter": "SPDR",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 0.9,
+    "aktien_em": 0.1
+   },
+   "id": "IE00B44Z5B48",
+   "asset": "all_world",
+   "index": "MSCI ACWI",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Welt inkl. Schwellenländer, ohne Small Caps.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B44Z5B48"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Faktor",
+   "name": "iShares Edge MSCI World Momentum Factor",
+   "isin": "IE00BP3QZ825",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BP3QZ825",
+   "asset": "welt_faktor",
+   "index": "MSCI World Momentum",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Kauft die Gewinner der letzten Monate; schichtet regelmäßig um.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BP3QZ825"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Faktor",
+   "name": "iShares Edge MSCI World Quality Factor",
+   "isin": "IE00BP3QZ601",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BP3QZ601",
+   "asset": "welt_faktor",
+   "index": "MSCI World Sector Neutral Quality",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Firmen mit hoher Eigenkapitalrendite, wenig Schulden, stabilen Gewinnen.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BP3QZ601"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Faktor",
+   "name": "iShares Edge MSCI World Value Factor",
+   "isin": "IE00BP3QZB59",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BP3QZB59",
+   "asset": "welt_faktor",
+   "index": "MSCI World Enhanced Value",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Günstig bewertete Firmen; lief in Tech-Booms schwächer.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BP3QZB59"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Faktor",
+   "name": "iShares Edge MSCI World Minimum Volatility",
+   "isin": "IE00B8FHGS14",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00B8FHGS14",
+   "asset": "welt_faktor",
+   "index": "MSCI World Minimum Volatility",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Ziel: geringere Schwankung; fiel in Crashs historisch weniger stark.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B8FHGS14"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Faktor",
+   "name": "Xtrackers MSCI World Momentum",
+   "isin": "IE00BL25JP72",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BL25JP72",
+   "asset": "welt_faktor",
+   "index": "MSCI World Momentum",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Momentum-Faktor von Xtrackers.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BL25JP72"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Faktor",
+   "name": "Xtrackers MSCI World Value",
+   "isin": "IE00BL25JL35",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BL25JL35",
+   "asset": "welt_faktor",
+   "index": "MSCI World Enhanced Value",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Value-Faktor von Xtrackers.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BL25JL35"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Faktor",
+   "name": "Xtrackers MSCI World Minimum Volatility",
+   "isin": "IE00BL25JN58",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BL25JN58",
+   "asset": "welt_faktor",
+   "index": "MSCI World Minimum Volatility",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Minimum-Volatility-Faktor von Xtrackers.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BL25JN58"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Faktor",
+   "name": "Xtrackers MSCI World Quality",
+   "isin": "IE00BL25JM42",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BL25JM42",
+   "asset": "welt_faktor",
+   "index": "MSCI World Sector Neutral Quality",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Quality-Faktor von Xtrackers.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BL25JM42"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "iShares MSCI World Small Cap",
+   "isin": "IE00BF4RFH31",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BF4RFH31",
+   "asset": "welt_smallcap",
+   "index": "MSCI World Small Cap",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Tausende kleine Firmen aus Industrieländern.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BF4RFH31"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Welt",
+   "name": "SPDR MSCI World Small Cap",
+   "isin": "IE00BCBJG560",
+   "ticker": "",
+   "anbieter": "SPDR",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BCBJG560",
+   "asset": "welt_smallcap",
+   "index": "MSCI World Small Cap",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Alternative zu iShares für Small Caps Welt.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BCBJG560"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Dividende",
+   "name": "Vanguard FTSE All-World High Dividend Yield (Dist)",
+   "isin": "IE00B8GKDB10",
+   "ticker": "",
+   "anbieter": "Vanguard",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 0.9,
+    "aktien_em": 0.1
+   },
+   "id": "IE00B8GKDB10",
+   "asset": "welt_dividende",
+   "index": "FTSE All-World High Dividend Yield",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Sehr breit gestreuter Dividenden-ETF, ausschüttend.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B8GKDB10"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Dividende",
+   "name": "Vanguard FTSE All-World High Dividend Yield (Acc)",
+   "isin": "IE00BK5BR626",
+   "ticker": "",
+   "anbieter": "Vanguard",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 0.9,
+    "aktien_em": 0.1
+   },
+   "id": "IE00BK5BR626",
+   "asset": "welt_dividende",
+   "index": "FTSE All-World High Dividend Yield",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Thesaurierende Variante.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BK5BR626"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Dividende",
+   "name": "SPDR S&P Global Dividend Aristocrats",
+   "isin": "IE00B9CQXS71",
+   "ticker": "",
+   "anbieter": "SPDR",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00B9CQXS71",
+   "asset": "welt_dividende",
+   "index": "S&P Global Dividend Aristocrats",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "Firmen mit mindestens 10 Jahren stabiler oder steigender Dividende.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B9CQXS71"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Dividende",
+   "name": "iShares STOXX Global Select Dividend 100 (DE)",
+   "isin": "DE000A0F5UH1",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "DE000A0F5UH1",
+   "asset": "welt_dividende",
+   "index": "STOXX Global Select Dividend 100",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "100 Firmen mit hoher Dividende; viel Finanz- und Versorgergewicht.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=DE000A0F5UH1"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Dividende",
+   "name": "SPDR S&P US Dividend Aristocrats",
+   "isin": "IE00B6YX5D40",
+   "ticker": "",
+   "anbieter": "SPDR",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_usa": 1
+   },
+   "id": "IE00B6YX5D40",
+   "asset": "welt_dividende",
+   "index": "S&P High Yield Dividend Aristocrats",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "US-Firmen mit langer Dividendenhistorie.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B6YX5D40"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Dividende",
+   "name": "SPDR S&P Euro Dividend Aristocrats",
+   "isin": "IE00B5M1WJ87",
+   "ticker": "",
+   "anbieter": "SPDR",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00B5M1WJ87",
+   "asset": "welt_dividende",
+   "index": "S&P Euro High Yield Dividend Aristocrats",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "Euro-Raum-Firmen mit stabiler Dividende.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B5M1WJ87"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Dividende",
+   "name": "iShares EURO STOXX Select Dividend 30 (DE)",
+   "isin": "DE0002635281",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "DE0002635281",
+   "asset": "welt_dividende",
+   "index": "EURO STOXX Select Dividend 30",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "Nur 30 Werte – stark konzentriert.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=DE0002635281"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Nachhaltig",
+   "name": "iShares MSCI World SRI",
+   "isin": "IE00BYX2JD69",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BYX2JD69",
+   "asset": "welt_esg",
+   "index": "MSCI World SRI Select Reduced Fossil Fuel",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Strenger Nachhaltigkeitsfilter, deutlich weniger Firmen als der MSCI World.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BYX2JD69"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Nachhaltig",
+   "name": "Xtrackers ESG MSCI World",
+   "isin": "IE00BZ02LR44",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BZ02LR44",
+   "asset": "welt_esg",
+   "index": "MSCI World ESG Leaders",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Wählt je Branche die nachhaltigsten Firmen.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BZ02LR44"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Nachhaltig",
+   "name": "UBS MSCI World Socially Responsible",
+   "isin": "LU0629459743",
+   "ticker": "",
+   "anbieter": "UBS",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "LU0629459743",
+   "asset": "welt_esg",
+   "index": "MSCI World SRI",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "SRI-Variante von UBS, ausschüttend.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=LU0629459743"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF USA",
+   "name": "Xtrackers S&P 500 Equal Weight",
+   "isin": "IE00BLNMYC90",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_usa": 1
+   },
+   "id": "IE00BLNMYC90",
+   "asset": "gleichgewichtet",
+   "index": "S&P 500 Equal Weight",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Alle 500 Firmen mit gleichem Gewicht.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BLNMYC90"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF USA",
+   "name": "Invesco S&P 500 Equal Weight",
+   "isin": "IE00BNGJJT35",
+   "ticker": "",
+   "anbieter": "Invesco",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_usa": 1
+   },
+   "id": "IE00BNGJJT35",
+   "asset": "gleichgewichtet",
+   "index": "S&P 500 Equal Weight",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Alternative Equal-Weight-Umsetzung.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BNGJJT35"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF USA",
+   "name": "Vanguard S&P 500 (Dist)",
+   "isin": "IE00B3XXRP09",
+   "ticker": "",
+   "anbieter": "Vanguard",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_usa": 1
+   },
+   "id": "IE00B3XXRP09",
+   "asset": "sp500",
+   "index": "S&P 500",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "Ausschüttende Variante.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B3XXRP09"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF USA",
+   "name": "SPDR S&P 500",
+   "isin": "IE00B6YX5C33",
+   "ticker": "",
+   "anbieter": "SPDR",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_usa": 1
+   },
+   "id": "IE00B6YX5C33",
+   "asset": "sp500",
+   "index": "S&P 500",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "Sehr günstiger S&P-500-ETF.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B6YX5C33"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF USA",
+   "name": "Invesco S&P 500",
+   "isin": "IE00B3YCGJ38",
+   "ticker": "",
+   "anbieter": "Invesco",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_usa": 1
+   },
+   "id": "IE00B3YCGJ38",
+   "asset": "sp500",
+   "index": "S&P 500",
+   "ertrag": "thesaurierend",
+   "replikation": "synthetisch (Swap)",
+   "besonderheit": "Synthetisch – kann bei US-Dividenden einen Steuervorteil haben.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B3YCGJ38"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF USA",
+   "name": "Xtrackers S&P 500 Swap 1C",
+   "isin": "LU0490618542",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_usa": 1
+   },
+   "id": "LU0490618542",
+   "asset": "sp500",
+   "index": "S&P 500",
+   "ertrag": "thesaurierend",
+   "replikation": "synthetisch (Swap)",
+   "besonderheit": "Synthetische Alternative von Xtrackers.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=LU0490618542"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Tech",
+   "name": "Invesco EQQQ Nasdaq-100 (Dist)",
+   "isin": "IE0032077012",
+   "ticker": "",
+   "anbieter": "Invesco",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_tech": 1
+   },
+   "id": "IE0032077012",
+   "asset": "nasdaq",
+   "index": "Nasdaq-100",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "Ältester Nasdaq-100-ETF in Europa, ausschüttend.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE0032077012"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Tech",
+   "name": "Invesco EQQQ Nasdaq-100 (Acc)",
+   "isin": "IE00BFZXGZ54",
+   "ticker": "",
+   "anbieter": "Invesco",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_tech": 1
+   },
+   "id": "IE00BFZXGZ54",
+   "asset": "nasdaq",
+   "index": "Nasdaq-100",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Thesaurierende Variante.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BFZXGZ54"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Schwellenländer",
+   "name": "iShares MSCI EM (Acc)",
+   "isin": "IE00B4L5YC18",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_em": 1
+   },
+   "id": "IE00B4L5YC18",
+   "asset": "em",
+   "index": "MSCI Emerging Markets",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Große und mittlere Firmen aus Schwellenländern.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B4L5YC18"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Schwellenländer",
+   "name": "Vanguard FTSE Emerging Markets (Dist)",
+   "isin": "IE00B3VVMM84",
+   "ticker": "",
+   "anbieter": "Vanguard",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_em": 1
+   },
+   "id": "IE00B3VVMM84",
+   "asset": "em",
+   "index": "FTSE Emerging",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "FTSE zählt Südkorea zu den Industrieländern – anders als MSCI.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B3VVMM84"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Schwellenländer",
+   "name": "Vanguard FTSE Emerging Markets (Acc)",
+   "isin": "IE00BK5BR733",
+   "ticker": "",
+   "anbieter": "Vanguard",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_em": 1
+   },
+   "id": "IE00BK5BR733",
+   "asset": "em",
+   "index": "FTSE Emerging",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Thesaurierende Variante.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BK5BR733"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Schwellenländer",
+   "name": "SPDR MSCI Emerging Markets",
+   "isin": "IE00B469F816",
+   "ticker": "",
+   "anbieter": "SPDR",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_em": 1
+   },
+   "id": "IE00B469F816",
+   "asset": "em",
+   "index": "MSCI Emerging Markets",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Alternative zu iShares.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B469F816"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Europa",
+   "name": "iShares Core MSCI Europe (Acc)",
+   "isin": "IE00B4K48X80",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00B4K48X80",
+   "asset": "europa",
+   "index": "MSCI Europe",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Rund 400 Firmen aus Europa inkl. Großbritannien und Schweiz.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B4K48X80"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Europa",
+   "name": "iShares Core MSCI Europe (Dist)",
+   "isin": "IE00B1YZSC51",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00B1YZSC51",
+   "asset": "europa",
+   "index": "MSCI Europe",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Ausschüttende Variante.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B1YZSC51"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Europa",
+   "name": "Vanguard FTSE Developed Europe (Dist)",
+   "isin": "IE00B945VV12",
+   "ticker": "",
+   "anbieter": "Vanguard",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00B945VV12",
+   "asset": "europa",
+   "index": "FTSE Developed Europe",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Breiter Europa-ETF von Vanguard.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B945VV12"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Europa",
+   "name": "Xtrackers MSCI Europe 1C",
+   "isin": "LU0274209237",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "LU0274209237",
+   "asset": "europa",
+   "index": "MSCI Europe",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Europa-ETF von Xtrackers.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=LU0274209237"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Europa",
+   "name": "iShares Core EURO STOXX 50 (Acc)",
+   "isin": "IE00B53L3W79",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00B53L3W79",
+   "asset": "europa",
+   "index": "EURO STOXX 50",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Nur die 50 größten Firmen der Eurozone – konzentriert.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B53L3W79"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Europa",
+   "name": "iShares MSCI EMU Small Cap",
+   "isin": "IE00B3VWMM18",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00B3VWMM18",
+   "asset": "europa",
+   "index": "MSCI EMU Small Cap",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Kleine Firmen aus der Eurozone.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B3VWMM18"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Deutschland",
+   "name": "iShares Core DAX (DE)",
+   "isin": "DE0005933931",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "DE0005933931",
+   "asset": "dax",
+   "index": "DAX",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Die 40 größten deutschen Firmen.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=DE0005933931"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Deutschland",
+   "name": "Xtrackers DAX 1C",
+   "isin": "LU0274211480",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "LU0274211480",
+   "asset": "dax",
+   "index": "DAX",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "DAX-Alternative von Xtrackers.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=LU0274211480"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Deutschland",
+   "name": "iShares MDAX (DE)",
+   "isin": "DE0005933923",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "DE0005933923",
+   "asset": "dax",
+   "index": "MDAX",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Mittelgroße deutsche Firmen.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=DE0005933923"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Themen",
+   "name": "Xtrackers Artificial Intelligence & Big Data",
+   "isin": "IE00BGV5VN51",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_tech": 1
+   },
+   "id": "IE00BGV5VN51",
+   "asset": "themen",
+   "index": "Nasdaq Global AI & Big Data",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "KI- und Datenfirmen weltweit.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BGV5VN51"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Themen",
+   "name": "iShares Automation & Robotics",
+   "isin": "IE00BYZK4552",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_tech": 1
+   },
+   "id": "IE00BYZK4552",
+   "asset": "themen",
+   "index": "iSTOXX FactSet Automation & Robotics",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Robotik und Automatisierung, gleichgewichtet.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BYZK4552"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Themen",
+   "name": "iShares Healthcare Innovation",
+   "isin": "IE00BYZK4776",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BYZK4776",
+   "asset": "themen",
+   "index": "iSTOXX FactSet Breakthrough Healthcare",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Biotech und Medizintechnik, sehr schwankungsanfällig.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BYZK4776"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Themen",
+   "name": "Xtrackers MSCI World Information Technology",
+   "isin": "IE00BM67HT60",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_tech": 1
+   },
+   "id": "IE00BM67HT60",
+   "asset": "themen",
+   "index": "MSCI World Information Technology",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Tech-Sektor der Industrieländer – stark auf wenige Riesen konzentriert.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BM67HT60"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Themen",
+   "name": "Xtrackers MSCI World Health Care",
+   "isin": "IE00BM67HK77",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00BM67HK77",
+   "asset": "themen",
+   "index": "MSCI World Health Care",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Gesundheitssektor: eher defensiv.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BM67HK77"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Themen",
+   "name": "VanEck Defense",
+   "isin": "IE000YYE6WK5",
+   "ticker": "",
+   "anbieter": "VanEck",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE000YYE6WK5",
+   "asset": "themen",
+   "index": "MarketVector Global Defense Industry",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Rüstungsunternehmen; ethisch umstritten, politisch getrieben.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE000YYE6WK5"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Themen",
+   "name": "iShares Global Water",
+   "isin": "IE00B1TXK627",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_welt": 1
+   },
+   "id": "IE00B1TXK627",
+   "asset": "themen",
+   "index": "S&P Global Water",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "Wasserversorger und Wassertechnik.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B1TXK627"
+    }
+   ]
+  },
+  {
+   "kategorie": "Aktien-ETF Themen",
+   "name": "VanEck Video Gaming and eSports",
+   "isin": "IE00BYWQWR46",
+   "ticker": "",
+   "anbieter": "VanEck",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_tech": 1
+   },
+   "id": "IE00BYWQWR46",
+   "asset": "themen",
+   "index": "MarketVector Global Video Gaming & eSports ESG",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Videospiel-Branche.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BYWQWR46"
+    }
+   ]
+  },
+  {
+   "kategorie": "Anleihen",
+   "name": "Xtrackers II Eurozone Government Bond 1C",
+   "isin": "LU0290355717",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "anleihen_etf",
+   "klassen": {
+    "anleihen": 1
+   },
+   "id": "LU0290355717",
+   "asset": "staatsanleihen",
+   "index": "iBoxx € Sovereigns Eurozone",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Alle Laufzeiten, Euro-Staaten.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=LU0290355717"
+    }
+   ]
+  },
+  {
+   "kategorie": "Anleihen",
+   "name": "iShares € Govt Bond 1-3yr",
+   "isin": "IE00B3DKXQ41",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "anleihen_etf",
+   "klassen": {
+    "anleihen": 1
+   },
+   "id": "IE00B3DKXQ41",
+   "asset": "staatsanleihen",
+   "index": "ICE Euro Government 1-3 Year",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "Kurze Laufzeiten: wenig Zinsrisiko.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B3DKXQ41"
+    }
+   ]
+  },
+  {
+   "kategorie": "Anleihen",
+   "name": "iShares $ Treasury Bond 7-10yr",
+   "isin": "IE00B1FZS798",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "anleihen_etf",
+   "klassen": {
+    "anleihen": 1
+   },
+   "id": "IE00B1FZS798",
+   "asset": "staatsanleihen",
+   "index": "ICE US Treasury 7-10 Year",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "US-Staatsanleihen in Dollar – Währungsrisiko für Euro-Anleger.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B1FZS798"
+    }
+   ]
+  },
+  {
+   "kategorie": "Anleihen",
+   "name": "Xtrackers II Global Government Bond 1C EUR hedged",
+   "isin": "LU0378818131",
+   "ticker": "",
+   "anbieter": "Xtrackers",
+   "steuerklasse": "anleihen_etf",
+   "klassen": {
+    "anleihen": 1
+   },
+   "id": "LU0378818131",
+   "asset": "staatsanleihen",
+   "index": "FTSE World Government Bond (EUR hedged)",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Weltweite Staatsanleihen, Währung abgesichert.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=LU0378818131"
+    }
+   ]
+  },
+  {
+   "kategorie": "Anleihen",
+   "name": "iShares Core Global Aggregate Bond EUR hedged",
+   "isin": "IE00BDBRDM35",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "anleihen_etf",
+   "klassen": {
+    "anleihen": 1
+   },
+   "id": "IE00BDBRDM35",
+   "asset": "staatsanleihen",
+   "index": "Bloomberg Global Aggregate (EUR hedged)",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Staats- und Unternehmensanleihen weltweit, Euro-abgesichert.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BDBRDM35"
+    }
+   ]
+  },
+  {
+   "kategorie": "Anleihen",
+   "name": "Vanguard EUR Corporate Bond",
+   "isin": "IE00BZ163G84",
+   "ticker": "",
+   "anbieter": "Vanguard",
+   "steuerklasse": "anleihen_etf",
+   "klassen": {
+    "anleihen": 1
+   },
+   "id": "IE00BZ163G84",
+   "asset": "unternehmensanleihen",
+   "index": "Bloomberg Euro Aggregate Corporate",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Euro-Unternehmensanleihen guter Bonität.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BZ163G84"
+    }
+   ]
+  },
+  {
+   "kategorie": "Anleihen",
+   "name": "iShares € High Yield Corp Bond",
+   "isin": "IE00B66F4759",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "anleihen_etf",
+   "klassen": {
+    "anleihen": 0.5,
+    "aktien_welt": 0.5
+   },
+   "id": "IE00B66F4759",
+   "asset": "hochzins",
+   "index": "Markit iBoxx Euro Liquid High Yield",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch (Sampling)",
+   "besonderheit": "Euro-Hochzinsanleihen; verhält sich in Krisen eher wie Aktien.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B66F4759"
+    }
+   ]
+  },
+  {
+   "kategorie": "Tagesgeld & Geldmarkt",
+   "name": "Amundi Smart Overnight Return",
+   "isin": "FR0010510800",
+   "ticker": "",
+   "anbieter": "Amundi",
+   "steuerklasse": "anleihen_etf",
+   "klassen": {
+    "geldmarkt": 1
+   },
+   "id": "FR0010510800",
+   "asset": "geldmarkt_etf",
+   "index": "€STR",
+   "ertrag": "thesaurierend",
+   "replikation": "synthetisch (Swap)",
+   "besonderheit": "Bildet den Euro-Tageszins ab.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=FR0010510800"
+    }
+   ]
+  },
+  {
+   "kategorie": "Tagesgeld & Geldmarkt",
+   "name": "iShares € Ultrashort Bond",
+   "isin": "IE00BCRY6557",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "anleihen_etf",
+   "klassen": {
+    "geldmarkt": 1
+   },
+   "id": "IE00BCRY6557",
+   "asset": "geldmarkt_etf",
+   "index": "Markit iBoxx EUR Liquid Investment Grade Ultrashort",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "Sehr kurz laufende Anleihen – Tagesgeld-ähnlich mit etwas Kursschwankung.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BCRY6557"
+    }
+   ]
+  },
+  {
+   "kategorie": "Edelmetalle",
+   "name": "Invesco Physical Gold ETC",
+   "isin": "IE00B579F325",
+   "ticker": "",
+   "anbieter": "Invesco",
+   "steuerklasse": "sonstiges",
+   "klassen": {
+    "gold": 1
+   },
+   "id": "IE00B579F325",
+   "asset": "gold",
+   "index": "Goldpreis",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Physisch besichert, aber ohne Lieferanspruch – Gewinne sind steuerpflichtig (anders als Xetra-Gold).",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B579F325"
+    }
+   ]
+  },
+  {
+   "kategorie": "Edelmetalle",
+   "name": "iShares Physical Gold ETC",
+   "isin": "IE00B4ND3602",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "sonstiges",
+   "klassen": {
+    "gold": 1
+   },
+   "id": "IE00B4ND3602",
+   "asset": "gold",
+   "index": "Goldpreis",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Günstig, aber ohne Lieferanspruch – steuerpflichtig.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B4ND3602"
+    }
+   ]
+  },
+  {
+   "kategorie": "Edelmetalle",
+   "name": "iShares Physical Silver ETC",
+   "isin": "IE00B4NCWG09",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "sonstiges",
+   "klassen": {
+    "gold": 0.6,
+    "rohstoffe_oel": 0.4
+   },
+   "id": "IE00B4NCWG09",
+   "asset": "silber",
+   "index": "Silberpreis",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Physisch besichertes Silber ohne Mehrwertsteuer, steuerpflichtig.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B4NCWG09"
+    }
+   ]
+  },
+  {
+   "kategorie": "Edelmetalle",
+   "name": "VanEck Gold Miners",
+   "isin": "IE00BQQP9F84",
+   "ticker": "",
+   "anbieter": "VanEck",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "goldminen": 1
+   },
+   "id": "IE00BQQP9F84",
+   "asset": "goldminen",
+   "index": "NYSE Arca Gold Miners",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "Große Goldförderer weltweit.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BQQP9F84"
+    }
+   ]
+  },
+  {
+   "kategorie": "Rohstoffe",
+   "name": "iShares Diversified Commodity Swap",
+   "isin": "IE00BDFL4P12",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "sonstiges",
+   "klassen": {
+    "rohstoffe_oel": 0.6,
+    "gold": 0.2,
+    "aktien_welt": 0.2
+   },
+   "id": "IE00BDFL4P12",
+   "asset": "rohstoffe_breit",
+   "index": "Bloomberg Commodity",
+   "ertrag": "thesaurierend",
+   "replikation": "synthetisch (Swap)",
+   "besonderheit": "Breiter Rohstoffkorb über Terminkontrakte.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BDFL4P12"
+    }
+   ]
+  },
+  {
+   "kategorie": "Immobilien",
+   "name": "VanEck Global Real Estate",
+   "isin": "IE00B8GF1M35",
+   "ticker": "",
+   "anbieter": "VanEck",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "immobilien": 1
+   },
+   "id": "IE00B8GF1M35",
+   "asset": "reits",
+   "index": "GPR Global 100",
+   "ertrag": "ausschüttend",
+   "replikation": "physisch",
+   "besonderheit": "100 große Immobilienfirmen weltweit.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B8GF1M35"
+    }
+   ]
+  },
+  {
+   "kategorie": "Krypto",
+   "name": "VanEck Bitcoin ETN",
+   "isin": "DE000A28M8D0",
+   "ticker": "",
+   "anbieter": "VanEck",
+   "steuerklasse": "sonstiges",
+   "klassen": {
+    "krypto": 1
+   },
+   "id": "DE000A28M8D0",
+   "asset": "krypto_etp",
+   "index": "Bitcoin",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Mit Bitcoin besicherte Schuldverschreibung.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=DE000A28M8D0"
+    }
+   ]
+  },
+  {
+   "kategorie": "Krypto",
+   "name": "WisdomTree Physical Bitcoin",
+   "isin": "GB00BJYDH287",
+   "ticker": "",
+   "anbieter": "WisdomTree",
+   "steuerklasse": "sonstiges",
+   "klassen": {
+    "krypto": 1
+   },
+   "id": "GB00BJYDH287",
+   "asset": "krypto_etp",
+   "index": "Bitcoin",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Physisch besichertes Bitcoin-ETP.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=GB00BJYDH287"
+    }
+   ]
+  },
+  {
+   "kategorie": "Krypto",
+   "name": "ETC Group Physical Bitcoin (BTCE)",
+   "isin": "DE000A27Z304",
+   "ticker": "",
+   "anbieter": "ETC Group",
+   "steuerklasse": "krypto_direkt",
+   "klassen": {
+    "krypto": 1
+   },
+   "id": "DE000A27Z304",
+   "asset": "krypto_etp",
+   "index": "Bitcoin",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Deutsche Schuldverschreibung mit Lieferanspruch – steuerliche Behandlung wie Bitcoin direkt umstritten, prüfen.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=DE000A27Z304"
     }
    ]
   }

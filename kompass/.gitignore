@@ -5,3 +5,4 @@ __pycache__/
 data/*.db
 data/*.db-*
 backups/
+tests/_produkte_extra_test.json

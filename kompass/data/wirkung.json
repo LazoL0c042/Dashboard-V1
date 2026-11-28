@@ -1,0 +1,336 @@
+{
+ "_hinweis": "Typische Zusammenhänge zwischen Märkten. Richtung = was meist passiert, wenn der Ausgangsfaktor steigt. Keine Naturgesetze: Zusammenhänge können sich zeitweise umkehren.",
+ "knoten": [
+  {
+   "id": "leitzins",
+   "name": "Leitzins",
+   "art": "treiber"
+  },
+  {
+   "id": "realzins",
+   "name": "Realzins / Anleiherenditen",
+   "art": "treiber"
+  },
+  {
+   "id": "inflation",
+   "name": "Inflation",
+   "art": "treiber"
+  },
+  {
+   "id": "dollar",
+   "name": "US-Dollar",
+   "art": "treiber"
+  },
+  {
+   "id": "konjunktur",
+   "name": "Konjunktur",
+   "art": "treiber"
+  },
+  {
+   "id": "angst",
+   "name": "Angst / Volatilität (VIX)",
+   "art": "treiber"
+  },
+  {
+   "id": "kreditstress",
+   "name": "Kreditstress (Spreads)",
+   "art": "treiber"
+  },
+  {
+   "id": "aktien",
+   "name": "Aktien",
+   "art": "anlage",
+   "klasse": "aktien"
+  },
+  {
+   "id": "tech",
+   "name": "Wachstums-/Tech-Aktien",
+   "art": "anlage",
+   "klasse": "aktien"
+  },
+  {
+   "id": "em",
+   "name": "Schwellenländer",
+   "art": "anlage",
+   "klasse": "aktien"
+  },
+  {
+   "id": "anleihen",
+   "name": "Anleihekurse",
+   "art": "anlage",
+   "klasse": "anleihen"
+  },
+  {
+   "id": "gold",
+   "name": "Gold",
+   "art": "anlage",
+   "klasse": "edelmetalle"
+  },
+  {
+   "id": "oel",
+   "name": "Öl & Rohstoffe",
+   "art": "anlage",
+   "klasse": "rohstoffe"
+  },
+  {
+   "id": "immobilien",
+   "name": "Immobilien",
+   "art": "anlage",
+   "klasse": "immobilien"
+  },
+  {
+   "id": "krypto",
+   "name": "Krypto",
+   "art": "anlage",
+   "klasse": "krypto"
+  },
+  {
+   "id": "tagesgeld",
+   "name": "Tagesgeld-Zins",
+   "art": "anlage",
+   "klasse": "liquiditaet"
+  }
+ ],
+ "kanten": [
+  {
+   "von": "leitzins",
+   "nach": "anleihen",
+   "richtung": -1,
+   "staerke": 3,
+   "warum": "Neue Anleihen zahlen mehr Zins, ältere mit niedrigerem Kupon verlieren an Wert.",
+   "beispiel": "2022: Euro-Staatsanleihen mit zweistelligen Verlusten (Größenordnung)."
+  },
+  {
+   "von": "leitzins",
+   "nach": "aktien",
+   "richtung": -1,
+   "staerke": 2,
+   "warum": "Künftige Gewinne werden stärker abgezinst, Kredite für Firmen und Konsumenten werden teurer.",
+   "beispiel": "2022: Aktien fielen mit den Zinserhöhungen."
+  },
+  {
+   "von": "leitzins",
+   "nach": "tech",
+   "richtung": -1,
+   "staerke": 3,
+   "warum": "Bei Wachstumsfirmen liegen die Gewinne weit in der Zukunft – höhere Zinsen drücken ihren heutigen Wert besonders stark.",
+   "beispiel": "2022: Nasdaq rund −33 % (Größenordnung)."
+  },
+  {
+   "von": "leitzins",
+   "nach": "immobilien",
+   "richtung": -1,
+   "staerke": 3,
+   "warum": "Finanzierungen werden teurer, Käufer können weniger zahlen; Mietrenditen müssen steigen.",
+   "beispiel": "2022–2023: Immobilienpreise in Deutschland gaben nach."
+  },
+  {
+   "von": "leitzins",
+   "nach": "krypto",
+   "richtung": -1,
+   "staerke": 2,
+   "warum": "Weniger billiges Geld für spekulative Anlagen.",
+   "beispiel": "2022: Krypto-Winter während der Zinswende."
+  },
+  {
+   "von": "leitzins",
+   "nach": "dollar",
+   "richtung": 1,
+   "staerke": 2,
+   "warum": "Höhere US-Zinsen ziehen Kapital in den Dollar (gilt für Fed-Zinsen).",
+   "beispiel": "2022: starker Dollar."
+  },
+  {
+   "von": "leitzins",
+   "nach": "konjunktur",
+   "richtung": -1,
+   "staerke": 2,
+   "warum": "Teure Kredite bremsen Investitionen und Konsum – meist mit 12–24 Monaten Verzögerung.",
+   "beispiel": "Volcker 1980–82: zwei Rezessionen."
+  },
+  {
+   "von": "leitzins",
+   "nach": "tagesgeld",
+   "richtung": 1,
+   "staerke": 3,
+   "warum": "Banken geben Leitzinsänderungen (verzögert) an Sparer weiter.",
+   "beispiel": "2023: Tagesgeld wieder mit spürbaren Zinsen."
+  },
+  {
+   "von": "realzins",
+   "nach": "gold",
+   "richtung": -1,
+   "staerke": 3,
+   "warum": "Gold zahlt keine Zinsen. Steigt der Realzins, wird das Halten von Gold relativ teurer (Opportunitätskosten).",
+   "beispiel": "1981–2001: hohe Realzinsen, Gold verlor real stark. Seit 2022 zeitweise schwächer wegen Notenbankkäufen."
+  },
+  {
+   "von": "realzins",
+   "nach": "tech",
+   "richtung": -1,
+   "staerke": 2,
+   "warum": "Höhere reale Diskontierung trifft lang laufende Wachstumserwartungen.",
+   "beispiel": "2022."
+  },
+  {
+   "von": "inflation",
+   "nach": "leitzins",
+   "richtung": 1,
+   "staerke": 3,
+   "warum": "Notenbanken erhöhen die Zinsen, um die Inflation zu bremsen.",
+   "beispiel": "2022: schnellste Zinserhöhungen seit Jahrzehnten."
+  },
+  {
+   "von": "inflation",
+   "nach": "anleihen",
+   "richtung": -1,
+   "staerke": 3,
+   "warum": "Feste Kupons verlieren an Kaufkraft, Anleger verlangen höhere Renditen.",
+   "beispiel": "1970er und 2022."
+  },
+  {
+   "von": "inflation",
+   "nach": "gold",
+   "richtung": 1,
+   "staerke": 1,
+   "warum": "Langfristig Schutz vor Geldentwertung – kurzfristig aber unzuverlässig.",
+   "beispiel": "1970er: starker Anstieg; 2022: kaum Reaktion."
+  },
+  {
+   "von": "inflation",
+   "nach": "immobilien",
+   "richtung": 1,
+   "staerke": 1,
+   "warum": "Mieten und Baukosten steigen mit – solange die Zinsen nicht stärker steigen.",
+   "beispiel": "Sachwertcharakter in den 1970ern."
+  },
+  {
+   "von": "oel",
+   "nach": "inflation",
+   "richtung": 1,
+   "staerke": 3,
+   "warum": "Energie steckt in fast allen Preisen: Transport, Produktion, Heizen.",
+   "beispiel": "1973 und 2022."
+  },
+  {
+   "von": "oel",
+   "nach": "konjunktur",
+   "richtung": -1,
+   "staerke": 2,
+   "warum": "Hohe Energiepreise wirken wie eine Steuer auf Firmen und Haushalte.",
+   "beispiel": "Ölkrise 1973/74."
+  },
+  {
+   "von": "dollar",
+   "nach": "gold",
+   "richtung": -1,
+   "staerke": 2,
+   "warum": "Gold wird in Dollar gehandelt – ein starker Dollar macht es für andere Währungen teurer.",
+   "beispiel": "Typisches Muster, mit Ausnahmen in Krisen."
+  },
+  {
+   "von": "dollar",
+   "nach": "em",
+   "richtung": -1,
+   "staerke": 3,
+   "warum": "Viele Schwellenländer haben Schulden in Dollar; Kapital fließt in die USA ab.",
+   "beispiel": "Asienkrise 1997, 2022."
+  },
+  {
+   "von": "dollar",
+   "nach": "oel",
+   "richtung": -1,
+   "staerke": 1,
+   "warum": "Rohstoffe in Dollar werden für andere teurer, die Nachfrage sinkt.",
+   "beispiel": "Langfristiges Muster."
+  },
+  {
+   "von": "dollar",
+   "nach": "aktien",
+   "richtung": 1,
+   "staerke": 1,
+   "warum": "Für Euro-Anleger: Ein steigender Dollar erhöht den Euro-Wert von US-Aktien (Währungsgewinn).",
+   "beispiel": "Gilt nur aus Sicht eines Euro-Anlegers."
+  },
+  {
+   "von": "konjunktur",
+   "nach": "aktien",
+   "richtung": 1,
+   "staerke": 3,
+   "warum": "Mehr Umsatz und Gewinne – Börsen nehmen das aber meist vorweg.",
+   "beispiel": "Märkte drehen typischerweise Monate vor der Wirtschaft."
+  },
+  {
+   "von": "konjunktur",
+   "nach": "oel",
+   "richtung": 1,
+   "staerke": 2,
+   "warum": "Mehr Produktion und Verkehr brauchen mehr Energie.",
+   "beispiel": "Rohstoffboom 2003–2008."
+  },
+  {
+   "von": "konjunktur",
+   "nach": "em",
+   "richtung": 1,
+   "staerke": 2,
+   "warum": "Schwellenländer exportieren Rohstoffe und Industriegüter.",
+   "beispiel": "2003–2007."
+  },
+  {
+   "von": "angst",
+   "nach": "aktien",
+   "richtung": -1,
+   "staerke": 3,
+   "warum": "In Panik verkaufen Anleger riskante Anlagen.",
+   "beispiel": "VIX-Spitzen 2008 und 2020."
+  },
+  {
+   "von": "angst",
+   "nach": "anleihen",
+   "richtung": 1,
+   "staerke": 2,
+   "warum": "Flucht in sichere Staatsanleihen.",
+   "beispiel": "2008: Bundesanleihen gesucht."
+  },
+  {
+   "von": "angst",
+   "nach": "gold",
+   "richtung": 1,
+   "staerke": 1,
+   "warum": "Sicherer Hafen – in der akuten Panik wird Gold aber manchmal verkauft, um Liquidität zu beschaffen.",
+   "beispiel": "März 2020: kurz gefallen, dann Rekord."
+  },
+  {
+   "von": "angst",
+   "nach": "krypto",
+   "richtung": -1,
+   "staerke": 2,
+   "warum": "Risikoanlagen werden zuerst verkauft.",
+   "beispiel": "März 2020."
+  },
+  {
+   "von": "kreditstress",
+   "nach": "aktien",
+   "richtung": -1,
+   "staerke": 3,
+   "warum": "Steigende Risikoaufschläge zeigen, dass Firmen schwerer an Geld kommen – oft ein Frühwarnsignal.",
+   "beispiel": "2007–2008: Spreads stiegen vor dem Crash."
+  },
+  {
+   "von": "aktien",
+   "nach": "leitzins",
+   "richtung": 1,
+   "staerke": 1,
+   "warum": "Bei großen Crashs senken Notenbanken häufig die Zinsen („Fed-Put“) – fallende Aktien → fallende Zinsen.",
+   "beispiel": "2008, 2020."
+  },
+  {
+   "von": "tech",
+   "nach": "krypto",
+   "richtung": 1,
+   "staerke": 2,
+   "warum": "Seit 2020 bewegen sich Krypto und Tech-Aktien oft gemeinsam – beide hängen an Liquidität und Risikolaune.",
+   "beispiel": "2021–2022."
+  }
+ ]
+}

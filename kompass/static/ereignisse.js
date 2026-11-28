@@ -7,11 +7,6 @@ async function ereignisDaten(neu = false) {
   return EREIGNISSE_CACHE;
 }
 
-function glossarTabs(aktiv) {
-  return `<div class="toolbar"><nav class="seg" aria-label="Glossar">
-    <a class="${aktiv === "assets" ? "on" : ""}" href="#/glossar">Anlageklassen</a>
-    <a class="${aktiv === "ereignisse" ? "on" : ""}" href="#/ereignisse">Historische Ereignisse</a></nav></div>`;
-}
 
 const KENNZ_NAME = { cape: "Shiller-KGV (CAPE)", zins: "US-Zins 10 J.", inflation: "US-Inflation" };
 const fmtKennz = (k, v) => (v == null ? "–" : k === "cape" ? num(v, 1) : `${num(v, 2)} %`);

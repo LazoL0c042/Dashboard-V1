@@ -60,6 +60,7 @@ def freeze(conn, user_id: int, eingabe: dict, session_id: int | None = None, fet
         "ergebnis": ergebnis,
         "protokoll": protokoll,
         "eingefroren_am": heute,
+        "sicherheitscheck": eingabe.get("sicherheitscheck"),
     }
     if frozen["entscheidung"]["einmalbetrag"] <= 0 and frozen["entscheidung"]["sparrate"] <= 0:
         raise ValueError("Einmalbetrag oder Sparrate muss größer als 0 sein.")

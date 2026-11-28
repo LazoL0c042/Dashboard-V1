@@ -11,8 +11,9 @@ from .council import _marktlage, parse_json
 from .db import one, rows
 
 
-def anlegen(conn, user_id: int, titel: str) -> int:
-    cur = conn.execute("INSERT INTO berater_chats (user_id, titel) VALUES (?, ?)", (user_id, (titel or "Portfolio bauen")[:200]))
+def anlegen(conn, user_id: int, titel: str, entwurf_id: int | None = None, seite: str | None = None) -> int:
+    cur = conn.execute("INSERT INTO berater_chats (user_id, titel, entwurf_id, seite) VALUES (?, ?, ?, ?)",
+                       (user_id, (titel or "Gespräch mit dem Council")[:200], entwurf_id, (seite or "")[:300]))
     conn.commit()
     return cur.lastrowid
 
@@ -55,8 +56,21 @@ def _katalog_text() -> str:
     )
 
 
+def kontext_setzen(conn, user_id: int, cid: int, entwurf_id: int | None, seite: str | None) -> None:
+    conn.execute("UPDATE berater_chats SET entwurf_id = COALESCE(?, entwurf_id), seite = COALESCE(?, seite) WHERE id = ? AND user_id = ?",
+                 (entwurf_id, (seite or None) and seite[:300], cid, user_id))
+    conn.commit()
+
+
+def _entwurf(conn, c: dict) -> dict:
+    try:
+        return entwurf.get(conn, c["user_id"], c.get("entwurf_id"))
+    except LookupError:
+        return entwurf.get(conn, c["user_id"])
+
+
 def _kontext(conn, c: dict) -> str:
-    e = entwurf.get(conn, c["user_id"])
+    e = _entwurf(conn, c)
     stufe = next(s for s in glossar.daten()["risikostufen"] if s["stufe"] == e["risiko"])
     verlauf = "\n".join(
         f"{'Nutzer' if m['rolle'] == 'nutzer' else 'Berater' if m['rolle'] == 'berater' else 'Kritiker' if m['rolle'] == 'kritiker' else 'System'}: {m['inhalt']}"
@@ -68,6 +82,7 @@ def _kontext(conn, c: dict) -> str:
         if r and r["answer"]:
             material += f"\nRecherche „{r['query']}“ ({r['created_at']}):\n{r['answer'][:3000]}\n"
     return (
+        f"DER NUTZER SIEHT GERADE: {c.get('seite') or 'Startseite'}\n\n"
         f"PROFIL:\n{profile.as_text(conn, c['user_id'])}\n\n"
         f"RAHMEN DES ENTWURFS: Risiko {e['risiko']}/5 ({stufe['name']}: {stufe['text']}), Einmalbetrag {e['einmalbetrag']:.0f} €, "
         f"Sparrate {e['sparrate']:.0f} €/Monat, Horizont {e['horizont_jahre']} Jahre.\n"
@@ -104,13 +119,23 @@ def recherchieren(conn, c: dict, query: str, chat_fn=llm.chat, fetch=research.fe
     return rid
 
 
-def antworten(conn, cid: int, text: str | None, chat_fn=llm.chat, fetch=research.fetch_text) -> None:
+def antworten(conn, cid: int, text: str | None, chat_fn=llm.chat, fetch=research.fetch_text, leser=None) -> None:
     """Nutzernachricht verarbeiten: Berater (ggf. mit Suche), danach Kritiker. Fehler → Status 'fehler'."""
     c = one(conn, "SELECT * FROM berater_chats WHERE id = ?", (cid,))
     c["research_ids"] = json.loads(c["research_ids"])
+    if leser is None:
+        from .links import lesen as leser
     try:
         if text:
             _log(conn, cid, "nutzer", text.strip())
+            # Links im Text: lesen und einordnen, bevor der Berater antwortet
+            from . import links
+            for url in links.finde_urls(text):
+                try:
+                    d = links.verstehen(conn, c["user_id"], url, chat_fn, leser)
+                    _log(conn, cid, "system", links.als_text(d), {"link": d})
+                except Exception as ex:
+                    _log(conn, cid, "system", f"Link konnte nicht gelesen werden ({url}): {str(ex)[:160]}", {"link_fehler": url})
         d, anbieter, modell = _frage(conn, chat_fn, "moderator", prompts.PORTFOLIO_BERATER, _kontext(conn, c), ("antwort",))
         if (d.get("recherche") or "").strip():
             recherchieren(conn, c, d["recherche"].strip(), chat_fn, fetch)
@@ -125,7 +150,7 @@ def antworten(conn, cid: int, text: str | None, chat_fn=llm.chat, fetch=research
             if isinstance(f, dict) and f.get("key") and f.get("value") not in (None, ""):
                 profile.propose(conn, c["user_id"], f["key"], f["value"], f.get("status", "geschaetzt"))
         _log(conn, cid, "berater", d.get("antwort", ""), d, anbieter, modell)
-        e = entwurf.get(conn, c["user_id"])
+        e = _entwurf(conn, c)
         if d.get("vorschlag") or e["positionen"]:
             k, anbieter, modell = _frage(conn, chat_fn, "kritiker", prompts.PORTFOLIO_KRITIKER,
                                          _kontext(conn, c) + f"\n\nNEUER VORSCHLAG DES BERATERS:\n{json.dumps(d.get('vorschlag'), ensure_ascii=False)}",

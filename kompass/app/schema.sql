@@ -180,6 +180,8 @@ CREATE TABLE IF NOT EXISTS berater_chats (
     status TEXT NOT NULL DEFAULT 'bereit',
     research_ids TEXT NOT NULL DEFAULT '[]',
     error TEXT,
+    entwurf_id INTEGER,
+    seite TEXT,
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
@@ -210,5 +212,33 @@ CREATE TABLE IF NOT EXISTS ereignis_vergleiche (
     status TEXT NOT NULL DEFAULT 'laeuft',
     provider TEXT,
     model TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Strategie-Entwürfe: mehrere pro Nutzer.
+CREATE TABLE IF NOT EXISTS strategien (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    inhalt_json TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now'))
+);
+
+-- Sicherheitschecks vor dem endgültigen Speichern.
+CREATE TABLE IF NOT EXISTS faktenchecks (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    quelle_json TEXT NOT NULL,
+    ergebnis_json TEXT,
+    status TEXT NOT NULL DEFAULT 'laeuft',
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Vom Council gelesene Links (Artikel, Videos).
+CREATE TABLE IF NOT EXISTS links (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    url TEXT NOT NULL,
+    ergebnis_json TEXT NOT NULL,
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );

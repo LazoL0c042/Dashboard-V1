@@ -19,6 +19,7 @@ const datumKurz = (iso, lang) => new Date(iso + "T00:00:00").toLocaleDateString(
 function planTabs(aktiv) {
   return `<div class="toolbar"><nav class="seg" aria-label="Pläne">
     <a class="${aktiv === "portfolios" ? "on" : ""}" href="#/plaene">Portfolios</a>
+    <a class="${aktiv === "entwuerfe" ? "on" : ""}" href="#/plaene/entwuerfe">Entwürfe</a>
     <a class="${aktiv === "entscheidungen" ? "on" : ""}" href="#/plaene/entscheidungen">Entscheidungen</a>
   </nav></div>`;
 }
@@ -43,7 +44,7 @@ async function rechne(p) {
 async function viewPortfolios() {
   const d = await api("/api/portfolios");
   const ps = d.portfolios;
-  render(`${kopf("Pläne", "#/", `<a class="btn primary" href="#/bauen">Schritt für Schritt bauen</a><a class="btn" href="#/berater/neu">Mit dem Council bauen</a><a class="btn" href="#/entwurf">Entwurf</a><a class="btn" href="#/portfolios/neu">Schnell anlegen</a>`)}
+  render(`${kopf("Pläne", "#/", `<a class="btn primary" href="#/bauen">Schritt für Schritt bauen</a><button type="button" id="pf-council">Mit dem Council bauen</button><a class="btn" href="#/portfolios/neu">Schnell anlegen</a>`)}
     ${planTabs("portfolios")}
     <p class="muted">Hypothetische Depots: Was wäre, wenn du ab einem Datum so investiert hättest? Frei änderbar. Für eine ehrliche Prüfung später: als Entscheidung einfrieren.</p>
     ${ps.length ? `<div class="card"><h2 style="margin-top:0">Rendite im Vergleich</h2><p class="muted small">Zeitgewichtet seit Start des jeweiligen Portfolios. Darunter: MSCI World im selben Zeitraum.</p><div id="cmp"><p class="muted">Rechne …</p></div></div>` : ""}
@@ -54,6 +55,7 @@ async function viewPortfolios() {
         <span class="muted">Rechne …</span></a>`).join("")}
       <a class="pcard neu" href="#/portfolios/neu">+ Neues Portfolio</a>
     </div>`);
+  document.getElementById("pf-council").onclick = () => assistentOeffnen("Hilf mir, ein Portfolio zu bauen.");
   const zeilen = [];
   await Promise.all(ps.map(async (p) => {
     const box = document.getElementById(`pc-${p.id}`);
@@ -330,8 +332,8 @@ async function strategieAusQuelle(quelle, id) {
       positionen: pos.length ? pos : [{ name: "Aktien Welt", anteil: 100, klassen: { aktien_welt: 1 }, geschaetzt: true }] };
   }
   if (quelle === "entwurf") {
-    const e = await api("/api/entwurf");
-    return { titel: e.name || "Portfolio-Entwurf", zurueck: "#/entwurf", depotwert: Math.round(e.einmalbetrag || e.sparrate * 12 || 10000),
+    const e = await api(id ? `/api/entwuerfe/${id}` : "/api/entwurf");
+    return { titel: e.name || "Portfolio-Entwurf", zurueck: e.id ? `#/entwurf/${e.id}` : "#/plaene/entwuerfe", depotwert: Math.round(e.einmalbetrag || e.sparrate * 12 || 10000),
       positionen: e.positionen.length ? e.positionen.map((x) => ({ name: x.name, anteil: x.anteil, klassen: x.klassen })) : [{ name: "Aktien Welt", anteil: 100, klassen: { aktien_welt: 1 } }] };
   }
   return { titel: "Eigene Strategie", zurueck: "#/plaene", depotwert: 10000, positionen: [{ name: "Aktien Welt", anteil: 100, klassen: { aktien_welt: 1 } }] };
