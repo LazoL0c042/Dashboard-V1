@@ -2384,6 +2384,381 @@
      "url": "https://www.justetf.com/de/etf-profile.html?isin=DE000A27Z304"
     }
    ]
+  },
+  {
+   "kategorie": "Edelmetalle",
+   "name": "WisdomTree Physical Silver",
+   "isin": "JE00B1VS3333",
+   "ticker": "",
+   "anbieter": "WisdomTree",
+   "steuerklasse": "sonstiges",
+   "klassen": {
+    "gold": 0.6,
+    "rohstoffe_oel": 0.4
+   },
+   "id": "JE00B1VS3333",
+   "asset": "silber",
+   "index": "Silberpreis",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Physisch hinterlegter Silber-ETC ohne Umsatzsteuer.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=JE00B1VS3333"
+    }
+   ]
+  },
+  {
+   "kategorie": "Edelmetalle",
+   "name": "Global X Silver Miners UCITS ETF",
+   "isin": "IE000UL6CLP7",
+   "ticker": "",
+   "anbieter": "Global X",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "goldminen": 1
+   },
+   "id": "IE000UL6CLP7",
+   "asset": "silber",
+   "index": "Solactive Global Silver Miners",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Silberminen – starker Hebel auf den Silberpreis.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE000UL6CLP7"
+    }
+   ]
+  },
+  {
+   "kategorie": "Edelmetalle",
+   "name": "WisdomTree Physical Platinum",
+   "isin": "JE00B1VS2W53",
+   "ticker": "",
+   "anbieter": "WisdomTree",
+   "steuerklasse": "sonstiges",
+   "klassen": {
+    "gold": 0.4,
+    "rohstoffe_oel": 0.6
+   },
+   "id": "JE00B1VS2W53",
+   "asset": "platin",
+   "index": "Platinpreis",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Physisch hinterlegter Platin-ETC ohne Umsatzsteuer.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=JE00B1VS2W53"
+    }
+   ]
+  },
+  {
+   "kategorie": "Edelmetalle",
+   "name": "WisdomTree Physical Palladium",
+   "isin": "JE00B1VS3002",
+   "ticker": "",
+   "anbieter": "WisdomTree",
+   "steuerklasse": "sonstiges",
+   "klassen": {
+    "gold": 0.3,
+    "rohstoffe_oel": 0.7
+   },
+   "id": "JE00B1VS3002",
+   "asset": "palladium",
+   "index": "Palladiumpreis",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Physisch hinterlegter Palladium-ETC ohne Umsatzsteuer.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=JE00B1VS3002"
+    }
+   ]
+  },
+  {
+   "kategorie": "Industrie- & Zukunftsmetalle",
+   "name": "WisdomTree Copper",
+   "isin": "GB00B15KXQ89",
+   "ticker": "",
+   "anbieter": "WisdomTree",
+   "steuerklasse": "sonstiges",
+   "klassen": {
+    "rohstoffe_oel": 0.7,
+    "aktien_welt": 0.3
+   },
+   "id": "GB00B15KXQ89",
+   "asset": "kupfer",
+   "index": "Bloomberg Copper Subindex",
+   "ertrag": "thesaurierend",
+   "replikation": "Terminkontrakte",
+   "besonderheit": "Kupfer über Terminkontrakte – Rollverluste möglich.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=GB00B15KXQ89"
+    }
+   ]
+  },
+  {
+   "kategorie": "Industrie- & Zukunftsmetalle",
+   "name": "Global X Copper Miners UCITS ETF",
+   "isin": "IE0003Z9E2Y3",
+   "ticker": "",
+   "anbieter": "Global X",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "rohstoffe_oel": 0.5,
+    "aktien_welt": 0.5
+   },
+   "id": "IE0003Z9E2Y3",
+   "asset": "kupfer",
+   "index": "Solactive Global Copper Miners",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Kupferförderer weltweit.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE0003Z9E2Y3"
+    }
+   ]
+  },
+  {
+   "kategorie": "Industrie- & Zukunftsmetalle",
+   "name": "WisdomTree Aluminium",
+   "isin": "GB00B15KXN58",
+   "ticker": "",
+   "anbieter": "WisdomTree",
+   "steuerklasse": "sonstiges",
+   "klassen": {
+    "rohstoffe_oel": 0.8,
+    "aktien_welt": 0.2
+   },
+   "id": "GB00B15KXN58",
+   "asset": "aluminium",
+   "index": "Bloomberg Aluminum Subindex",
+   "ertrag": "thesaurierend",
+   "replikation": "Terminkontrakte",
+   "besonderheit": "Aluminium über Terminkontrakte.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=GB00B15KXN58"
+    }
+   ]
+  },
+  {
+   "kategorie": "Industrie- & Zukunftsmetalle",
+   "name": "WisdomTree Nickel",
+   "isin": "GB00B15KY435",
+   "ticker": "",
+   "anbieter": "WisdomTree",
+   "steuerklasse": "sonstiges",
+   "klassen": {
+    "rohstoffe_oel": 0.8,
+    "aktien_welt": 0.2
+   },
+   "id": "GB00B15KY435",
+   "asset": "nickel",
+   "index": "Bloomberg Nickel Subindex",
+   "ertrag": "thesaurierend",
+   "replikation": "Terminkontrakte",
+   "besonderheit": "Nickel über Terminkontrakte.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=GB00B15KY435"
+    }
+   ]
+  },
+  {
+   "kategorie": "Industrie- & Zukunftsmetalle",
+   "name": "WisdomTree Industrial Metals",
+   "isin": "GB00B15KYG56",
+   "ticker": "",
+   "anbieter": "WisdomTree",
+   "steuerklasse": "sonstiges",
+   "klassen": {
+    "rohstoffe_oel": 0.8,
+    "aktien_welt": 0.2
+   },
+   "id": "GB00B15KYG56",
+   "asset": "industriemetalle_breit",
+   "index": "Bloomberg Industrial Metals Subindex",
+   "ertrag": "thesaurierend",
+   "replikation": "Terminkontrakte",
+   "besonderheit": "Korb aus Kupfer, Aluminium, Zink, Nickel.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=GB00B15KYG56"
+    }
+   ]
+  },
+  {
+   "kategorie": "Industrie- & Zukunftsmetalle",
+   "name": "iShares MSCI Global Metals & Mining Producers",
+   "isin": "IE00B6R51Z18",
+   "ticker": "",
+   "anbieter": "iShares",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "rohstoffe_oel": 0.5,
+    "aktien_welt": 0.5
+   },
+   "id": "IE00B6R51Z18",
+   "asset": "industriemetalle_breit",
+   "index": "MSCI ACWI Select Metals & Mining Producers ex Gold & Silver",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Breiter Bergbau-ETF ohne Gold- und Silberminen.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00B6R51Z18"
+    }
+   ]
+  },
+  {
+   "kategorie": "Industrie- & Zukunftsmetalle",
+   "name": "Global X Lithium & Battery Tech UCITS ETF",
+   "isin": "IE00BLCHJN13",
+   "ticker": "",
+   "anbieter": "Global X",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_tech": 0.4,
+    "aktien_em": 0.3,
+    "rohstoffe_oel": 0.3
+   },
+   "id": "IE00BLCHJN13",
+   "asset": "lithium",
+   "index": "Solactive Global Lithium",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Lithiumförderer und Batteriehersteller.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BLCHJN13"
+    }
+   ]
+  },
+  {
+   "kategorie": "Industrie- & Zukunftsmetalle",
+   "name": "WisdomTree Battery Solutions UCITS ETF",
+   "isin": "IE00BKLF1R75",
+   "ticker": "",
+   "anbieter": "WisdomTree",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_tech": 0.6,
+    "aktien_welt": 0.4
+   },
+   "id": "IE00BKLF1R75",
+   "asset": "lithium",
+   "index": "WisdomTree Battery Solutions",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Batterie-Wertschöpfungskette, breiter als nur Lithium.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE00BKLF1R75"
+    }
+   ]
+  },
+  {
+   "kategorie": "Industrie- & Zukunftsmetalle",
+   "name": "VanEck Rare Earth and Strategic Metals UCITS ETF",
+   "isin": "IE0002PG6CA6",
+   "ticker": "",
+   "anbieter": "VanEck",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "aktien_em": 0.5,
+    "rohstoffe_oel": 0.5
+   },
+   "id": "IE0002PG6CA6",
+   "asset": "seltene_erden",
+   "index": "MVIS Global Rare Earth/Strategic Metals",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Förderer und Verarbeiter Seltener Erden und strategischer Metalle.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE0002PG6CA6"
+    }
+   ]
+  },
+  {
+   "kategorie": "Industrie- & Zukunftsmetalle",
+   "name": "Global X Uranium UCITS ETF",
+   "isin": "IE000NDWFGA5",
+   "ticker": "",
+   "anbieter": "Global X",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "rohstoffe_oel": 0.5,
+    "aktien_welt": 0.5
+   },
+   "id": "IE000NDWFGA5",
+   "asset": "uran",
+   "index": "Solactive Global Uranium & Nuclear Components",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Uranförderer und Kernkraft-Zulieferer, teils physische Uran-Fonds.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE000NDWFGA5"
+    }
+   ]
+  },
+  {
+   "kategorie": "Industrie- & Zukunftsmetalle",
+   "name": "Sprott Uranium Miners UCITS ETF",
+   "isin": "IE0005YK6564",
+   "ticker": "",
+   "anbieter": "Sprott",
+   "steuerklasse": "aktien_etf",
+   "klassen": {
+    "rohstoffe_oel": 0.5,
+    "aktien_welt": 0.5
+   },
+   "id": "IE0005YK6564",
+   "asset": "uran",
+   "index": "North Shore Global Uranium Mining",
+   "ertrag": "thesaurierend",
+   "replikation": "physisch",
+   "besonderheit": "Uranminen und physisches Uran über Fonds.",
+   "geprueft": false,
+   "links": [
+    {
+     "titel": "justETF",
+     "url": "https://www.justetf.com/de/etf-profile.html?isin=IE0005YK6564"
+    }
+   ]
   }
  ]
 }

@@ -175,26 +175,28 @@
   {
    "id": "edelmetalle",
    "name": "Edelmetalle",
-   "kurz": "Gold, Silber und Co. Kein Ertrag, aber Krisen- und Inflationsschutz.",
+   "kurz": "Gold, Silber und die Platinmetalle Platin, Palladium und Rhodium. Wertspeicher (Gold) bis fast reines Industriemetall (Palladium).",
    "farbe": "peach",
    "erklaerung": [
-    "Edelmetalle wie Gold und Silber werfen keine Zinsen oder Dividenden ab. Ihr Wert entsteht aus Knappheit, Vertrauen und Nachfrage – als Schmuck, Industrierohstoff und vor allem als Krisen- und Inflationsschutz.",
-    "Gold gilt seit Jahrtausenden als Wertspeicher und wird von Notenbanken als Reserve gehalten. Silber ist stärker Industriemetall und schwankt deutlich mehr."
+    "Edelmetalle rosten nicht und sind selten. Gold ist vor allem Wertspeicher und Krisenwährung. Silber ist halb Edel-, halb Industriemetall. Platin, Palladium und Rhodium – die Platingruppe – werden überwiegend in der Industrie verbraucht, vor allem in Katalysatoren.",
+    "Je mehr ein Metall in der Industrie steckt, desto stärker hängt es an der Konjunktur und desto stärker schwankt es. Gold glättet ein Depot in Krisen; Platin und Palladium tun das nicht.",
+    "Jedes Edelmetall lässt sich auf drei Wegen kaufen: physisch (Barren, Münzen), auf Papier (ETCs) oder über Aktien von Minen. Die Wege unterscheiden sich stark bei Steuern, Kosten und Risiko – auf jeder Metallseite steht der Vergleich."
    ],
    "funktionsweise": [
-    "Preis in US-Dollar – für Euro-Anleger zählt auch der Wechselkurs",
-    "Wichtigster Treiber historisch: der Realzins (Zins minus Inflation)",
-    "Nachfrage von Notenbanken, Schmuck (Indien, China) und Investoren"
+    "Kein Zins, keine Dividende – Rendite nur über den Preis",
+    "Gold reagiert auf Realzins, Dollar und Angst",
+    "Silber und Platinmetalle zusätzlich auf Industrie und Autoindustrie",
+    "Physisch: Gold umsatzsteuerfrei, andere Metalle mit 19 % Umsatzsteuer"
    ],
    "gut_fuer": [
-    "Beimischung von 5–15 % als Krisenpuffer (verbreitete Faustregel)",
-    "Schutz bei Währungs- und Vertrauenskrisen",
-    "Steuerfreie Gewinne nach 1 Jahr (physisch, Xetra-Gold)"
+    "Krisenschutz und Streuung (Gold)",
+    "Schutz gegen Geldentwertung bei niedrigen Realzinsen",
+    "Gezielte Wetten auf Wasserstoff (Platin) oder Solar (Silber)"
    ],
    "schlecht_fuer": [
-    "Laufende Erträge",
-    "Phasen steigender Realzinsen",
-    "Kurzfristige Planbarkeit"
+    "Laufendes Einkommen",
+    "Phasen stark steigender Realzinsen",
+    "Wer große Schwankung nicht aushält (Platinmetalle)"
    ],
    "begriffe": [
     [
@@ -212,6 +214,95 @@
     [
      "Lieferanspruch",
      "Recht, sich das Gold ausliefern zu lassen – entscheidend für die Steuerfreiheit nach 1 Jahr."
+    ],
+    [
+     "Platingruppe",
+     "Platin, Palladium, Rhodium und weitere seltene Metalle, die meist gemeinsam gefördert werden – vor allem in Südafrika und Russland."
+    ],
+    [
+     "Zollfreilager",
+     "Lager außerhalb des Umsatzsteuergebiets: Silber, Platin und Palladium können dort ohne Umsatzsteuer gekauft und gelagert werden; bei Auslieferung wird sie fällig."
+    ],
+    [
+     "Differenzbesteuerung",
+     "Umsatzsteuer nur auf die Händlermarge – für manche Silbermünzen günstiger als 19 % auf den vollen Preis."
+    ],
+    [
+     "Thrifting",
+     "Einsparen eines teuren Metalls in der Produktion, z. B. weniger Silber pro Solarzelle oder Platin statt Palladium im Katalysator."
+    ],
+    [
+     "Gold-Silber-Ratio",
+     "Wie viele Unzen Silber eine Unze Gold kostet. Hohe Werte gelten manchen als Zeichen, dass Silber relativ günstig ist."
+    ]
+   ]
+  },
+  {
+   "id": "metalle",
+   "name": "Industrie- & Zukunftsmetalle",
+   "farbe": "peach",
+   "kurz": "Kupfer, Aluminium, Nickel, Zink, Zinn, Lithium, Kobalt, Seltene Erden und Uran: Rohstoffe für Konjunktur, Energiewende und Hightech.",
+   "erklaerung": [
+    "Industriemetalle werden verbraucht, nicht gehortet. Ihr Preis folgt deshalb der Weltwirtschaft – allen voran China – und schwankt in Zyklen: Hohe Preise lösen neue Minen aus, die Jahre später auf eine schwächere Nachfrage treffen.",
+    "Neu ist der strukturelle Rückenwind: Stromnetze, Elektroautos, Batteriespeicher, Windräder, Rechenzentren und Rüstung brauchen große Mengen Kupfer, Lithium, Nickel, Kobalt und Seltene Erden. Gleichzeitig sind Förderung und Verarbeitung oft auf wenige Länder konzentriert – Engpässe sind damit auch Geopolitik.",
+    "Physisch können Privatanleger diese Metalle praktisch nicht kaufen. Es bleiben ETCs auf Terminkontrakte (mit Rollverlusten) und Aktien der Förderer. Bei Lithium, Kobalt und Seltenen Erden gibt es nur den Aktienweg."
+   ],
+   "funktionsweise": [
+    "Preis folgt Konjunktur, China und Dollar",
+    "Angebot reagiert mit vielen Jahren Verzögerung (Schweinezyklus)",
+    "ETCs nutzen Terminkontrakte: Contango kostet beim Rollen Rendite",
+    "Minenaktien hebeln den Metallpreis, tragen aber Firmen- und Länderrisiken"
+   ],
+   "gut_fuer": [
+    "Wetten auf Energiewende und Elektrifizierung",
+    "Inflationsschutz in Wachstumsphasen",
+    "Streuung gegenüber Anleihen"
+   ],
+   "schlecht_fuer": [
+    "Krisenschutz – in Rezessionen fallen sie oft stark",
+    "Langes Halten über ETCs (Rollverluste)",
+    "Ruhige Nerven: Einbrüche von mehr als der Hälfte sind üblich"
+   ],
+   "begriffe": [
+    [
+     "Contango",
+     "Spätere Terminkontrakte sind teurer als der aktuelle. Beim Rollen kauft ein ETC teurer nach – das kostet laufend Rendite."
+    ],
+    [
+     "Backwardation",
+     "Spätere Kontrakte sind billiger, typisch bei akuter Knappheit. Rollen bringt dann einen Ertrag."
+    ],
+    [
+     "LME",
+     "London Metal Exchange – wichtigster Handelsplatz für Industriemetalle; setzte 2022 den Nickelhandel aus."
+    ],
+    [
+     "Nebenprodukt",
+     "Metall, das beim Abbau eines anderen anfällt (z. B. Kobalt aus Kupferminen). Sein Angebot steigt nicht, nur weil sein eigener Preis steigt."
+    ],
+    [
+     "Lagerbestände",
+     "Vorräte in den Lagerhäusern der Metallbörsen. Sinkende Bestände gelten als Zeichen von Knappheit."
+    ],
+    [
+     "Schweinezyklus",
+     "Hohe Preise → viele neue Projekte → Jahre später Überangebot → tiefe Preise → Projekte werden gestoppt → neue Knappheit."
+    ],
+    [
+     "Exportkontrolle",
+     "Staatliche Beschränkung der Ausfuhr, z. B. Chinas Kontrollen für Gallium, Germanium und Seltene Erden."
+    ],
+    [
+     "AISC",
+     "All-in Sustaining Costs – Gesamtkosten einer Mine pro Einheit. Liegt der Preis darunter, verdient die Mine kein Geld."
+    ],
+    [
+     "Royalty/Streaming",
+     "Firmen finanzieren Minen gegen einen Anteil an der künftigen Förderung – weniger Betriebsrisiko als ein Minenbetreiber."
+    ],
+    [
+     "Offtake-Vertrag",
+     "Langfristige Abnahmezusage (z. B. eines Autobauers) – sichert neue Minenprojekte ab."
     ]
    ]
   },
@@ -1048,7 +1139,98 @@
     "IE00B4ND3602"
    ],
    "steuerklasse": "gold_physisch",
-   "hist_proxy": "gold"
+   "hist_proxy": "gold",
+   "metall": {
+    "art": "Edelmetall · Währungsmetall",
+    "engpass": "gering",
+    "zyklus": "gering",
+    "ausmacht": [
+     "Gold ist vor allem ein Wertspeicher. Fast alles jemals geförderte Gold existiert noch – jährlich kommt nur ein kleiner Teil dazu. Deshalb bestimmt nicht die Industrie den Preis, sondern Anleger und Notenbanken.",
+     "Gold bringt keinen Zins. Darum ist es attraktiv, wenn Zinsen nach Abzug der Inflation (Realzins) niedrig oder negativ sind, und unattraktiv, wenn sichere Anleihen real gut verzinst sind."
+    ],
+    "einsatz": [
+     "Schmuck (größter Nachfrageblock)",
+     "Barren und Münzen für Anleger",
+     "Reserven der Notenbanken",
+     "Elektronik in kleinen Mengen (Kontakte)"
+    ],
+    "gefragt_wenn": [
+     "Realzinsen sinken oder sind negativ",
+     "Vertrauen in Währungen, Staatsschulden oder Banken sinkt",
+     "Geopolitische Krisen, Sanktionen – Notenbanken kaufen als dollarfreie Reserve",
+     "Der Dollar schwächelt"
+    ],
+    "schwach_wenn": [
+     "Realzinsen steigen deutlich (z. B. 1980er, 2013)",
+     "Starke Dollar-Phasen",
+     "Lange Börsen-Booms ohne Angst"
+    ],
+    "engpaesse": [
+     "Kaum Engpassrisiko: riesiger oberirdischer Bestand, Recycling reagiert auf Preise",
+     "Physische Knappheit entsteht eher regional (Münzen und kleine Barren in Panikphasen ausverkauft, höhere Aufschläge)"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "ja",
+      "text": "Barren und Münzen beim Händler oder der Bank; Lagerung zu Hause, im Schließfach oder beim Händler.",
+      "pro": [
+       "Kein Emittentenrisiko",
+       "Umsatzsteuerfrei, nach 1 Jahr steuerfrei",
+       "Funktioniert auch ohne Finanzsystem"
+      ],
+      "contra": [
+       "Spanne zwischen Kauf- und Verkaufspreis",
+       "Lagerung und Versicherung",
+       "Kleine Stückelungen teurer pro Gramm"
+      ],
+      "steuer": "Physisches Anlagegold ist von der Umsatzsteuer befreit (§ 25c UStG). Gewinne beim privaten Verkauf nach mehr als 1 Jahr Haltedauer steuerfrei (§ 23 EStG); darunter persönlicher Steuersatz, Freigrenze 1.000 € pro Jahr."
+     },
+     "papier": {
+      "geht": "ja",
+      "text": "Gold-ETCs: börsengehandelte Schuldverschreibungen, meist mit physischem Gold im Tresor hinterlegt (z. B. Xetra-Gold mit Lieferanspruch).",
+      "pro": [
+       "Börsentäglich handelbar, kleine Beträge, Sparplan",
+       "Sehr geringe Spanne",
+       "Mit Lieferanspruch steuerlich wie physisch"
+      ],
+      "contra": [
+       "Emittentenrisiko trotz Hinterlegung",
+       "Laufende Gebühr",
+       "Ohne Lieferanspruch: Abgeltungsteuer"
+      ],
+      "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen."
+     },
+     "aktien": {
+      "geht": "ja",
+      "text": "Goldminen-ETFs oder Streaming-/Royalty-Firmen, die Förderrechte finanzieren.",
+      "pro": [
+       "Hebel auf den Goldpreis, teils Dividenden"
+      ],
+      "contra": [
+       "Fallen in Aktiencrashs oft mit",
+       "Kosten (Energie, Löhne) und Länderrisiken"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Krisenreserve, die auch ohne Banken funktioniert",
+      "Physisch, kleine Stückelungen"
+     ],
+     [
+      "Fester Depotanteil zum Ausbalancieren, Sparplan",
+      "ETC mit Lieferanspruch (steuerfrei nach 1 Jahr)"
+     ],
+     [
+      "Wette auf deutlich steigenden Goldpreis",
+      "Minen-ETF als kleine Beimischung"
+     ]
+    ]
+   },
+   "wirkung_knoten": [
+    "gold"
+   ]
   },
   {
    "id": "gold_hebel",
@@ -1126,10 +1308,461 @@
     "Mehrwertsteuer frisst Rendite"
    ],
    "produkte": [
-    "IE00B4NCWG09"
+    "IE00B4NCWG09",
+    "JE00B1VS3333",
+    "IE000UL6CLP7"
    ],
    "steuerklasse": "gold_physisch",
-   "hist_proxy": null
+   "hist_proxy": null,
+   "metall": {
+    "art": "Edelmetall · Industriemetall",
+    "engpass": "mittel",
+    "zyklus": "mittel",
+    "ausmacht": [
+     "Silber hat zwei Gesichter: Es läuft oft mit Gold, wird aber zu einem großen Teil in der Industrie verbraucht. Es schwankt deshalb deutlich stärker – in Edelmetall-Haussen steigt es meist stärker, in Rezessionen fällt es stärker.",
+     "Silber leitet Strom und Wärme besser als jedes andere Metall. Ein großer Teil fällt nur als Nebenprodukt beim Abbau von Blei, Zink und Kupfer an – höhere Preise erhöhen das Angebot deshalb nur langsam."
+    ],
+    "einsatz": [
+     "Photovoltaik (Leitpasten in Solarzellen)",
+     "Elektronik, Kontakte, Leiterplatten",
+     "Elektroautos (Steuerelektronik)",
+     "Schmuck und Besteck",
+     "Barren und Münzen",
+     "Medizin (antibakteriell)"
+    ],
+    "gefragt_wenn": [
+     "Gold steigt und Anleger suchen den „günstigeren“ Hebel",
+     "Starker Solarausbau",
+     "Industrie läuft gut und Inflation steigt"
+    ],
+    "schwach_wenn": [
+     "Rezession – die Industrienachfrage bricht weg",
+     "Solarindustrie spart Silber pro Zelle ein (Thrifting)",
+     "Steigende Realzinsen"
+    ],
+    "engpaesse": [
+     "Angebot reagiert träge, weil Silber meist Nebenprodukt ist",
+     "Mehrere Jahre mit Nachfrageüberschuss wurden aus Lagerbeständen gedeckt – sinken die Bestände, können Preisspitzen entstehen",
+     "Förderung konzentriert auf wenige Länder (u. a. Mexiko, Peru, China)"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "ja",
+      "text": "Barren und Münzen. Wegen des niedrigen Preises pro Gramm braucht Silber viel Platz.",
+      "pro": [
+       "Kein Emittentenrisiko",
+       "Nach 1 Jahr steuerfrei"
+      ],
+      "contra": [
+       "19 % Umsatzsteuer auf Barren frisst Jahre an Rendite",
+       "Hohe Spannen",
+       "Lagerung sperrig"
+      ],
+      "steuer": "Barren: 19 % Umsatzsteuer beim Kauf, die beim Verkauf nicht zurückkommt (Ausnahme: Lagerung im Zollfreilager). Münzen teils differenzbesteuert. Gewinne nach mehr als 1 Jahr Haltedauer steuerfrei (§ 23 EStG), darunter persönlicher Steuersatz."
+     },
+     "papier": {
+      "geht": "ja",
+      "text": "Silber-ETCs, physisch hinterlegt – ohne Umsatzsteuer.",
+      "pro": [
+       "Keine Umsatzsteuer",
+       "Kleine Beträge, Sparplan"
+      ],
+      "contra": [
+       "Emittentenrisiko",
+       "Abgeltungsteuer"
+      ],
+      "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen."
+     },
+     "aktien": {
+      "geht": "ja",
+      "text": "Silberminen-ETFs – meist Firmen, die auch Gold, Zink oder Kupfer fördern.",
+      "pro": [
+       "Starker Hebel auf den Silberpreis"
+      ],
+      "contra": [
+       "Extrem schwankungsanfällig",
+       "Wenige reine Silberförderer"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Mittelfristige Wette auf Edelmetall-Hausse",
+      "ETC – keine Umsatzsteuer"
+     ],
+     [
+      "Krisenreserve für den Ernstfall",
+      "Münzen (differenzbesteuert) statt Barren"
+     ],
+     [
+      "Spekulation auf Solarboom und knappes Angebot",
+      "Silberminen-ETF, klein dosiert"
+     ]
+    ]
+   },
+   "wirkung_knoten": [
+    "gold",
+    "industriemetalle"
+   ]
+  },
+  {
+   "id": "platin",
+   "name": "Platin",
+   "klasse": "edelmetalle",
+   "eltern": "edelmetalle",
+   "kurz": "Seltenes Edelmetall mit vor allem industrieller Nachfrage: Katalysatoren, Wasserstoff, Schmuck. Förderung fast nur in Südafrika und Russland.",
+   "risiko": 5,
+   "liquiditaet": 3,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 3,
+    "schwankung": 28
+   },
+   "ticker": "PL=F",
+   "ticker_hinweis": "Terminkontrakt in USD",
+   "klassen": {
+    "gold": 0.4,
+    "rohstoffe_oel": 0.6
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Barren: 19 % Umsatzsteuer beim Kauf, die beim Verkauf nicht zurückkommt (Ausnahme: Lagerung im Zollfreilager). Münzen teils differenzbesteuert. Gewinne nach mehr als 1 Jahr Haltedauer steuerfrei (§ 23 EStG), darunter persönlicher Steuersatz. ETCs: Abgeltungsteuer.",
+   "mindestkapital": "ab 1 € per ETC",
+   "besonderheiten": [
+    "Stark von Südafrika abhängig",
+    "Wasserstoff als mögliche neue Nachfrage",
+    "Physisch mit 19 % Umsatzsteuer",
+    "Angezeigter Kurs: Terminkontrakt in Dollar"
+   ],
+   "pro": [
+    "Angebot kann kaum wachsen",
+    "Mögliche Gewinner der Wasserstoffwirtschaft"
+   ],
+   "contra": [
+    "Starke Schwankung",
+    "Nachfrage leidet unter E-Autos"
+   ],
+   "produkte": [
+    "JE00B1VS2W53"
+   ],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "gold",
+    "industriemetalle"
+   ],
+   "metall": {
+    "art": "Edelmetall · Platingruppe",
+    "engpass": "hoch",
+    "zyklus": "hoch",
+    "ausmacht": [
+     "Platin ist seltener als Gold und wird überwiegend in der Industrie gebraucht. Die Förderung ist extrem konzentriert: Der Großteil kommt aus Südafrika, ein weiterer Teil aus Russland.",
+     "Lange Zeit war Platin teurer als Gold; seit Jahren ist es deutlich günstiger. Anleger sehen darin entweder eine Chance (Wasserstoff, Angebotsprobleme) oder ein Zeichen dauerhaft schwacher Nachfrage (Diesel-Rückgang)."
+    ],
+    "einsatz": [
+     "Katalysatoren, vor allem Diesel und Lkw",
+     "Wasserstoff: Elektrolyse (PEM) und Brennstoffzellen",
+     "Chemie (Katalysatoren in Raffinerien, Düngemittel)",
+     "Glasfaser- und Glasherstellung",
+     "Schmuck (besonders in China und Japan)",
+     "Medizin (Implantate)"
+    ],
+    "gefragt_wenn": [
+     "Wasserstoffwirtschaft wächst",
+     "Autohersteller ersetzen teureres Palladium durch Platin",
+     "Stromausfälle und Streiks in Südafrika bremsen die Förderung",
+     "Schmucknachfrage in Asien steigt"
+    ],
+    "schwach_wenn": [
+     "Elektroautos verdrängen Verbrenner (keine Katalysatoren)",
+     "Rezession in der Autoindustrie",
+     "Wasserstoffprojekte verzögern sich"
+    ],
+    "engpaesse": [
+     "Südafrika: Stromversorgung (Lastabwürfe), Bahn-Logistik, Arbeitskämpfe, alternde tiefe Minen",
+     "Russland: Sanktionsrisiko",
+     "Kaum Ausweichmöglichkeiten – neue Minen brauchen viele Jahre",
+     "Recycling aus Altkatalysatoren hängt von Schrottquoten ab"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "eingeschränkt",
+      "text": "Barren und Münzen (z. B. Platin-Maple-Leaf) bei Edelmetallhändlern.",
+      "pro": [
+       "Kein Emittentenrisiko",
+       "Nach 1 Jahr steuerfrei"
+      ],
+      "contra": [
+       "19 % Umsatzsteuer",
+       "Hohe Spannen, kleiner Markt"
+      ],
+      "steuer": "Barren: 19 % Umsatzsteuer beim Kauf, die beim Verkauf nicht zurückkommt (Ausnahme: Lagerung im Zollfreilager). Münzen teils differenzbesteuert. Gewinne nach mehr als 1 Jahr Haltedauer steuerfrei (§ 23 EStG), darunter persönlicher Steuersatz."
+     },
+     "papier": {
+      "geht": "ja",
+      "text": "Platin-ETCs, physisch hinterlegt.",
+      "pro": [
+       "Keine Umsatzsteuer",
+       "Börsentäglich"
+      ],
+      "contra": [
+       "Emittentenrisiko",
+       "Abgeltungsteuer"
+      ],
+      "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen."
+     },
+     "aktien": {
+      "geht": "eingeschränkt",
+      "text": "Kaum reine Platin-ETFs; Förderer sind wenige südafrikanische Konzerne, enthalten in breiten Bergbau-ETFs.",
+      "pro": [
+       "Hebel auf Preis"
+      ],
+      "contra": [
+       "Länderrisiko Südafrika",
+       "Wenige Titel, hohe Klumpen"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Langfristige Wette auf Wasserstoff und Angebotsengpass",
+      "ETC als kleine Beimischung"
+     ],
+     [
+      "Ergänzung zu Gold mit mehr Industriebezug",
+      "ETC – physisch lohnt wegen Umsatzsteuer kaum"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "palladium",
+   "name": "Palladium",
+   "klasse": "edelmetalle",
+   "eltern": "edelmetalle",
+   "kurz": "Fast reines Industriemetall für Benzin-Katalysatoren. Stark abhängig von Russland – und von der Zukunft des Verbrennungsmotors.",
+   "risiko": 5,
+   "liquiditaet": 3,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 2,
+    "schwankung": 35
+   },
+   "ticker": "PA=F",
+   "ticker_hinweis": "Terminkontrakt in USD",
+   "klassen": {
+    "gold": 0.3,
+    "rohstoffe_oel": 0.7
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Barren: 19 % Umsatzsteuer beim Kauf, die beim Verkauf nicht zurückkommt (Ausnahme: Lagerung im Zollfreilager). Münzen teils differenzbesteuert. Gewinne nach mehr als 1 Jahr Haltedauer steuerfrei (§ 23 EStG), darunter persönlicher Steuersatz. ETCs: Abgeltungsteuer.",
+   "mindestkapital": "ab 1 € per ETC",
+   "besonderheiten": [
+    "Boom und tiefer Absturz in wenigen Jahren",
+    "Sanktionsrisiko Russland",
+    "Angezeigter Kurs: Terminkontrakt in Dollar"
+   ],
+   "pro": [
+    "Preissprünge bei Lieferstopps"
+   ],
+   "contra": [
+    "Hauptanwendung schrumpft mit E-Mobilität",
+    "Extreme Schwankung"
+   ],
+   "produkte": [
+    "JE00B1VS3002"
+   ],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "gold",
+    "industriemetalle"
+   ],
+   "metall": {
+    "art": "Edelmetall · Platingruppe",
+    "engpass": "hoch",
+    "zyklus": "hoch",
+    "ausmacht": [
+     "Palladium ist fast reines Industriemetall: Der Löwenanteil steckt in Katalysatoren von Benzinautos. Russland ist einer der größten Förderer, daneben Südafrika.",
+     "Palladium hatte einen spektakulären Boom und danach einen tiefen Absturz – ein Lehrstück dafür, wie stark der Preis an einer einzigen Anwendung hängt."
+    ],
+    "einsatz": [
+     "Katalysatoren für Benziner und Hybride (Hauptanwendung)",
+     "Elektronik (Kondensatoren)",
+     "Zahnmedizin",
+     "Chemische Katalyse"
+    ],
+    "gefragt_wenn": [
+     "Strengere Abgasnormen, besonders in China",
+     "Mehr Hybridautos (brauchen weiter Katalysatoren)",
+     "Sanktionen oder Exportstopps Russlands"
+    ],
+    "schwach_wenn": [
+     "Reine Elektroautos setzen sich durch",
+     "Hersteller tauschen Palladium gegen günstigeres Platin",
+     "Autoverkäufe brechen ein"
+    ],
+    "engpaesse": [
+     "Starke Abhängigkeit von Russland (Sanktions- und Lieferrisiko)",
+     "Meist Nebenprodukt von Nickel- und Platinminen",
+     "Gleichzeitig strukturelles Nachfrageproblem durch E-Mobilität"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "eingeschränkt",
+      "text": "Barren und Münzen bei spezialisierten Händlern.",
+      "pro": [
+       "Kein Emittentenrisiko"
+      ],
+      "contra": [
+       "19 % Umsatzsteuer",
+       "Sehr kleiner Markt, hohe Spannen"
+      ],
+      "steuer": "Barren: 19 % Umsatzsteuer beim Kauf, die beim Verkauf nicht zurückkommt (Ausnahme: Lagerung im Zollfreilager). Münzen teils differenzbesteuert. Gewinne nach mehr als 1 Jahr Haltedauer steuerfrei (§ 23 EStG), darunter persönlicher Steuersatz."
+     },
+     "papier": {
+      "geht": "ja",
+      "text": "Palladium-ETCs, physisch hinterlegt.",
+      "pro": [
+       "Keine Umsatzsteuer"
+      ],
+      "contra": [
+       "Emittentenrisiko",
+       "Extreme Schwankung"
+      ],
+      "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen."
+     },
+     "aktien": {
+      "geht": "eingeschränkt",
+      "text": "Nur über breite Bergbau-ETFs (große Nickel-/Palladiumkonzerne, teils sanktioniert).",
+      "pro": [],
+      "contra": [
+       "Kaum gezielter Zugang"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Kurzfristige Wette auf Lieferstopp aus Russland",
+      "ETC, nur klein und mit Ausstiegsplan"
+     ],
+     [
+      "Langfristiger Vermögensaufbau",
+      "Eher nicht – Hauptanwendung schrumpft mit der E-Mobilität"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "rhodium",
+   "name": "Rhodium",
+   "klasse": "edelmetalle",
+   "eltern": "edelmetalle",
+   "kurz": "Extrem seltenes Nebenprodukt der Platinförderung. Winziger, illiquider Markt mit enormen Preissprüngen.",
+   "risiko": 5,
+   "liquiditaet": 1,
+   "komplexitaet": 4,
+   "erwartung": {
+    "rendite": 2,
+    "schwankung": 50
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "gold": 0.2,
+    "rohstoffe_oel": 0.8
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Barren: 19 % Umsatzsteuer beim Kauf, die beim Verkauf nicht zurückkommt (Ausnahme: Lagerung im Zollfreilager). Münzen teils differenzbesteuert. Gewinne nach mehr als 1 Jahr Haltedauer steuerfrei (§ 23 EStG), darunter persönlicher Steuersatz.",
+   "mindestkapital": "hoch, schwer handelbar",
+   "besonderheiten": [
+    "Kein Referenzkurs bei Yahoo",
+    "Kaum Produkte, schwer wieder zu verkaufen"
+   ],
+   "pro": [
+    "Kurze Preisspitzen bei Engpässen"
+   ],
+   "contra": [
+    "Illiquide",
+    "Kaum Zugang",
+    "Keine Wertspeicher-Funktion"
+   ],
+   "produkte": [],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "gold",
+    "industriemetalle"
+   ],
+   "metall": {
+    "art": "Edelmetall · Platingruppe (Nische)",
+    "engpass": "hoch",
+    "zyklus": "hoch",
+    "ausmacht": [
+     "Rhodium ist eines der seltensten Metalle überhaupt und fällt nur als Nebenprodukt der Platinförderung an – vor allem in Südafrika. Der Markt ist winzig, schon kleine Käufe bewegen den Preis.",
+     "Der Preis hat sich in wenigen Jahren vervielfacht und danach einen großen Teil wieder verloren. Das ist kein Wertspeicher, sondern ein Spekulationsobjekt mit Industriepreis."
+    ],
+    "einsatz": [
+     "Katalysatoren (Stickoxid-Reduktion)",
+     "Glasfaser- und Glasindustrie",
+     "Chemie"
+    ],
+    "gefragt_wenn": [
+     "Verschärfte Stickoxid-Grenzwerte",
+     "Förderausfälle in Südafrika"
+    ],
+    "schwach_wenn": [
+     "Elektroautos",
+     "Autoindustrie spart Rhodium ein"
+    ],
+    "engpaesse": [
+     "Angebot hängt fast vollständig an Platinminen in Südafrika – mehr Rhodium gibt es nur, wenn mehr Platin gefördert wird",
+     "Sehr illiquider Markt"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "eingeschränkt",
+      "text": "Nur als Pulver oder kleine Barren bei wenigen Händlern; Rückkauf schwierig.",
+      "pro": [],
+      "contra": [
+       "Hohe Spannen",
+       "Schwer wieder zu verkaufen",
+       "19 % Umsatzsteuer"
+      ],
+      "steuer": "Barren: 19 % Umsatzsteuer beim Kauf, die beim Verkauf nicht zurückkommt (Ausnahme: Lagerung im Zollfreilager). Münzen teils differenzbesteuert. Gewinne nach mehr als 1 Jahr Haltedauer steuerfrei (§ 23 EStG), darunter persönlicher Steuersatz."
+     },
+     "papier": {
+      "geht": "eingeschränkt",
+      "text": "Vereinzelte ETCs, oft wenig Volumen.",
+      "pro": [],
+      "contra": [
+       "Illiquide",
+       "Emittentenrisiko"
+      ],
+      "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen."
+     },
+     "aktien": {
+      "geht": "eingeschränkt",
+      "text": "Indirekt über Platinförderer.",
+      "pro": [],
+      "contra": [
+       "Kein gezielter Zugang"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Fast jede Situation",
+      "Finger weg oder nur als Lehrgeld-Betrag – zu klein und zu illiquide"
+     ]
+    ]
+   }
   },
   {
    "id": "goldminen",
@@ -1170,7 +1803,10 @@
     "IE00BQQP9F84"
    ],
    "steuerklasse": "aktien_etf",
-   "hist_proxy": null
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "gold"
+   ]
   },
   {
    "id": "oel",
@@ -2134,6 +2770,1127 @@
     "IE00BLNMYC90",
     "IE00BNGJJT35"
    ]
+  },
+  {
+   "id": "kupfer",
+   "name": "Kupfer",
+   "klasse": "metalle",
+   "eltern": "metalle",
+   "kurz": "Das Metall der Elektrifizierung und Konjunkturbarometer („Dr. Copper“). Stromnetze, E-Autos, Rechenzentren brauchen viel davon.",
+   "risiko": 4,
+   "liquiditaet": 4,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 4,
+    "schwankung": 25
+   },
+   "ticker": "HG=F",
+   "ticker_hinweis": "Terminkontrakt in USD (COMEX)",
+   "klassen": {
+    "rohstoffe_oel": 0.7,
+    "aktien_welt": 0.3
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen.",
+   "mindestkapital": "ab 1 € per ETC",
+   "besonderheiten": [
+    "Neue Minen brauchen mehr als zehn Jahre",
+    "Förderung konzentriert auf Chile und Peru",
+    "Angezeigter Kurs: Terminkontrakt in Dollar"
+   ],
+   "pro": [
+    "Strukturelle Nachfrage durch Energiewende",
+    "Inflationsschutz bei Wachstum"
+   ],
+   "contra": [
+    "Fällt in Rezessionen stark",
+    "Hängt an China"
+   ],
+   "produkte": [
+    "GB00B15KXQ89",
+    "IE0003Z9E2Y3"
+   ],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "industriemetalle"
+   ],
+   "metall": {
+    "art": "Industriemetall · Elektrifizierung",
+    "engpass": "hoch",
+    "zyklus": "hoch",
+    "ausmacht": [
+     "Kupfer gilt als „Dr. Copper“: Weil es fast überall verbaut wird, zeigt sein Preis früh, wie es der Weltwirtschaft geht. China ist der mit Abstand größte Verbraucher.",
+     "Gleichzeitig ist Kupfer das Metall der Elektrifizierung: Stromnetze, Elektroautos, Wind- und Solarparks und Rechenzentren brauchen deutlich mehr Kupfer als die alte Technik."
+    ],
+    "einsatz": [
+     "Stromkabel und Stromnetze",
+     "Bau (Leitungen, Rohre)",
+     "Elektromotoren, Elektroautos, Ladesäulen",
+     "Wind- und Solaranlagen",
+     "Rechenzentren und Elektronik",
+     "Klimaanlagen"
+    ],
+    "gefragt_wenn": [
+     "Weltkonjunktur und besonders China wachsen",
+     "Staaten bauen Stromnetze und Energiewende aus",
+     "Konjunkturprogramme mit viel Infrastruktur",
+     "Der Dollar schwächelt"
+    ],
+    "schwach_wenn": [
+     "Rezession oder Immobilienkrise in China",
+     "Starker Dollar",
+     "Hohe Lagerbestände an den Metallbörsen"
+    ],
+    "engpaesse": [
+     "Förderung konzentriert auf Chile und Peru (Wassermangel, Proteste, Steuer- und Lizenzstreit)",
+     "Sinkender Erzgehalt in alten Minen",
+     "Neue Minen brauchen oft mehr als zehn Jahre von Fund bis Förderung",
+     "Schmelz- und Raffineriekapazität stark in China konzentriert"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "nein",
+      "text": "Für Privatanleger praktisch nicht möglich: kein Endkundenmarkt, große Mindestmengen, Lagerung und Qualitätsnachweis aufwendig.",
+      "pro": [],
+      "contra": [
+       "Kein sinnvoller Zugang"
+      ],
+      "steuer": ""
+     },
+     "papier": {
+      "geht": "ja",
+      "text": "Kupfer-ETCs auf Terminkontrakte (LME/COMEX).",
+      "pro": [
+       "Direkter Bezug zum Kupferpreis",
+       "Börsentäglich"
+      ],
+      "contra": [
+       "Rollverluste bei Contango",
+       "Emittentenrisiko",
+       "Abgeltungsteuer"
+      ],
+      "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen."
+     },
+     "aktien": {
+      "geht": "ja",
+      "text": "Kupferminen-ETFs oder breite Bergbau-ETFs mit großen Kupferförderern.",
+      "pro": [
+       "Dividenden möglich",
+       "Kein Rollverlust",
+       "Profitiert überproportional bei steigendem Preis"
+      ],
+      "contra": [
+       "Firmen- und Länderrisiken",
+       "Fällt in Aktiencrashs mit"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Mehrjährige Wette auf Elektrifizierung und Netzausbau",
+      "Kupferminen-ETF"
+     ],
+     [
+      "Kurzfristige Konjunktur- oder China-Erholung",
+      "Kupfer-ETC"
+     ],
+     [
+      "Schutz gegen Inflationsschübe im Depot",
+      "Breiter Industriemetall-Korb statt Einzelmetall"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "aluminium",
+   "name": "Aluminium",
+   "klasse": "metalle",
+   "eltern": "metalle",
+   "kurz": "Meistgenutztes Nichteisenmetall. Preis hängt am Strompreis und an Chinas Produktion.",
+   "risiko": 4,
+   "liquiditaet": 3,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 3,
+    "schwankung": 22
+   },
+   "ticker": "ALI=F",
+   "ticker_hinweis": "Terminkontrakt in USD",
+   "klassen": {
+    "rohstoffe_oel": 0.8,
+    "aktien_welt": 0.2
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen.",
+   "mindestkapital": "ab 1 € per ETC",
+   "besonderheiten": [
+    "Energiepreise bestimmen die Kosten",
+    "Angezeigter Kurs: Terminkontrakt in Dollar"
+   ],
+   "pro": [
+    "Leichtbau-Nachfrage"
+   ],
+   "contra": [
+    "Überangebot aus China",
+    "Rollverluste bei ETCs"
+   ],
+   "produkte": [
+    "GB00B15KXN58"
+   ],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "industriemetalle"
+   ],
+   "metall": {
+    "art": "Industriemetall · Energieintensiv",
+    "engpass": "mittel",
+    "zyklus": "hoch",
+    "ausmacht": [
+     "Aluminium ist das meistgenutzte Nichteisenmetall. Bauxit gibt es reichlich – knapp ist der Strom: Die Elektrolyse verbraucht so viel Energie, dass der Strompreis die Kosten bestimmt.",
+     "China produziert den größten Teil der Welt-Aluminiums. Politische Obergrenzen für die chinesische Produktion und Energiepreise in Europa bewegen den Preis stark."
+    ],
+    "einsatz": [
+     "Verpackung (Dosen, Folien)",
+     "Fahrzeug- und Flugzeugbau (Leichtbau)",
+     "Bau (Fenster, Fassaden)",
+     "Stromleitungen",
+     "Solar-Rahmen"
+    ],
+    "gefragt_wenn": [
+     "Leichtbau für Elektroautos",
+     "Konjunktur",
+     "Energiepreise steigen und Hütten müssen schließen (Angebot sinkt)"
+    ],
+    "schwach_wenn": [
+     "Rezession",
+     "China exportiert Überschüsse"
+    ],
+    "engpaesse": [
+     "Europäische Hütten wurden in der Energiekrise gedrosselt",
+     "Chinas Produktionsdeckel",
+     "Sanktionen gegen russisches Aluminium",
+     "Bauxit aus wenigen Ländern (u. a. Guinea, Australien)"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "nein",
+      "text": "Für Privatanleger praktisch nicht möglich: kein Endkundenmarkt, große Mindestmengen, Lagerung und Qualitätsnachweis aufwendig.",
+      "pro": [],
+      "contra": [
+       "Kein sinnvoller Zugang"
+      ],
+      "steuer": ""
+     },
+     "papier": {
+      "geht": "ja",
+      "text": "Aluminium-ETCs auf Terminkontrakte.",
+      "pro": [
+       "Direkter Preisbezug"
+      ],
+      "contra": [
+       "Rollverluste",
+       "Abgeltungsteuer"
+      ],
+      "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen."
+     },
+     "aktien": {
+      "geht": "eingeschränkt",
+      "text": "Über breite Bergbau-ETFs; wenige reine Aluminiumkonzerne.",
+      "pro": [],
+      "contra": [
+       "Wenig gezielter Zugang"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Wette auf Energiepreise und Konjunktur",
+      "ETC oder Industriemetall-Korb"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "nickel",
+   "name": "Nickel",
+   "klasse": "metalle",
+   "eltern": "metalle",
+   "kurz": "Edelstahl- und Batteriemetall. Indonesien dominiert das Angebot; 2022 stoppte die LME den Handel.",
+   "risiko": 5,
+   "liquiditaet": 3,
+   "komplexitaet": 4,
+   "erwartung": {
+    "rendite": 3,
+    "schwankung": 35
+   },
+   "ticker": null,
+   "ticker_hinweis": "Kein frei verfügbarer Referenzkurs",
+   "klassen": {
+    "rohstoffe_oel": 0.8,
+    "aktien_welt": 0.2
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen.",
+   "mindestkapital": "ab 1 € per ETC",
+   "besonderheiten": [
+    "LME-Handelsstopp und annullierte Geschäfte im März 2022",
+    "Indonesiens Exportpolitik"
+   ],
+   "pro": [
+    "Batterie-Nachfrage"
+   ],
+   "contra": [
+    "Überangebot",
+    "LFP-Batterien ohne Nickel"
+   ],
+   "produkte": [
+    "GB00B15KY435"
+   ],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "industriemetalle"
+   ],
+   "metall": {
+    "art": "Industriemetall · Batteriemetall",
+    "engpass": "mittel",
+    "zyklus": "hoch",
+    "ausmacht": [
+     "Nickel steckt vor allem in Edelstahl, zunehmend auch in Batterien mit hoher Reichweite. Indonesien hat sich mit einem Exportverbot für Erz und großen Hüttenprojekten zum dominierenden Anbieter gemacht.",
+     "Der Nickelmarkt ist berüchtigt: Im März 2022 setzte die Londoner Metallbörse (LME) den Handel aus und annullierte Geschäfte, nachdem der Preis explodiert war. Papier-Investments sind hier also nicht risikolos."
+    ],
+    "einsatz": [
+     "Edelstahl (Hauptanwendung)",
+     "Batterien (NMC-Kathoden)",
+     "Superlegierungen (Turbinen, Luftfahrt)",
+     "Galvanik"
+    ],
+    "gefragt_wenn": [
+     "Boom bei Edelstahl und Bau",
+     "Elektroautos mit nickelreichen Batterien"
+    ],
+    "schwach_wenn": [
+     "Überangebot aus Indonesien",
+     "Batteriehersteller wechseln zu nickelfreien LFP-Zellen"
+    ],
+    "engpaesse": [
+     "Abhängigkeit von Indonesien (Exportpolitik) und Russland (Sanktionen)",
+     "Hochreines Nickel in Batteriequalität ist knapper als Nickel für Edelstahl"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "nein",
+      "text": "Für Privatanleger praktisch nicht möglich: kein Endkundenmarkt, große Mindestmengen, Lagerung und Qualitätsnachweis aufwendig.",
+      "pro": [],
+      "contra": [
+       "Kein sinnvoller Zugang"
+      ],
+      "steuer": ""
+     },
+     "papier": {
+      "geht": "ja",
+      "text": "Nickel-ETCs auf Terminkontrakte.",
+      "pro": [
+       "Direkter Preisbezug"
+      ],
+      "contra": [
+       "Rollverluste",
+       "Börsenrisiko (LME-Aussetzung 2022)",
+       "Abgeltungsteuer"
+      ],
+      "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen."
+     },
+     "aktien": {
+      "geht": "eingeschränkt",
+      "text": "Über Bergbau- und Batteriemetall-ETFs.",
+      "pro": [],
+      "contra": [
+       "Wenig gezielt"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Batterie-Thema allgemein",
+      "Breiter Batteriemetall-ETF statt Nickel allein"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "zink",
+   "name": "Zink",
+   "klasse": "metalle",
+   "eltern": "metalle",
+   "kurz": "Rostschutz für Stahl – ein reiner Konjunkturwert ohne großes Zukunftsthema.",
+   "risiko": 4,
+   "liquiditaet": 2,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 2,
+    "schwankung": 25
+   },
+   "ticker": null,
+   "ticker_hinweis": "Kein frei verfügbarer Referenzkurs",
+   "klassen": {
+    "rohstoffe_oel": 0.8,
+    "aktien_welt": 0.2
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen.",
+   "mindestkapital": "ab 1 € per ETC",
+   "besonderheiten": [
+    "Energieintensive Verhüttung"
+   ],
+   "pro": [
+    "Profitiert von Infrastrukturprogrammen"
+   ],
+   "contra": [
+    "Kein Wachstumsthema",
+    "Illiquide ETCs"
+   ],
+   "produkte": [],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "industriemetalle"
+   ],
+   "metall": {
+    "art": "Industriemetall",
+    "engpass": "mittel",
+    "zyklus": "hoch",
+    "ausmacht": [
+     "Zink schützt Stahl vor Rost (Verzinken) und hängt deshalb eng an Bau, Autos und Infrastruktur. Die Verhüttung ist energieintensiv.",
+     "Zink ist für Anleger ein reiner Konjunkturwert – ohne Wertspeicher-Funktion und ohne großes Zukunftsthema."
+    ],
+    "einsatz": [
+     "Verzinkung von Stahl",
+     "Messing und Legierungen",
+     "Batterien (Nische)",
+     "Gummi und Chemie"
+    ],
+    "gefragt_wenn": [
+     "Infrastruktur- und Bauboom",
+     "Energiepreise zwingen Hütten zur Drosselung"
+    ],
+    "schwach_wenn": [
+     "Rezession, Immobilienkrise in China"
+    ],
+    "engpaesse": [
+     "Europäische Hütten in der Energiekrise gedrosselt",
+     "Minenschließungen bei niedrigen Preisen"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "nein",
+      "text": "Für Privatanleger praktisch nicht möglich: kein Endkundenmarkt, große Mindestmengen, Lagerung und Qualitätsnachweis aufwendig.",
+      "pro": [],
+      "contra": [
+       "Kein sinnvoller Zugang"
+      ],
+      "steuer": ""
+     },
+     "papier": {
+      "geht": "ja",
+      "text": "Zink-ETCs auf Terminkontrakte, teils wenig Volumen.",
+      "pro": [],
+      "contra": [
+       "Rollverluste",
+       "Illiquide",
+       "Abgeltungsteuer"
+      ],
+      "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen."
+     },
+     "aktien": {
+      "geht": "eingeschränkt",
+      "text": "Über breite Bergbau-ETFs.",
+      "pro": [],
+      "contra": [
+       "Kein gezielter Zugang"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Konjunkturwette",
+      "Industriemetall-Korb statt Zink allein"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "zinn",
+   "name": "Zinn",
+   "klasse": "metalle",
+   "eltern": "metalle",
+   "kurz": "Lot der Elektronik. Kleiner Markt, Angebot aus instabilen Regionen – heftige Preissprünge.",
+   "risiko": 5,
+   "liquiditaet": 2,
+   "komplexitaet": 4,
+   "erwartung": {
+    "rendite": 2,
+    "schwankung": 30
+   },
+   "ticker": null,
+   "ticker_hinweis": "Kein frei verfügbarer Referenzkurs",
+   "klassen": {
+    "rohstoffe_oel": 0.8,
+    "aktien_tech": 0.2
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen.",
+   "mindestkapital": "–",
+   "besonderheiten": [
+    "Förderstopps in Myanmar",
+    "Kaum Produkte"
+   ],
+   "pro": [
+    "Elektronikzyklus"
+   ],
+   "contra": [
+    "Illiquide",
+    "Kaum Zugang"
+   ],
+   "produkte": [],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "industriemetalle"
+   ],
+   "metall": {
+    "art": "Industriemetall · Elektronik",
+    "engpass": "hoch",
+    "zyklus": "hoch",
+    "ausmacht": [
+     "Zinn ist das Lot der Elektronik: Fast jede Leiterplatte wird damit verlötet. Der Markt ist klein und das Angebot kommt aus wenigen, teils instabilen Regionen.",
+     "Kleine Märkte mit konzentriertem Angebot neigen zu heftigen Preissprüngen."
+    ],
+    "einsatz": [
+     "Lötzinn für Elektronik (Hauptanwendung)",
+     "Weißblech (Konservendosen)",
+     "Chemie, Glas"
+    ],
+    "gefragt_wenn": [
+     "Elektronik- und Halbleiterzyklus läuft",
+     "Förderausfälle"
+    ],
+    "schwach_wenn": [
+     "Elektronik-Flaute"
+    ],
+    "engpaesse": [
+     "Myanmar (Wa-Region) stoppte 2023 die Förderung zeitweise",
+     "Indonesien beschränkt Exporte",
+     "Konflikte im Kongo (Bisie-Mine)"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "nein",
+      "text": "Für Privatanleger praktisch nicht möglich: kein Endkundenmarkt, große Mindestmengen, Lagerung und Qualitätsnachweis aufwendig.",
+      "pro": [],
+      "contra": [
+       "Kein sinnvoller Zugang"
+      ],
+      "steuer": ""
+     },
+     "papier": {
+      "geht": "eingeschränkt",
+      "text": "Vereinzelte ETCs auf Terminkontrakte, wenig Volumen.",
+      "pro": [],
+      "contra": [
+       "Illiquide",
+       "Rollverluste"
+      ],
+      "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen."
+     },
+     "aktien": {
+      "geht": "eingeschränkt",
+      "text": "Kaum Zinnförderer an westlichen Börsen.",
+      "pro": [],
+      "contra": [
+       "Kein sinnvoller Zugang"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Fast jede Situation",
+      "Nur über breite Körbe – Einzelwette lohnt kaum"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "lithium",
+   "name": "Lithium",
+   "klasse": "metalle",
+   "eltern": "metalle",
+   "kurz": "Herz der Akkus. Nicht selten, aber Verarbeitung in China konzentriert – extremer Preiszyklus.",
+   "risiko": 5,
+   "liquiditaet": 4,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 5,
+    "schwankung": 45
+   },
+   "ticker": null,
+   "ticker_hinweis": "Kein Lithium-Terminkurs bei Yahoo; Zugang über Aktien-ETFs",
+   "klassen": {
+    "aktien_tech": 0.4,
+    "aktien_em": 0.3,
+    "rohstoffe_oel": 0.3
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr.",
+   "mindestkapital": "ab 1 € per ETF",
+   "besonderheiten": [
+    "Boom und Absturz in wenigen Jahren",
+    "Nur über Aktien-ETFs investierbar"
+   ],
+   "pro": [
+    "Wachstum durch E-Mobilität und Speicher"
+   ],
+   "contra": [
+    "Schweinezyklus",
+    "Neue Batteriechemien"
+   ],
+   "produkte": [
+    "IE00BLCHJN13",
+    "IE00BKLF1R75"
+   ],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "industriemetalle"
+   ],
+   "metall": {
+    "art": "Batteriemetall",
+    "engpass": "mittel",
+    "zyklus": "sehr hoch",
+    "ausmacht": [
+     "Lithium ist das Herz der Akkus in Elektroautos, Handys und Stromspeichern. Lithium selbst ist nicht selten – knapp sind schnell erschließbare Lagerstätten und vor allem Verarbeitungskapazität, die stark in China liegt.",
+     "Lithium ist ein Lehrbeispiel für den Schweinezyklus: Ein Preisboom löste weltweit neue Projekte aus, danach stürzte der Preis tief, Minen wurden stillgelegt – bis zum nächsten Engpass."
+    ],
+    "einsatz": [
+     "Batterien für Elektroautos",
+     "Stationäre Stromspeicher",
+     "Elektronik-Akkus",
+     "Glas, Keramik, Schmierfette"
+    ],
+    "gefragt_wenn": [
+     "Elektroauto-Verkäufe und Speicherausbau wachsen schneller als erwartet",
+     "Projekte verzögern sich"
+    ],
+    "schwach_wenn": [
+     "Überangebot durch viele neue Projekte",
+     "Elektroauto-Absatz enttäuscht",
+     "Neue Batteriechemie (z. B. Natrium-Ionen) ersetzt Lithium teilweise"
+    ],
+    "engpaesse": [
+     "Förderung: Australien (Gestein), Chile/Argentinien (Salzseen), China",
+     "Verarbeitung zu Batteriequalität größtenteils in China",
+     "Chile verstaatlicht teilweise die Lithiumförderung",
+     "Wasserverbrauch und Umweltkonflikte bei Salzseen"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "nein",
+      "text": "Für Privatanleger praktisch nicht möglich: kein Endkundenmarkt, große Mindestmengen, Lagerung und Qualitätsnachweis aufwendig.",
+      "pro": [],
+      "contra": [
+       "Kein sinnvoller Zugang"
+      ],
+      "steuer": ""
+     },
+     "papier": {
+      "geht": "nein",
+      "text": "Kein liquider Terminmarkt für Privatanleger; Lithium-ETCs gibt es kaum.",
+      "pro": [],
+      "contra": [
+       "Kein direkter Zugang zum Preis"
+      ],
+      "steuer": ""
+     },
+     "aktien": {
+      "geht": "ja",
+      "text": "Lithium- und Batterie-ETFs (Förderer, Verarbeiter, Batteriehersteller).",
+      "pro": [
+       "Einziger praktikabler Weg",
+       "Breite über die Wertschöpfungskette"
+      ],
+      "contra": [
+       "Enthält oft viele Batterie- und Autofirmen, nicht nur Lithium",
+       "Sehr hohe Schwankung",
+       "Thematische ETFs sind oft teuer"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Langfristige Wette auf Elektromobilität",
+      "Batterie-/Lithium-ETF, kleine Beimischung"
+     ],
+     [
+      "Antizyklisch nach einem Preiscrash",
+      "Lithium-ETF in Tranchen kaufen – nur mit Geduld für Jahre"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "kobalt",
+   "name": "Kobalt",
+   "klasse": "metalle",
+   "eltern": "metalle",
+   "kurz": "Batterie- und Legierungsmetall, fast nur aus dem Kongo. Politischer Preis, ethische Fragen.",
+   "risiko": 5,
+   "liquiditaet": 2,
+   "komplexitaet": 4,
+   "erwartung": {
+    "rendite": 3,
+    "schwankung": 45
+   },
+   "ticker": null,
+   "ticker_hinweis": "Kein frei verfügbarer Referenzkurs",
+   "klassen": {
+    "rohstoffe_oel": 0.6,
+    "aktien_em": 0.4
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr.",
+   "mindestkapital": "nur indirekt",
+   "besonderheiten": [
+    "Exportstopp des Kongo 2025",
+    "Nur indirekt investierbar"
+   ],
+   "pro": [
+    "Preissprünge bei Exportstopps"
+   ],
+   "contra": [
+    "LFP-Batterien ohne Kobalt",
+    "Lieferketten-Ethik"
+   ],
+   "produkte": [],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "industriemetalle"
+   ],
+   "metall": {
+    "art": "Batteriemetall · Konfliktrohstoff",
+    "engpass": "hoch",
+    "zyklus": "sehr hoch",
+    "ausmacht": [
+     "Kobalt stabilisiert viele Lithium-Ionen-Batterien und steckt in Superlegierungen. Der Großteil kommt aus der Demokratischen Republik Kongo, verarbeitet wird überwiegend in China.",
+     "Kobalt fällt meist als Nebenprodukt von Kupfer- und Nickelminen an. Der Markt ist politisch: 2025 setzte der Kongo Exporte zeitweise aus, um den Preis zu stützen."
+    ],
+    "einsatz": [
+     "Batterien (NMC/NCA)",
+     "Superlegierungen für Turbinen",
+     "Hartmetalle, Werkzeuge",
+     "Katalysatoren"
+    ],
+    "gefragt_wenn": [
+     "Exportstopps oder Quoten im Kongo",
+     "Nachfrage nach Hochleistungsbatterien"
+    ],
+    "schwach_wenn": [
+     "Kobaltfreie LFP-Batterien gewinnen Marktanteile",
+     "Überangebot aus neuen Kupfer-Kobalt-Minen"
+    ],
+    "engpaesse": [
+     "Extreme Länderkonzentration im Kongo",
+     "Kinderarbeit und Kleinbergbau – Reputations- und Lieferkettenrisiken",
+     "Verarbeitung in China"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "nein",
+      "text": "Für Privatanleger praktisch nicht möglich: kein Endkundenmarkt, große Mindestmengen, Lagerung und Qualitätsnachweis aufwendig.",
+      "pro": [],
+      "contra": [
+       "Kein sinnvoller Zugang"
+      ],
+      "steuer": ""
+     },
+     "papier": {
+      "geht": "nein",
+      "text": "Kein zugänglicher Terminmarkt für Privatanleger.",
+      "pro": [],
+      "contra": [
+       "Kein direkter Zugang"
+      ],
+      "steuer": ""
+     },
+     "aktien": {
+      "geht": "eingeschränkt",
+      "text": "Indirekt über Batteriemetall- und Bergbau-ETFs.",
+      "pro": [],
+      "contra": [
+       "Kobaltanteil gering",
+       "Ethische Fragen"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Fast jede Situation",
+      "Nur indirekt über breite Batteriemetall-ETFs"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "seltene_erden",
+   "name": "Seltene Erden & strategische Metalle",
+   "klasse": "metalle",
+   "eltern": "metalle",
+   "kurz": "Magnetmetalle und Hightech-Rohstoffe (Neodym, Gallium, Germanium …). China dominiert und setzt sie geopolitisch ein.",
+   "risiko": 5,
+   "liquiditaet": 3,
+   "komplexitaet": 4,
+   "erwartung": {
+    "rendite": 4,
+    "schwankung": 40
+   },
+   "ticker": null,
+   "ticker_hinweis": "Kein Referenzkurs; Zugang über Aktien-ETFs",
+   "klassen": {
+    "aktien_em": 0.5,
+    "rohstoffe_oel": 0.5
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr.",
+   "mindestkapital": "ab 1 € per ETF",
+   "besonderheiten": [
+    "Exportkontrollen Chinas 2023 und 2025",
+    "Nur über Aktien-ETFs investierbar"
+   ],
+   "pro": [
+    "Profitiert von Entkopplung und Aufrüstung"
+   ],
+   "contra": [
+    "China kann Preise drücken",
+    "Sehr hohe Schwankung"
+   ],
+   "produkte": [
+    "IE0002PG6CA6"
+   ],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "industriemetalle"
+   ],
+   "metall": {
+    "art": "Strategische Metalle",
+    "engpass": "hoch",
+    "zyklus": "sehr hoch",
+    "ausmacht": [
+     "Seltene Erden (z. B. Neodym, Praseodym, Dysprosium) sind gar nicht so selten – selten sind wirtschaftliche Lagerstätten und vor allem die Trennung, die aufwendig und umweltbelastend ist. China dominiert Förderung und besonders Verarbeitung.",
+     "Dazu zählen im weiteren Sinn strategische Metalle wie Gallium, Germanium, Wolfram oder Antimon. China hat ab 2023 Exportkontrollen für Gallium und Germanium und 2025 für mehrere schwere Seltene Erden eingeführt – diese Metalle sind Teil der Geopolitik."
+    ],
+    "einsatz": [
+     "Permanentmagnete in E-Motoren und Windturbinen",
+     "Rüstung (Lenkwaffen, Radar)",
+     "Elektronik, Halbleiter (Gallium, Germanium)",
+     "Glasfaser, Infrarot-Optik",
+     "Katalysatoren"
+    ],
+    "gefragt_wenn": [
+     "Exportkontrollen Chinas",
+     "Aufrüstung und Wunsch nach unabhängigen Lieferketten",
+     "Ausbau von Windkraft und E-Mobilität"
+    ],
+    "schwach_wenn": [
+     "China flutet den Markt, um Konkurrenzprojekte unwirtschaftlich zu machen",
+     "Neue Magnettechnik ohne Seltene Erden"
+    ],
+    "engpaesse": [
+     "Extreme Abhängigkeit von China bei Trennung und Magnetproduktion",
+     "Westliche Projekte brauchen Jahre und staatliche Förderung",
+     "Preise werden teils politisch gesetzt"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "nein",
+      "text": "Für Privatanleger praktisch nicht möglich: kein Endkundenmarkt, große Mindestmengen, Lagerung und Qualitätsnachweis aufwendig.",
+      "pro": [],
+      "contra": [
+       "Kein sinnvoller Zugang"
+      ],
+      "steuer": ""
+     },
+     "papier": {
+      "geht": "nein",
+      "text": "Kein liquider Terminmarkt für Privatanleger.",
+      "pro": [],
+      "contra": [
+       "Kein direkter Zugang"
+      ],
+      "steuer": ""
+     },
+     "aktien": {
+      "geht": "ja",
+      "text": "ETFs auf Seltene Erden und strategische Metalle.",
+      "pro": [
+       "Einziger praktikabler Weg",
+       "Profitiert von Exportkontrollen"
+      ],
+      "contra": [
+       "Enthält chinesische Firmen mit eigenem Risiko",
+       "Kleine Firmen, sehr hohe Schwankung",
+       "Politik kann Preise drücken"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Wette auf Entkopplung von China und Aufrüstung",
+      "Seltene-Erden-ETF, klein dosiert"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "uran",
+   "name": "Uran",
+   "klasse": "metalle",
+   "eltern": "metalle",
+   "kurz": "Brennstoff der Kernkraft. Planbare Nachfrage, träges Angebot – und viel Politik.",
+   "risiko": 5,
+   "liquiditaet": 3,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 5,
+    "schwankung": 45
+   },
+   "ticker": "URA",
+   "ticker_hinweis": "Global X Uranium ETF (USD) als Stellvertreter",
+   "klassen": {
+    "rohstoffe_oel": 0.5,
+    "aktien_welt": 0.5
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr.",
+   "mindestkapital": "ab 1 € per ETF",
+   "besonderheiten": [
+    "Physischer Zugang nur über ausländische Fonds",
+    "Russland bei der Anreicherung wichtig"
+   ],
+   "pro": [
+    "Kernkraft-Renaissance, Rechenzentren"
+   ],
+   "contra": [
+    "Unfall- und Politikrisiko",
+    "Extreme Schwankung"
+   ],
+   "produkte": [
+    "IE000NDWFGA5",
+    "IE0005YK6564"
+   ],
+   "steuerklasse": "aktien_etf",
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "industriemetalle"
+   ],
+   "metall": {
+    "art": "Energiemetall",
+    "engpass": "hoch",
+    "zyklus": "sehr hoch",
+    "ausmacht": [
+     "Uran ist Brennstoff für Kernkraftwerke. Die Nachfrage ist sehr gut planbar (Kraftwerke laufen Jahrzehnte), das Angebot kaum: Nach Jahren niedriger Preise wurde zu wenig investiert.",
+     "Kasachstan ist der größte Förderer, Kanada und Australien folgen; Russland ist bei der Anreicherung bedeutend. Die USA haben Importe von angereichertem Uran aus Russland per Gesetz beschränkt."
+    ],
+    "einsatz": [
+     "Brennstoff für Kernkraftwerke",
+     "Neue Kleinreaktoren (SMR) – Stromhunger von Rechenzentren",
+     "Medizin und Forschung (Nische)"
+    ],
+    "gefragt_wenn": [
+     "Staaten verlängern Laufzeiten oder bauen neue Reaktoren",
+     "Rechenzentren suchen CO₂-arme Dauerleistung",
+     "Lieferprobleme aus Kasachstan oder Russland"
+    ],
+    "schwach_wenn": [
+     "Atomunfall oder politischer Ausstieg",
+     "Neue Minen kommen schneller als erwartet"
+    ],
+    "engpaesse": [
+     "Förderung in wenigen Ländern, Transportwege durch Russland",
+     "Anreicherungskapazität knapp und politisch heikel",
+     "Lange Vorlaufzeiten für neue Minen"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "eingeschränkt",
+      "text": "Nur indirekt: Fonds wie der Sprott Physical Uranium Trust (Kanada) oder Yellow Cake (London) halten physisches Uran – für Anleger sind das Wertpapiere.",
+      "pro": [
+       "Direkter Bezug zum Uranpreis"
+      ],
+      "contra": [
+       "Handel an ausländischen Börsen",
+       "Kurs kann vom Wert des Urans abweichen (Auf-/Abschlag)"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     },
+     "papier": {
+      "geht": "nein",
+      "text": "Kein Uran-ETC für Privatanleger in Europa.",
+      "pro": [],
+      "contra": [],
+      "steuer": ""
+     },
+     "aktien": {
+      "geht": "ja",
+      "text": "Uran-ETFs (Minen, teils physische Uran-Fonds als Beimischung).",
+      "pro": [
+       "Breiter Zugang über einen ETF"
+      ],
+      "contra": [
+       "Wenige große Titel prägen den ETF",
+       "Extrem schwankungsanfällig",
+       "Politisches Risiko"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Langfristige Wette auf Kernkraft-Renaissance",
+      "Uran-ETF, kleine Beimischung"
+     ],
+     [
+      "Reine Rohstoffpreis-Wette",
+      "Physischer Uran-Fonds (ausländische Börse beachten)"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "industriemetalle_breit",
+   "name": "Industriemetalle (Korb)",
+   "klasse": "metalle",
+   "eltern": "metalle",
+   "kurz": "Korb aus Kupfer, Aluminium, Zink und Nickel – Konjunktur und China in einem Produkt.",
+   "risiko": 4,
+   "liquiditaet": 4,
+   "komplexitaet": 3,
+   "erwartung": {
+    "rendite": 3,
+    "schwankung": 20
+   },
+   "ticker": null,
+   "ticker_hinweis": "",
+   "klassen": {
+    "rohstoffe_oel": 0.8,
+    "aktien_welt": 0.2
+   },
+   "historie": null,
+   "hebel": 1,
+   "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen.",
+   "mindestkapital": "ab 1 € per ETC",
+   "besonderheiten": [
+    "Rollverluste bei Terminkontrakten"
+   ],
+   "pro": [
+    "Breiter als ein Einzelmetall"
+   ],
+   "contra": [
+    "Fällt in Rezessionen"
+   ],
+   "produkte": [
+    "GB00B15KYG56",
+    "IE00B6R51Z18"
+   ],
+   "steuerklasse": "sonstiges",
+   "hist_proxy": null,
+   "wirkung_knoten": [
+    "industriemetalle"
+   ],
+   "metall": {
+    "art": "Korb aus Industriemetallen",
+    "engpass": "mittel",
+    "zyklus": "hoch",
+    "ausmacht": [
+     "Ein Korb aus Kupfer, Aluminium, Zink und Nickel streut das Risiko einzelner Metalle. Er bildet vor allem die Weltkonjunktur und Chinas Nachfrage ab.",
+     "Für die meisten Anleger ist der Korb sinnvoller als eine Einzelwette auf ein Industriemetall."
+    ],
+    "einsatz": [
+     "Siehe einzelne Metalle: Bau, Energie, Fahrzeuge, Elektronik"
+    ],
+    "gefragt_wenn": [
+     "Konjunkturaufschwung",
+     "Inflationsphasen mit realem Wachstum",
+     "Schwacher Dollar"
+    ],
+    "schwach_wenn": [
+     "Rezession",
+     "Starker Dollar"
+    ],
+    "engpaesse": [
+     "Engpässe einzelner Metalle wirken gedämpft"
+    ],
+    "wege": {
+     "physisch": {
+      "geht": "nein",
+      "text": "Für Privatanleger praktisch nicht möglich: kein Endkundenmarkt, große Mindestmengen, Lagerung und Qualitätsnachweis aufwendig.",
+      "pro": [],
+      "contra": [
+       "Kein sinnvoller Zugang"
+      ],
+      "steuer": ""
+     },
+     "papier": {
+      "geht": "ja",
+      "text": "ETCs auf Industriemetall-Indizes (Terminkontrakte).",
+      "pro": [
+       "Breit, einfach"
+      ],
+      "contra": [
+       "Rollverluste",
+       "Abgeltungsteuer"
+      ],
+      "steuer": "ETCs und Zertifikate: in der Regel Abgeltungsteuer (25 % + Soli), keine Steuerfreiheit nach 1 Jahr. Ausnahme wie bei Xetra-Gold nur mit verbrieftem Lieferanspruch – im Einzelfall prüfen."
+     },
+     "aktien": {
+      "geht": "ja",
+      "text": "Breite Bergbau-ETFs.",
+      "pro": [
+       "Dividenden",
+       "Kein Rollverlust"
+      ],
+      "contra": [
+       "Firmenrisiken",
+       "Enthalten auch Eisenerz, Kohle"
+      ],
+      "steuer": "Aktien-ETF: Abgeltungsteuer auf Gewinne und Ausschüttungen, 30 % Teilfreistellung, Vorabpauschale. Keine Steuerfreiheit nach 1 Jahr."
+     }
+    },
+    "welcher_weg": [
+     [
+      "Inflations- und Konjunkturschutz im Depot",
+      "Industriemetall-ETC oder Bergbau-ETF, klein dosiert"
+     ]
+    ]
+   }
   }
  ],
  "klassen_erwartung": {

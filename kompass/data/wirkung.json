@@ -34,7 +34,8 @@
   {
    "id": "kreditstress",
    "name": "Kreditstress (Spreads)",
-   "art": "treiber"
+   "art": "treiber",
+   "kurz": "Kreditstress"
   },
   {
    "id": "aktien",
@@ -46,19 +47,22 @@
    "id": "tech",
    "name": "Wachstums-/Tech-Aktien",
    "art": "anlage",
-   "klasse": "aktien"
+   "klasse": "aktien",
+   "kurz": "Tech-Aktien"
   },
   {
    "id": "em",
    "name": "Schwellenländer",
    "art": "anlage",
-   "klasse": "aktien"
+   "klasse": "aktien",
+   "kurz": "Schwellenl."
   },
   {
    "id": "anleihen",
    "name": "Anleihekurse",
    "art": "anlage",
-   "klasse": "anleihen"
+   "klasse": "anleihen",
+   "kurz": "Anleihen"
   },
   {
    "id": "gold",
@@ -88,7 +92,29 @@
    "id": "tagesgeld",
    "name": "Tagesgeld-Zins",
    "art": "anlage",
-   "klasse": "liquiditaet"
+   "klasse": "liquiditaet",
+   "kurz": "Tagesgeld"
+  },
+  {
+   "id": "industriemetalle",
+   "name": "Industriemetalle",
+   "kurz": "Metalle",
+   "art": "anlage",
+   "klasse": "metalle"
+  },
+  {
+   "id": "china",
+   "name": "China-Nachfrage",
+   "kurz": "China",
+   "art": "treiber",
+   "klasse": null
+  },
+  {
+   "id": "energiewende",
+   "name": "Energiewende & E-Autos",
+   "kurz": "E-Wende",
+   "art": "treiber",
+   "klasse": null
   }
  ],
  "kanten": [
@@ -331,6 +357,62 @@
    "staerke": 2,
    "warum": "Seit 2020 bewegen sich Krypto und Tech-Aktien oft gemeinsam – beide hängen an Liquidität und Risikolaune.",
    "beispiel": "2021–2022."
+  },
+  {
+   "von": "konjunktur",
+   "nach": "industriemetalle",
+   "richtung": 1,
+   "staerke": 3,
+   "warum": "Industriemetalle werden verbraucht – mehr Produktion heißt mehr Nachfrage.",
+   "beispiel": "2008: Kupfer brach mit der Weltwirtschaft ein, 2009 erholte es sich mit Chinas Konjunkturprogramm."
+  },
+  {
+   "von": "china",
+   "nach": "industriemetalle",
+   "richtung": 1,
+   "staerke": 3,
+   "warum": "China ist der größte Verbraucher von Kupfer, Aluminium, Nickel und Zink.",
+   "beispiel": "Die Immobilienkrise in China drückte die Nachfrage nach Baumetallen."
+  },
+  {
+   "von": "china",
+   "nach": "oel",
+   "richtung": 1,
+   "staerke": 2,
+   "warum": "China ist einer der größten Ölimporteure.",
+   "beispiel": "Lockdowns in China senkten zeitweise die Ölnachfrage."
+  },
+  {
+   "von": "energiewende",
+   "nach": "industriemetalle",
+   "richtung": 1,
+   "staerke": 2,
+   "warum": "Netze, E-Autos, Speicher und Windräder brauchen mehr Kupfer, Lithium, Nickel und Seltene Erden.",
+   "beispiel": "Der Lithiumboom folgte dem steilen Anstieg der E-Auto-Verkäufe."
+  },
+  {
+   "von": "dollar",
+   "nach": "industriemetalle",
+   "richtung": -1,
+   "staerke": 2,
+   "warum": "Metalle werden in Dollar gehandelt – ein starker Dollar verteuert sie für den Rest der Welt.",
+   "beispiel": "Phasen starker Dollar-Aufwertung gingen oft mit schwachen Metallpreisen einher."
+  },
+  {
+   "von": "industriemetalle",
+   "nach": "inflation",
+   "richtung": 1,
+   "staerke": 1,
+   "warum": "Teurere Vorprodukte erhöhen Herstellungskosten.",
+   "beispiel": "2021/22 trugen Rohstoffpreise zur hohen Inflation bei."
+  },
+  {
+   "von": "leitzins",
+   "nach": "industriemetalle",
+   "richtung": -1,
+   "staerke": 1,
+   "warum": "Höhere Zinsen bremsen Bau und Investitionen und machen Lagerhaltung teurer.",
+   "beispiel": "Zinswende 2022: Metallpreise fielen von ihren Hochs."
   }
  ]
 }

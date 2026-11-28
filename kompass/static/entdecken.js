@@ -20,7 +20,7 @@ async function wirkungDaten() { return WIRKUNG || (WIRKUNG = await api("/api/wir
 
 const KNOTEN_FUER_KLASSE = { aktien_welt: "aktien", aktien_usa: "aktien", aktien_tech: "tech", aktien_em: "em", anleihen: "anleihen", gold: "gold", goldminen: "gold",
   rohstoffe_oel: "oel", immobilien: "immobilien", krypto: "krypto", geldmarkt: "tagesgeld" };
-const knotenFuerAsset = (a) => [...new Set(Object.keys(a.klassen || {}).map((k) => KNOTEN_FUER_KLASSE[k]).filter(Boolean))];
+const knotenFuerAsset = (a) => a.wirkung_knoten || [...new Set(Object.keys(a.klassen || {}).map((k) => KNOTEN_FUER_KLASSE[k]).filter(Boolean))];
 
 function glossarTabs(aktiv) {
   return `<div class="toolbar"><nav class="seg" aria-label="Glossar">
@@ -118,6 +118,49 @@ async function viewGlossar() {
   initSlider(document, (_, v) => document.querySelectorAll(".g-karte").forEach((k) => (k.hidden = +k.dataset.risiko > v)));
 }
 
+
+// ---------- Metalle: Wesen, Einsatz, Engpässe, drei Wege ----------
+const WEG_NAME = { physisch: "Physisch", papier: "Papier (ETC/Zertifikat)", aktien: "Aktien (Minen-ETFs)" };
+const WEG_INFO = { physisch: "Barren, Münzen – du besitzt das Metall selbst.", papier: "Wertpapier, das den Metallpreis abbildet – physisch hinterlegt oder über Terminkontrakte.", aktien: "Anteile an Firmen, die das Metall fördern – Hebel auf den Preis, aber mit Firmenrisiko." };
+const GEHT = { ja: ["möglich", "p-mint"], eingeschränkt: ["eingeschränkt", "p-sand"], nein: ["kaum/nicht möglich", "p-rose"] };
+const STUFE = { gering: "p-mint", mittel: "p-sand", hoch: "p-rose", "sehr hoch": "p-rose" };
+
+function metallHtml(m) {
+  const liste = (xs) => `<ul>${(xs || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
+  return `<section class="card abschnitt" id="a-metall"><h2>Das Metall im Detail</h2>
+    <div class="chips" style="margin-bottom:8px"><span class="pill p-lav">${esc(m.art)}</span>
+      <span class="pill ${STUFE[m.engpass]}">Engpass-Risiko: ${esc(m.engpass)}</span><span class="pill ${STUFE[m.zyklus]}">Konjunktur-Abhängigkeit: ${esc(m.zyklus)}</span>
+      <span class="est">Einschätzung</span></div>
+    <h3>Was es ausmacht</h3>${m.ausmacht.map((p) => `<p class="lesen">${esc(p)}</p>`).join("")}
+    <div class="drei"><div><h3>Wofür es gebraucht wird</h3>${liste(m.einsatz)}</div>
+      <div><h3 class="up">Besonders gefragt, wenn …</h3>${liste(m.gefragt_wenn)}</div>
+      <div><h3 class="down">Schwach, wenn …</h3>${liste(m.schwach_wenn)}</div></div>
+    <div class="engpass"><h3 style="margin-top:0">Wo Engpässe entstehen können</h3>${liste(m.engpaesse)}</div>
+    <h3>Drei Wege zu investieren</h3>
+    <div class="wege">${["physisch", "papier", "aktien"].map((k) => { const x = m.wege[k]; return `<article class="weg ${x.geht}">
+      <div class="weg-kopf"><b>${WEG_NAME[k]}</b><span class="pill ${GEHT[x.geht][1]}">${GEHT[x.geht][0]}</span></div>
+      <p class="muted small" style="margin:2px 0 6px">${WEG_INFO[k]}</p><p>${esc(x.text)}</p>
+      ${x.pro.length ? `<p class="up small" style="margin-bottom:0"><b>Dafür</b></p>${liste(x.pro)}` : ""}
+      ${x.contra.length ? `<p class="down small" style="margin-bottom:0"><b>Dagegen</b></p>${liste(x.contra)}` : ""}
+      ${x.steuer ? `<details><summary>Steuern</summary><p class="small">${esc(x.steuer)}</p></details>` : ""}</article>`; }).join("")}</div>
+    <h3>Welcher Weg in welcher Situation?</h3>
+    <div class="situationen">${m.welcher_weg.map(([s, e]) => `<div class="situation"><span>${esc(s)}</span><span class="pfeil" aria-hidden="true">→</span><b>${esc(e)}</b></div>`).join("")}</div>
+    <p class="muted small">Qualitative Einordnung ohne Zahlen aus dem Gedächtnis – aktuelle Preise und Meldungen über „Council fragen“ oder die Recherche.</p></section>`;
+}
+
+function metallVergleich(g, assets) {
+  const ms = assets.filter((a) => a.metall);
+  if (!ms.length) return "";
+  const z = (x) => `<span class="pill ${GEHT[x.geht][1]}">${x.geht === "ja" ? "✓" : x.geht === "nein" ? "–" : "~"}</span>`;
+  return `<section class="card abschnitt" id="k-vergleich"><h2>Metalle im Vergleich</h2>
+    <p class="muted small">✓ gut möglich · ~ eingeschränkt · – kaum/nicht möglich. Engpass- und Konjunktur-Einstufung sind Einschätzungen.</p>
+    <div class="table-wrap"><table class="vergleich"><tr><th>Metall</th><th>Art</th><th>Physisch</th><th>Papier</th><th>Aktien</th><th>Engpass</th><th>Konjunktur</th><th>Risiko</th></tr>
+    ${ms.map((a) => `<tr class="click" data-href="#/glossar/${a.id}" tabindex="0"><td><b>${esc(a.name)}</b></td><td class="small">${esc(a.metall.art)}</td>
+      <td>${z(a.metall.wege.physisch)}</td><td>${z(a.metall.wege.papier)}</td><td>${z(a.metall.wege.aktien)}</td>
+      <td><span class="pill ${STUFE[a.metall.engpass]}">${esc(a.metall.engpass)}</span></td><td><span class="pill ${STUFE[a.metall.zyklus]}">${esc(a.metall.zyklus)}</span></td>
+      <td>${pips(a.risiko, 5, a.risiko >= 5 ? "rot" : "")}</td></tr>`).join("")}</table></div></section>`;
+}
+
 async function viewKlasse(kid) {
   const [g, w] = await Promise.all([glossarDaten(), wirkungDaten()]);
   const h = g.hauptklassen.find((x) => x.id === kid);
@@ -128,12 +171,13 @@ async function viewKlasse(kid) {
   const knoten = [...w.knoten.filter((k) => k.klasse === kid).map((k) => k.id), ...(ZUSATZ[kid] || [])];
   render(`<a class="crumb" href="#/glossar">‹ Glossar</a>
     <div class="klasse-hero" style="background:${KL_FARBE[h.farbe]}"><h1>${esc(h.name)}</h1><p class="item-text" style="margin:8px 0 0">${esc(h.kurz)}</p></div>
-    <nav class="sprung" aria-label="Abschnitte"><a class="chip" href="#k-erkl">1 · Erklärung</a><a class="chip" href="#k-merk">2 · Merkmale</a><a class="chip" href="#k-wirk">3 · Wirkungsgefüge</a><a class="chip" href="#k-unter">Unterklassen</a><a class="chip" href="#k-prod">4 · Produkte</a><a class="chip" href="#k-begr">Begriffe</a></nav>
+    <nav class="sprung" aria-label="Abschnitte"><a class="chip" href="#k-erkl">1 · Erklärung</a><a class="chip" href="#k-merk">2 · Merkmale</a>${assets.some((a) => a.metall) ? '<a class="chip" href="#k-vergleich">Vergleich</a>' : ""}<a class="chip" href="#k-wirk">3 · Wirkungsgefüge</a><a class="chip" href="#k-unter">Unterklassen</a><a class="chip" href="#k-prod">4 · Produkte</a><a class="chip" href="#k-begr">Begriffe</a></nav>
     <section class="card abschnitt" id="k-erkl"><h2>1 · Was sind ${esc(h.name)}?</h2>${(h.erklaerung || []).map((p) => `<p class="lesen">${esc(p)}</p>`).join("")}</section>
     <section class="card abschnitt" id="k-merk"><h2>2 · Merkmale und Eigenschaften</h2>
       <div class="drei"><div><h3>So funktioniert's</h3><ul>${(h.funktionsweise || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
         <div><h3 class="up">Gut für</h3><ul>${(h.gut_fuer || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
         <div><h3 class="down">Schlecht für</h3><ul>${(h.schlecht_fuer || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div></section>
+    ${metallVergleich(g, assets)}
     <section class="card abschnitt" id="k-wirk"><h2>3 · Wirkungsgefüge</h2><p class="muted">Wie ${esc(h.name)} mit Zinsen, Inflation, Dollar und anderen Anlagen zusammenhängen.</p>
       ${knoten.length ? wirkungKarten(w, knoten) : '<p class="muted">Für diese Klasse sind keine typischen Zusammenhänge hinterlegt.</p>'}
       <div class="actions"><a class="btn" href="#/wirkung">Gesamtes Wirkungsgefüge ansehen</a></div></section>
@@ -144,6 +188,7 @@ async function viewKlasse(kid) {
       <button id="k-council">Council: passende Kombination empfehlen</button></div><div id="k-liste"></div></section>
     ${(h.begriffe || []).length ? `<section class="card abschnitt" id="k-begr"><h2>Begriffe</h2><dl class="lexikon">${h.begriffe.map(([b, t]) => `<div><dt>${esc(b)}</dt><dd>${esc(t)}</dd></div>`).join("")}</dl></section>` : ""}`);
   document.querySelectorAll(".sprung a").forEach((a) => (a.onclick = (ev) => { ev.preventDefault(); document.querySelector(a.getAttribute("href")).scrollIntoView({ behavior: "smooth", block: "start" }); }));
+  document.querySelectorAll(".vergleich tr[data-href]").forEach((r) => { r.onclick = () => (location.hash = r.dataset.href); r.onkeydown = (ev) => { if (ev.key === "Enter") location.hash = r.dataset.href; }; });
   document.getElementById("k-council").onclick = () => assistentOeffnen(`Welche Kombination von Produkten aus „${h.name}“ passt zu meinen Zielen und meiner Strategie?`);
   produktListe(document.getElementById("k-liste"), assets.map((a) => a.id), { max: 15 });
 }
@@ -156,16 +201,16 @@ async function viewWirkung() {
       <p class="muted small"><span class="key-sw" style="border-color:var(--series-3)"></span>steigt mit · <span class="key-sw" style="border-color:var(--series-2)"></span>fällt dagegen · dicker = stärker</p></div>
       <div class="card" id="w-detail"><p class="muted">Wähle links einen Faktor oder eine Anlage.</p></div></div>`);
   const netz = document.getElementById("w-netz");
-  const W = 520, H = 520, cx = W / 2, cy = H / 2;
+  const W = 580, H = 580, cx = W / 2, cy = H / 2;
   const treiber = w.knoten.filter((k) => k.art === "treiber"), anlagen = w.knoten.filter((k) => k.art === "anlage");
   const pos = {};
-  treiber.forEach((k, i) => { const a = (i / treiber.length) * 2 * Math.PI - Math.PI / 2; pos[k.id] = [cx + 110 * Math.cos(a), cy + 110 * Math.sin(a)]; });
-  anlagen.forEach((k, i) => { const a = (i / anlagen.length) * 2 * Math.PI - Math.PI / 2 + 0.2; pos[k.id] = [cx + 225 * Math.cos(a), cy + 225 * Math.sin(a)]; });
+  treiber.forEach((k, i) => { const a = (i / treiber.length) * 2 * Math.PI - Math.PI / 2; pos[k.id] = [cx + 140 * Math.cos(a), cy + 140 * Math.sin(a)]; });
+  anlagen.forEach((k, i) => { const a = (i / anlagen.length) * 2 * Math.PI - Math.PI / 2 + 0.2; pos[k.id] = [cx + 248 * Math.cos(a), cy + 248 * Math.sin(a)]; });
   const linie = (k) => { const [x1, y1] = pos[k.von], [x2, y2] = pos[k.nach]; return `<line class="w-kante" data-von="${k.von}" data-nach="${k.nach}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${k.richtung > 0 ? "var(--series-3)" : "var(--series-2)"}" stroke-width="${k.staerke}" opacity="0.45"/>`; };
   netz.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Wirkungsgefüge" style="width:100%;height:auto">${w.kanten.map(linie).join("")}
     ${w.knoten.map((k) => { const [x, y] = pos[k.id]; return `<g class="w-knoten" data-id="${k.id}" tabindex="0" role="button" aria-label="${esc(k.name)}">
       <circle cx="${x}" cy="${y}" r="${k.art === "treiber" ? 30 : 34}" fill="${k.art === "treiber" ? "var(--sand)" : "var(--sky)"}" stroke="var(--edge)" stroke-width="1.5"/>
-      <text x="${x}" y="${y + 4}" text-anchor="middle" class="w-text">${esc(k.name.split(" ")[0].replace("/", ""))}</text></g>`; }).join("")}</svg>`;
+      <text x="${x}" y="${y + 4}" text-anchor="middle" class="w-text">${esc(k.kurz || k.name.split(" ")[0].replace("/", ""))}</text></g>`; }).join("")}</svg>`;
   const waehle = (id) => {
     netz.querySelectorAll(".w-kante").forEach((l) => l.setAttribute("opacity", l.dataset.von === id || l.dataset.nach === id ? "0.95" : "0.08"));
     netz.querySelectorAll(".w-knoten").forEach((g2) => g2.classList.toggle("on", g2.dataset.id === id));
@@ -188,7 +233,7 @@ async function viewAsset(aid) {
     <div class="klasse-hero" style="background:${KL_FARBE[h.farbe]}"><div class="row" style="align-items:center;gap:18px">${monogramm(a, g, true)}
       <div style="flex:1 1 240px"><span class="pill p-lav">${esc(h.name)}</span><h1 style="margin:6px 0 0">${esc(a.name)}</h1></div>
       <div class="actions" style="margin:0"><button class="primary" id="a-zu">Zu Strategie hinzufügen</button><button id="a-council">Council fragen</button></div></div></div>
-    <nav class="sprung" aria-label="Abschnitte"><a class="chip" href="#a-erkl">1 · Erklärung</a><a class="chip" href="#a-merk">2 · Merkmale</a><a class="chip" href="#a-wirk">3 · Wirkungsgefüge</a><a class="chip" href="#a-prod">4 · Produkte</a><a class="chip" href="#a-hist">Kurs & Geschichte</a></nav>
+    <nav class="sprung" aria-label="Abschnitte"><a class="chip" href="#a-erkl">1 · Erklärung</a><a class="chip" href="#a-merk">2 · Merkmale</a>${a.metall ? '<a class="chip" href="#a-metall">Metall im Detail</a>' : ""}<a class="chip" href="#a-wirk">3 · Wirkungsgefüge</a><a class="chip" href="#a-prod">4 · Produkte</a><a class="chip" href="#a-hist">Kurs & Geschichte</a></nav>
     <section class="card abschnitt" id="a-erkl"><h2>1 · Erklärung</h2><p class="item-text">${esc(a.kurz)}</p>
       <details><summary>Was sind ${esc(h.name)} überhaupt?</summary>${(h.erklaerung || []).map((p) => `<p class="lesen">${esc(p)}</p>`).join("")}</details></section>
     <section class="card abschnitt" id="a-merk"><h2>2 · Merkmale und Eigenschaften</h2>
@@ -202,6 +247,7 @@ async function viewAsset(aid) {
       <div class="procon"><div><h3 class="up">Dafür</h3><ul>${a.pro.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div><div><h3 class="down">Dagegen</h3><ul>${a.contra.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div>
       <h3>Steuern (Deutschland)</h3><p>${esc(a.steuer)}</p><p class="muted small">Vereinfachte Darstellung, Stand 2026 – im Einzelfall prüfen.</p>
       ${a.risiko >= 5 ? '<div class="notice small">Spekulativ: Totalverlust oder ein Einbruch von mehr als 70 % ist realistisch. Nur mit Geld, das du verlieren kannst.</div>' : ""}</section>
+    ${a.metall ? metallHtml(a.metall) : ""}
     <section class="card abschnitt" id="a-wirk"><h2>3 · Wirkungsgefüge</h2>${wirkungKarten(w, knotenFuerAsset(a))}</section>
     <section class="card abschnitt" id="a-prod"><div class="toolbar"><h2 style="margin:0;flex:1">4 · Produkte im Vergleich</h2>
       <button id="a-komb">Council: passende Kombination empfehlen</button></div><div id="a-liste"></div>${importFormular(a.id)}</section>

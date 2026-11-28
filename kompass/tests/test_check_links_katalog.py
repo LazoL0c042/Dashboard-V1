@@ -180,3 +180,25 @@ def test_mehrere_entwuerfe(conn, user, user2):
     with pytest.raises(LookupError):
         entwurf.get(conn, user2, a["id"])
     assert entwurf.loeschen(conn, user, b["id"]) and len(entwurf.liste(conn, user)) == 1
+
+
+def test_metalle_vollstaendig_und_ohne_gedaechtniszahlen():
+    import re
+    from app import glossar
+    d = glossar.daten()
+    metalle = [a for a in d["assets"] if a.get("metall")]
+    ids = {a["id"] for a in metalle}
+    assert {"gold", "silber", "platin", "palladium", "kupfer", "lithium", "uran", "seltene_erden"} <= ids
+    for a in metalle:
+        m = a["metall"]
+        assert set(m["wege"]) == {"physisch", "papier", "aktien"}, a["id"]
+        assert all(w["geht"] in ("ja", "eingeschränkt", "nein") for w in m["wege"].values()), a["id"]
+        assert m["ausmacht"] and m["einsatz"] and m["engpaesse"] and m["welcher_weg"], a["id"]
+        # Regel 3: keine Zahlen aus dem Gedächtnis – in den Beschreibungen nur Jahreszahlen erlaubt
+        text = " ".join(m["ausmacht"] + m["einsatz"] + m["gefragt_wenn"] + m["schwach_wenn"] + m["engpaesse"]
+                        + [x for paar in m["welcher_weg"] for x in paar])
+        rest = re.sub(r"\b(19|20)\d\d(er)?\b|CO₂|nach 1 Jahr", "", text)
+        assert not re.search(r"\d", rest), (a["id"], re.findall(r".{20}\d.{10}", rest))
+    # Wirkungsgefüge kennt Industriemetalle, jedes Metall verweist auf vorhandene Knoten
+    knoten = {k["id"] for k in glossar.wirkung()["knoten"]}
+    assert all(set(a["wirkung_knoten"]) <= knoten for a in metalle)
